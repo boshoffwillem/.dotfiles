@@ -16,6 +16,7 @@ nix-env -iA \
 	nixpkgs.cargo \
 	nixpkgs.gcc \
 	nixpkgs.nodejs \
+    nixpkgs.nodePackages.cspell \
 	nixpkgs.neovim \
 	nixpkgs.tmux \
 	nixpkgs.ripgrep \
