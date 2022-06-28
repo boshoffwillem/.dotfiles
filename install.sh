@@ -13,6 +13,7 @@ nix-env -iA \
 	nixpkgs.git \
 	nixpkgs.delta \
 	nixpkgs.rustup \
+	nixpkgs.cargo \
 	nixpkgs.gcc \
 	nixpkgs.nodejs \
 	nixpkgs.neovim \
@@ -48,6 +49,10 @@ sudo npm install -g cspell
 
 # markdown linter
 sudo npm install -g markdownlint
+
+# rust setup
+rustup install stable
+rustup default stable
 
 # git setup
 # set up delta for better git diffs
