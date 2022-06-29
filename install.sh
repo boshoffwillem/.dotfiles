@@ -17,6 +17,7 @@ nix-env -iA \
 	nixpkgs.gcc \
 	nixpkgs.nodejs \
     nixpkgs.nodePackages.cspell \
+    nixpkgs.dotnet-sdk \
 	nixpkgs.neovim \
 	nixpkgs.tmux \
 	nixpkgs.ripgrep \
