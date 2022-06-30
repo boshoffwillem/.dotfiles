@@ -19,6 +19,7 @@ nix-env -iA \
     nixpkgs.nodePackages.cspell \
     nixpkgs.dotnet-sdk \
 	nixpkgs.neovim \
+	nixpkgs.emacs \
 	nixpkgs.tmux \
 	nixpkgs.ripgrep \
 	nixpkgs.exa \
@@ -44,6 +45,14 @@ echo 'eval "$(starship init zsh)"' | sudo tee -a ~/.zshrc
 # install packer for nvim
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+
+# install doom emacs
+rm ~/.emacs
+git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d
+~/.emacs.d/bin/doom install
+rm -rf ~/.doom.d
+git clone https://github.com/boshoffwillem/.doom.d.git ~/.doom.d
+~/.emacs.d/bin/doom sync
 
 # some extra packges for null-ls in nvim
 # spell checker
