@@ -20,6 +20,7 @@ nix-env -iA \
     nixpkgs.dotnet-sdk \
 	nixpkgs.neovim \
 	nixpkgs.emacs \
+	nixpkgs.ispell \
 	nixpkgs.tmux \
 	nixpkgs.ripgrep \
 	nixpkgs.exa \
