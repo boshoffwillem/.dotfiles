@@ -1,2 +1,3 @@
-# nix-setup
-Repo for my nix config
+# environment setup
+
+Repo for my dotfiles and nix config.
