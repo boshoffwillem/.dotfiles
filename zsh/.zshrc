@@ -10,5 +10,3 @@ alias cat=bat
 alias grep=rg
 alias ls='exa -al'
 alias v='nvim'
-
-G="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"

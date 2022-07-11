@@ -1,0 +1,63 @@
+# Use custom format
+format = """$all"""
+
+# Wait 10 milliseconds for starship to check files under the current directory.
+scan_timeout = 10
+
+# Disable the blank line at the start of the prompt
+add_newline = false
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+format = "[$path]($style)[$read_only]($read_only_style) "
+style = "bold cyan"
+disabled = false
+read_only = "🔒"
+read_only_style = "red"
+truncation_symbol = ""
+repo_root_format = "[$before_root_path]($style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) "
+home_symbol = "~"
+use_os_path_sep = true
+
+[dotnet]
+format = "via [$symbol($version )(🎯 $tfm )]($style)"
+symbol = ".NET"
+style = "bold blue"
+disabled = false
+
+[git_branch]
+always_show_remote = false
+format = "on [$symbol$branch(:$remote_branch)]($style) " 
+symbol = " "
+style = "bold green"
+truncation_symbol = "..."
+only_attached = false
+disabled = false
+
+[git_state]
+rebase = "REBASING"
+merge = "MERGING"
+revert = "REVERTING"
+cherry_pick = "CHERRIES"
+bisect = "BISECTING"
+style = "bold yellow"
+format = '\([$state( $progress_current/$progress_total)]($style)\) '
+disabled = false
+
+[git_status]
+format = '([\[$all_status$ahead_behind\]]($style) )'
+conflicted = "🤬"
+ahead = "😎"
+behind = "😥"
+diverged = "😰"
+up_to_date = "🥳"
+untracked = "😑"
+stashed = "🤑"
+modified = "📝"
+staged = '[++\($count\)](green)'
+renamed = "👅"
+deleted = "🗑"
+ignore_submodules = false
+disabled = false
+
