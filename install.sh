@@ -8,32 +8,28 @@ sh <(curl -L https://nixos.org/nix/install) --no-daemon
 
 nix-env -iA \
 	nixpkgs.zsh \
-	nixpkgs.nushell \
 	nixpkgs.starship \
 	nixpkgs.git \
 	nixpkgs.delta \
 	nixpkgs.rustup \
 	nixpkgs.cargo \
 	nixpkgs.gcc \
+	nixpkgs.stow \
 	nixpkgs.nodejs \
     nixpkgs.nodePackages.cspell \
     nixpkgs.dotnet-sdk \
 	nixpkgs.neovim \
-	nixpkgs.emacs \
 	nixpkgs.ispell \
 	nixpkgs.tmux \
 	nixpkgs.ripgrep \
 	nixpkgs.exa \
 	nixpkgs.bat
 
-# add nushell to login shells
-command -v nu | sudo tee -a /etc/shells
+stow git
+stow zsh
 
 # add zsh to login shells
 command -v zsh | sudo tee -a /etc/shells
-
-# set nushell as default shell
-#sudo chsh -s $(which nu) $USER
 
 # set zsh as default shell
 sudo chsh -s $(which zsh) $USER
@@ -47,13 +43,9 @@ echo 'eval "$(starship init zsh)"' | sudo tee -a ~/.zshrc
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
  ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
-# install doom emacs
-rm ~/.emacs
-git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.emacs.d
-~/.emacs.d/bin/doom install
-rm -rf ~/.doom.d
-git clone https://github.com/boshoffwillem/.doom.d.git ~/.doom.d
-~/.emacs.d/bin/doom sync
+# nvim config
+git clone https://github.com/boshoffwillem/nvim\
+    ~/.config/nvim
 
 # some extra packges for null-ls in nvim
 # spell checker
