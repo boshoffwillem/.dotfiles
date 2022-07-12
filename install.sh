@@ -23,7 +23,8 @@ nix-env -iA \
 	nixpkgs.tmux \
 	nixpkgs.ripgrep \
 	nixpkgs.exa \
-	nixpkgs.bat
+	nixpkgs.bat \
+    nixpkgs.brave
 
 stow git
 stow zsh
