@@ -7,38 +7,28 @@ sh <(curl -L https://nixos.org/nix/install) --no-daemon
 # install packages
 
 nix-env -iA \
-	nixpkgs.zsh \
 	nixpkgs.starship \
 	nixpkgs.git \
 	nixpkgs.delta \
 	nixpkgs.rustup \
-	nixpkgs.cargo \
 	nixpkgs.gcc \
 	nixpkgs.stow \
 	nixpkgs.nodejs \
-    nixpkgs.nodePackages.cspell \
-    nixpkgs.dotnet-sdk \
+  nixpkgs.nodePackages.cspell \
+  nixpkgs.dotnet-sdk \
 	nixpkgs.neovim \
 	nixpkgs.ispell \
 	nixpkgs.tmux \
 	nixpkgs.ripgrep \
 	nixpkgs.exa \
-	nixpkgs.bat \
-    nixpkgs.brave
+	nixpkgs.bat
 
 stow git
-stow zsh
-
-# add zsh to login shells
-command -v zsh | sudo tee -a /etc/shells
-
-# set zsh as default shell
-sudo chsh -s $(which zsh) $USER
 
 # use starship shell prompt
-echo '' | sudo tee -a ~/.zshrc
-echo '# use starship prompt' | sudo tee -a ~/.zshrc
-echo 'eval "$(starship init zsh)"' | sudo tee -a ~/.zshrc
+echo '' | sudo tee -a ~/.bashrc
+echo '# use starship prompt' | sudo tee -a ~/.bashrc
+echo 'eval "$(starship init bash)"' | sudo tee -a ~/.bashrc
 
 # install packer for nvim
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
