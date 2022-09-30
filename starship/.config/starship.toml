@@ -47,17 +47,16 @@ disabled = false
 
 [git_status]
 format = '([\[$all_status$ahead_behind\]]($style) )'
-conflicted = "🤬"
-ahead = "😎"
-behind = "😥"
-diverged = "😰"
-up_to_date = "🥳"
-untracked = "😑"
-stashed = "🤑"
-modified = "📝"
+conflicted = '[!!\($count\)](red)'
+ahead = '[>>\($count\)](purple)'
+behind = '[<<\($count\)](purple)'
+diverged = '[<>\($count\)](yellow)'
+untracked = '[??\($count\)](yellow)'
+stashed = '[##\($count\)](cyan)'
+modified = '[~~\($count\)](blue)'
 staged = '[++\($count\)](green)'
-renamed = "👅"
-deleted = "🗑"
+renamed = '[^^\($count\)](blue)'
+deleted = '[--\($count\)](red)'
+style = "bold white"
 ignore_submodules = false
 disabled = false
-
