@@ -1,6 +1,7 @@
 stow git
 stow nvim
 stow starship
+stow powershell
 
 # use starship shell prompt
 echo '' | sudo tee -a ~/.bashrc
