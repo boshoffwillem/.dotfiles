@@ -22,7 +22,8 @@ local servers = {
   "terraformls",
   "tflint",
   "tsserver",
-  "yamlls"
+  "yamlls",
+  "zls"
 }
 
 lsp_installer.setup({
