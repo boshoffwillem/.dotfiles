@@ -97,13 +97,22 @@ end
 
 M.on_attach = function(client)
   if client.name == "sumneko_lua" then
-    client.resolved_capabilities.document_formatting = false
+    client.resolved_capabilities.document_formatting = true
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.tabstop = 2
+    vim.opt_local.softtabstop = 2
   end
 
   if client.name == "clangd" then
     vim.opt_local.shiftwidth = 4
     vim.opt_local.tabstop = 4
     vim.opt_local.softtabstop = 4
+  end
+
+  if client.name == "lemminx" then
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.tabstop = 2
+    vim.opt_local.softtabstop = 2
   end
 
   if client.name == "omnisharp" then
@@ -118,6 +127,18 @@ M.on_attach = function(client)
       "-p:SkipInvalidConfigurations=true"
     }
     vim.api.nvim_set_current_dir(client.config.root_dir)
+  end
+
+  if client.name == "terraformls" then
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.tabstop = 2
+    vim.opt_local.softtabstop = 2
+  end
+
+  if client.name == "yamlls" then
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.tabstop = 2
+    vim.opt_local.softtabstop = 2
   end
 
   lsp_keymaps()

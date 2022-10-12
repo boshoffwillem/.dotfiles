@@ -1,5 +1,6 @@
 vim.opt.backup = false
 vim.opt.clipboard = "unnamedplus"
+vim.opt.acd = true
 vim.opt.cmdheight = 2
 vim.opt.completeopt = { "menuone", "noselect" }
 vim.opt.conceallevel = 0
