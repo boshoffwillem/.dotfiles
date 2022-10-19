@@ -5,6 +5,8 @@ stow powershell
 
 # use starship shell prompt
 echo '' | sudo tee -a ~/.bashrc
+echo 'alias ls="exa"' | sudo tee -a ~./bashrc
+echo 'alias cat="bat"' | sudo tee -a ~./bashrc
 echo '# use starship prompt' | sudo tee -a ~/.bashrc
 echo 'eval "$(starship init bash)"' | sudo tee -a ~/.bashrc
 

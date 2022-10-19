@@ -22,4 +22,5 @@ nix-env -iA \
   nixpkgs.ripgrep \
   nixpkgs.exa \
   nixpkgs.bat \
-  nixpkgs.powershell
+  nixpkgs.powershell \
+  nixpkgs.tree

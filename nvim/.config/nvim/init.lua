@@ -13,9 +13,9 @@ require "user.treesitter"
 -- require "user.autopairs"
 require "user.comment"
 require "user.gitsigns"
-vim.cmd "colorscheme gruvbox"
+--[[ vim.cmd "colorscheme gruvbox" ]]
 -- vim.cmd "colorscheme onedark"
---vim.cmd "colorscheme darcula-solid"
+vim.cmd "colorscheme darcula-solid"
 --[[ require "user.nvim-tree" ]]
 require "user.toggleterm"
 require "user.project"
