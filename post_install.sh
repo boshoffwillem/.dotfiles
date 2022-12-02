@@ -1,12 +1,12 @@
 stow git
-stow nvim
+# stow nvim
 stow starship
 stow powershell
 
 # use starship shell prompt
 echo '' | sudo tee -a ~/.bashrc
-echo 'alias ls="exa"' | sudo tee -a ~./bashrc
-echo 'alias cat="bat"' | sudo tee -a ~./bashrc
+echo 'alias ls="exa"' | sudo tee -a ~/.bashrc
+echo 'alias cat="bat"' | sudo tee -a ~/.bashrc
 echo '# use starship prompt' | sudo tee -a ~/.bashrc
 echo 'eval "$(starship init bash)"' | sudo tee -a ~/.bashrc
 
@@ -17,6 +17,9 @@ git clone --depth 1 https://github.com/wbthomason/packer.nvim\
 # nvim config
 git clone https://github.com/boshoffwillem/nvim\
     ~/.config/nvim
+
+# emacs config
+git clone https://github.com/boshoffwillem/.emacs.d ~/.emacs.d
 
 # some extra packges for null-ls in nvim
 # spell checker
