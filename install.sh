@@ -1,8 +1,8 @@
 # install nix
-# sh <(curl -L https://nixos.org/nix/install) --no-daemon
+sh <(curl -L https://nixos.org/nix/install) --no-daemon
 
 # source nix
-# . ~/.nix-profile/etc/profile.d/nix.sh
+. ~/.nix-profile/etc/profile.d/nix.sh
 
 # install packages
 
