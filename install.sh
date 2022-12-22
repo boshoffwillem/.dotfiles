@@ -12,6 +12,7 @@ nix-env -iA \
   nixpkgs.delta \
   nixpkgs.rustup \
   nixpkgs.gcc \
+  nixpkgs.gnumake \
   nixpkgs.stow \
   nixpkgs.nodejs \
   nixpkgs.nodePackages.cspell \
@@ -33,5 +34,5 @@ echo '# use starship prompt' | sudo tee -a ~/.profile
 echo 'eval "$(starship init bash)"' | sudo tee -a ~/.profile
 
 # nvim config
-git clone https://github.com/boshoffwillem/nvim\
-    ~/.config/nvim
+git clone git@github.com:boshoffwillem/nvim.git \
+  ~/.config/nvim
