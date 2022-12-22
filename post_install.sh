@@ -1,4 +1,4 @@
-#stow git
+stow git
 #stow nvim
 #stow starship
 #stow powershell
