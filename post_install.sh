@@ -1,6 +1,6 @@
 stow git
-#stow nvim
-#stow starship
+stow nvim
+stow starship
 #stow powershell
 
 # some extra packges for null-ls in nvim
