@@ -47,6 +47,12 @@ require('packer').startup(function(use)
   }
 }
 
+  if (vim.loop.os_uname().sysname == 'Windows_NT') then
+    use {'tzachar/cmp-tabnine', after = "nvim-cmp", run='powershell ./install.ps1', requires = 'hrsh7th/nvim-cmp'}
+  else
+    use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp'}
+  end
+
   use { -- Autocompletion
   'hrsh7th/nvim-cmp',
   requires = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
