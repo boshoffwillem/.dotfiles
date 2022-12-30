@@ -30,8 +30,8 @@ lsp.setup_nvim_cmp({
     {name = 'buffer'},
     {name = 'path'},
     {name = 'luasnip'},
-    {name = 'nvim-lsp'},
-    {name = 'nvim-lua'},
+    {name = 'nvim_lsp', keyword_length = 1},
+    {name = 'nvim_lua', keyword_length = 1},
     {name = 'cmp_tabnine'},
   }
 })
