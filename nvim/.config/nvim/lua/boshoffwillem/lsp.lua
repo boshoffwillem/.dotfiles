@@ -16,6 +16,11 @@ lsp.ensure_installed({
   -- 'eslint',
   'sumneko_lua',
 })
+lsp.on_attach(function(client, bufnr)
+  local opts = { buffer = bufnr, remap = false }
+  local bind = vim.keymap.set
+  bind('n', '<leader>la', '<cmd>lua vim.lsp.buf.code_action()<cr>', opts)
+end)
 lsp.nvim_workspace()
 lsp.setup()
 

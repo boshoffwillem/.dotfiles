@@ -1,6 +1,21 @@
 -- [[ Setting options ]]
 -- See `:help vim.o`
 
+-- " Add a new named configuration
+-- call cyclist#add_listchar_option_set('limited', {
+--         \ 'eol': '↲',
+--         \ 'tab': '» ',
+--         \ 'trail': '·',
+--         \ 'extends': '<',
+--         \ 'precedes': '>',    
+--         \ 'conceal': '┊',
+--         \ 'nbsp': '␣',
+--         \ })
+vim.opt.listchars:append({ eol = "↲" })
+vim.opt.listchars:append({ tab = "» " })
+vim.opt.listchars:append({ trail = "." })
+vim.opt.list = true
+
 -- Set highlight on search
 vim.o.hlsearch = false
 vim.o.incsearch = true
