@@ -19,33 +19,31 @@ require('packer').startup(function(use)
     require("toggleterm").setup()
   end}
 
-  use { -- LSP Configuration & Plugins
-  'VonHeikemen/lsp-zero.nvim',
-  requires = {
-    -- LSP Support
-    {'neovim/nvim-lspconfig'},
-    {'williamboman/mason.nvim'},
-    {'williamboman/mason-lspconfig.nvim'},
+  -- LSP Support
+  use 'neovim/nvim-lspconfig'
+  use 'williamboman/mason.nvim'
+  use 'williamboman/mason-lspconfig.nvim'
 
-    -- Autocompletion
-    {'hrsh7th/nvim-cmp'},
-    {'hrsh7th/cmp-buffer'},
-    {'hrsh7th/cmp-path'},
-    {'saadparwaiz1/cmp_luasnip'},
-    {'hrsh7th/cmp-nvim-lsp'},
-    {'hrsh7th/cmp-nvim-lua'},
+  -- Autocompletion
+  use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'saadparwaiz1/cmp_luasnip'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-nvim-lua'
 
-    -- Snippets
-    {'L3MON4D3/LuaSnip'},
-    {'rafamadriz/friendly-snippets'},
+  -- Snippets
+  use 'L3MON4D3/LuaSnip'
+  use 'rafamadriz/friendly-snippets'
 
-    -- Useful status updates for LSP
-    'j-hui/fidget.nvim',
+  -- Useful status updates for LSP
+  use 'j-hui/fidget.nvim'
 
-    -- Additional lua configuration, makes nvim stuff amazing
-    'folke/neodev.nvim',
-  }
-}
+  -- JSON and YAML schemas
+  use 'b0o/schemastore.nvim'
+
+  -- Additional lua configuration makes nvim stuff amazing
+  use 'folke/neodev.nvim'
 
   if (vim.loop.os_uname().sysname == 'Windows_NT') then
     use {'tzachar/cmp-tabnine', after = "nvim-cmp", run='powershell ./install.ps1', requires = 'hrsh7th/nvim-cmp'}
@@ -53,23 +51,20 @@ require('packer').startup(function(use)
     use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp'}
   end
 
-  use { -- Autocompletion
-  'hrsh7th/nvim-cmp',
-  requires = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
-}
-  
   use 'nvim-treesitter/playground'
 
-  use { -- Highlight, edit, and navigate code
-  'nvim-treesitter/nvim-treesitter',
-  run = function()
-    pcall(require('nvim-treesitter.install').update { with_sync = true })
-  end,
-}
+  -- Highlight, edit, and navigate code
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = function()
+      pcall(require('nvim-treesitter.install').update { with_sync = true })
+    end,
+  }
 
-use { -- Additional text objects via treesitter
-'nvim-treesitter/nvim-treesitter-textobjects',
-after = 'nvim-treesitter',
+  -- Additional text objects via treesitter
+  use {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    after = 'nvim-treesitter',
   }
 
   -- Git related plugins
