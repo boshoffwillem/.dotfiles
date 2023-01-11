@@ -7,7 +7,7 @@
 --         \ 'tab': '» ',
 --         \ 'trail': '·',
 --         \ 'extends': '<',
---         \ 'precedes': '>',    
+--         \ 'precedes': '>',
 --         \ 'conceal': '┊',
 --         \ 'nbsp': '␣',
 --         \ })
@@ -15,6 +15,10 @@ vim.opt.listchars:append({ eol = "↲" })
 vim.opt.listchars:append({ tab = "» " })
 vim.opt.listchars:append({ trail = "." })
 vim.opt.list = true
+
+-- enabled folding
+vim.o.foldenable = true
+vim.o.foldmethod = 'indent'
 
 -- Set highlight on search
 vim.o.hlsearch = false
