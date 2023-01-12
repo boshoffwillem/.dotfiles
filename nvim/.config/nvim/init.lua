@@ -1,6 +1,7 @@
 require("boshoffwillem.plugins")
 require("boshoffwillem.appearance")
 require("boshoffwillem.comment")
+require("boshoffwillem.dap")
 require("boshoffwillem.filetype")
 require("boshoffwillem.keymaps")
 require("boshoffwillem.lsp")

@@ -21,6 +21,8 @@ require('packer').startup(function(use)
 
   -- LSP Support
   use 'neovim/nvim-lspconfig'
+  use 'mfussenegger/nvim-dap'
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
 
