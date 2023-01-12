@@ -1,7 +1,7 @@
 -- vim.cmd [[colorscheme onedark]]
 
 -- vim.cmd([[colorscheme vscode]])
-vim.o.background = 'light'
+vim.o.background = 'dark'
 local c = require('vscode.colors').get_colors()
 require('vscode').setup({
     -- Enable transparent background
