@@ -3,7 +3,7 @@
 
 sudo apt install git -y
 sudo apt install gcc -y
-#    starship \
+sudo apt install make -y
 sudo apt install stow -y
 sudo apt install delta -y
 sudo apt install neovim -y
@@ -25,6 +25,7 @@ echo 'eval "$(starship init bash)"' | sudo tee -a ~/.bashrc
 
 stow starship
 stow nvim
+stow git
 
 #nix-env -iA \
 #  nixpkgs.starship \
