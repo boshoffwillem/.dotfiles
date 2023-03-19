@@ -73,5 +73,3 @@ require('nvim-treesitter.configs').setup {
     },
   },
 }
-
--- vim.treesitter.register("hcl", "tf")

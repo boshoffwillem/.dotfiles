@@ -10,11 +10,6 @@ filetype.setup {
     complex = {
       ["Directory.Build.props"] = "xml",
       ["nuget.config"] = "xml",
-    },
-    extensions = {
-      tf = "terraform",
-      tfvars = "terraform",
-      tfstate = "json",
-    },
+    }
   },
 }
