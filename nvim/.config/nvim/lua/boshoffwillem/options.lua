@@ -18,7 +18,7 @@ vim.opt.list = true
 
 -- enabled folding
 vim.o.foldenable = true
-vim.o.foldmethod = 'indent'
+-- vim.o.foldmethod = 'indent'
 
 -- Set highlight on search
 vim.o.hlsearch = false

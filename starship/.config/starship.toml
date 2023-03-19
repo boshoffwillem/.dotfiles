@@ -11,7 +11,7 @@ add_newline = false
 truncation_length = 3
 truncate_to_repo = true
 format = "[$path]($style)[$read_only]($read_only_style) "
-style = "bold blue"
+style = "blue"
 disabled = false
 read_only = "🔒"
 read_only_style = "red"
@@ -23,14 +23,14 @@ use_os_path_sep = true
 [dotnet]
 format = "via [$symbol($version )(🎯 $tfm )]($style)"
 symbol = ".NET"
-style = "bold blue"
+style = "blue"
 disabled = false
 
 [git_branch]
 always_show_remote = false
 format = "on [$symbol$branch(:$remote_branch)]($style) " 
 symbol = " "
-style = "bold yellow"
+style = "yellow"
 truncation_symbol = "..."
 only_attached = false
 disabled = false
@@ -41,7 +41,7 @@ merge = "MERGING"
 revert = "REVERTING"
 cherry_pick = "CHERRIES"
 bisect = "BISECTING"
-style = "bold yellow"
+style = "yellow"
 format = '\([$state( $progress_current/$progress_total)]($style)\) '
 disabled = false
 
@@ -57,7 +57,7 @@ modified = '[~~\($count\)](blue)'
 staged = '[++\($count\)](green)'
 renamed = '[^^\($count\)](blue)'
 deleted = '[--\($count\)](red)'
-style = "bold yellow"
+style = "yellow"
 ignore_submodules = false
 disabled = false
 

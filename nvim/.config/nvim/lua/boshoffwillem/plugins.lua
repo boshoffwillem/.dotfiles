@@ -11,9 +11,6 @@ require('packer').startup(function(use)
   -- Package manager
   use 'wbthomason/packer.nvim'
 
-  -- Specific file type support
-  use "nathom/filetype.nvim"
-
   -- floating terminal
   use {"akinsho/toggleterm.nvim", tag = '*', config = function()
     require("toggleterm").setup()
@@ -25,6 +22,7 @@ require('packer').startup(function(use)
   use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
+  use 'jose-elias-alvarez/null-ls.nvim'
 
   -- Autocompletion
   use 'hrsh7th/nvim-cmp'
@@ -47,11 +45,11 @@ require('packer').startup(function(use)
   -- Additional lua configuration makes nvim stuff amazing
   use 'folke/neodev.nvim'
 
-  if (vim.loop.os_uname().sysname == 'Windows_NT') then
-    use {'tzachar/cmp-tabnine', after = "nvim-cmp", run='powershell ./install.ps1', requires = 'hrsh7th/nvim-cmp'}
-  else
-    use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp'}
-  end
+  -- if (vim.loop.os_uname().sysname == 'Windows_NT') then
+  --   use {'tzachar/cmp-tabnine', after = "nvim-cmp", run='powershell ./install.ps1', requires = 'hrsh7th/nvim-cmp'}
+  -- else
+  --   use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp'}
+  -- end
 
   use 'nvim-treesitter/playground'
 
@@ -74,8 +72,10 @@ require('packer').startup(function(use)
   use 'tpope/vim-rhubarb'
   use 'lewis6991/gitsigns.nvim'
   use 'Mofiqul/vscode.nvim'
+  use 'zorbn/rider-dark.nvim'
   use 'kyazdani42/nvim-web-devicons'
   use 'navarasu/onedark.nvim' -- Theme inspired by Atom
+  use({ 'rose-pine/neovim', as = 'rose-pine' })
   use 'nvim-lualine/lualine.nvim' -- Fancier statusline
   use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
   use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines

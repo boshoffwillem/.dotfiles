@@ -1,5 +1,3 @@
-vim.opt.signcolumn = 'yes' -- Reserve space for diagnostic icons
-
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
@@ -55,19 +53,23 @@ local lsp_flags = {
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
+  fsautocomplete = {},
   jsonls = {
     json = {
       schemas = require('schemastore').json.schemas(),
       validate = { enable = true },
     },
   },
+  omnisharp = {},
   rust_analyzer = {},
-  sumneko_lua = {
+  lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
     },
   },
+  tflint = {},
+  terraformls = {},
   yamlls = {
     yaml = {
       format = true,
@@ -106,60 +108,6 @@ mason_lspconfig.setup_handlers {
     }
   end,
 }
-
--- local pid = vim.fn.getpid()
--- mason_lspconfig.setup_handlers {
---   function(server_name)
---     require('lspconfig')['omnisharp'].setup {
---       capabilities = capabilities,
---       on_attach = on_attach,
---       flags = lsp_flags,
---       settings = servers[server_name],
---       cmd = { "OmniSharp", "-lsp", "--hostPID", tostring(pid) },
---
---       -- Enables support for reading code style, naming convention and analyzer
---       -- settings from .editorconfig.
---       enable_editorconfig_support = true,
---
---       -- If true, MSBuild project system will only load projects for files that
---       -- were opened in the editor. This setting is useful for big C# codebases
---       -- and allows for faster initialization of code navigation features only
---       -- for projects that are relevant to code that is being edited. With this
---       -- setting enabled OmniSharp may load fewer projects and may thus display
---       -- incomplete reference lists for symbols.
---       enable_ms_build_load_projects_on_demand = false,
---
---       -- Enables support for roslyn analyzers, code fixes and rulesets.
---       enable_roslyn_analyzers = false,
---
---       -- Specifies whether 'using' directives should be grouped and sorted during
---       -- document formatting.
---       organize_imports_on_format = false,
---
---       -- Enables support for showing unimported types and unimported extension
---       -- methods in completion lists. When committed, the appropriate using
---       -- directive will be added at the top of the current file. This option can
---       -- have a negative impact on initial completion responsiveness,
---       -- particularly for the first few completion sessions after opening a
---       -- solution.
---       enable_import_completion = false,
---
---       -- Specifies whether to include preview versions of the .NET SDK when
---       -- determining which version to use for project loading.
---       sdk_include_prereleases = true,
---
---       -- Only run analyzers against open files when 'enableRoslynAnalyzers' is
---       -- true
---       analyze_open_documents_only = false,
---
---       init_options = {},
---
---       filetypes = { "cs", "vb" },
---
---       -- root_dir = root_pattern(".sln") or root_pattern(".csproj")
---     }
---   end,
--- }
 
 -- Turn on lsp status information
 require('fidget').setup()
@@ -206,6 +154,19 @@ cmp.setup {
     { name = 'path' },
     { name = 'nvim_lsp', keyword_length = 1 },
     { name = 'nvim_lua', keyword_length = 1 },
-    { name = 'cmp_tabnine' },
+    -- { name = 'cmp_tabnine' },
   },
 }
+
+-- null-ls
+local null_ls = require("null-ls")
+
+null_ls.setup({
+  sources = {
+    null_ls.builtins.formatting.stylua,
+    null_ls.builtins.formatting.terraform_fmt,
+    null_ls.builtins.diagnostics.eslint,
+    null_ls.builtins.diagnostics.editorconfig_checker,
+    null_ls.builtins.completion.spell,
+  },
+})
