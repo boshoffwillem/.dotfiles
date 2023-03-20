@@ -45,11 +45,11 @@ require('packer').startup(function(use)
   -- Additional lua configuration makes nvim stuff amazing
   use 'folke/neodev.nvim'
 
-  -- if (vim.loop.os_uname().sysname == 'Windows_NT') then
-  --   use {'tzachar/cmp-tabnine', after = "nvim-cmp", run='powershell ./install.ps1', requires = 'hrsh7th/nvim-cmp'}
-  -- else
-  --   use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp'}
-  -- end
+  if (vim.loop.os_uname().sysname == 'Windows_NT') then
+    use {'tzachar/cmp-tabnine', after = "nvim-cmp", run='powershell ./install.ps1', requires = 'hrsh7th/nvim-cmp'}
+  else
+    use {'tzachar/cmp-tabnine', run='./install.sh', requires = 'hrsh7th/nvim-cmp'}
+  end
 
   use 'nvim-treesitter/playground'
 

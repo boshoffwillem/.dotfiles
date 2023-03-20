@@ -53,6 +53,7 @@ local lsp_flags = {
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
+  csharp_ls = {},
   fsautocomplete = {},
   jsonls = {
     json = {
@@ -60,7 +61,6 @@ local servers = {
       validate = { enable = true },
     },
   },
-  omnisharp = {},
   rust_analyzer = {},
   lua_ls = {
     Lua = {
@@ -154,7 +154,7 @@ cmp.setup {
     { name = 'path' },
     { name = 'nvim_lsp', keyword_length = 1 },
     { name = 'nvim_lua', keyword_length = 1 },
-    -- { name = 'cmp_tabnine' },
+    { name = 'cmp_tabnine' },
   },
 }
 
@@ -166,7 +166,8 @@ null_ls.setup({
     null_ls.builtins.formatting.stylua,
     null_ls.builtins.formatting.terraform_fmt,
     null_ls.builtins.diagnostics.eslint,
-    null_ls.builtins.diagnostics.editorconfig_checker,
-    null_ls.builtins.completion.spell,
+    -- null_ls.builtins.diagnostics.editorconfig_checker,
+    null_ls.builtins.diagnostics.cspell,
+    null_ls.builtins.code_actions.cspell
   },
 })

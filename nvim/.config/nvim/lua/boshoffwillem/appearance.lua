@@ -25,7 +25,7 @@ require('vscode').setup({
     }
 })
 
-vim.cmd([[colorscheme vscode]])
+-- vim.cmd([[colorscheme vscode]])
 
 require('onedark').setup  {
   -- Main options --
@@ -74,13 +74,13 @@ require('onedark').setup  {
 require('lualine').setup {
   options = {
     icons_enabled = false,
-    theme = 'vscode',
+    theme = 'rose-pine',
     component_separators = '|',
     section_separators = '',
   },
 }
 
--- vim.cmd('colorscheme rose-pine')
+vim.cmd('colorscheme rose-pine')
 
 -- [[ Highlight on yank ]]
 -- See `:help vim.highlight.on_yank()`
