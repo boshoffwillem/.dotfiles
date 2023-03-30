@@ -13,6 +13,9 @@
   sudo zypper install -y npm
   sudo zypper install -y fontconfig
   sudo zypper install -y emacs
+  sudo zypper install -y fzf
+  sudo zypper install -y neovim
+  sudo zypper install -y stow
   
   sudo zypper install libicu
   sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
