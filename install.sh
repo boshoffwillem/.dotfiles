@@ -35,5 +35,9 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 stow starship
 stow git
+
+rm -rdf ~/.doom.d
 stow doom.d
+~/.config/emacs/bin/doom sync
+
 stow nvim
