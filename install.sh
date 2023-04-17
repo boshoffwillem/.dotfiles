@@ -5,6 +5,7 @@ sudo dnf install -y ripgrep
 sudo dnf install -y bat
 sudo dnf install -y exa
 sudo dnf install -y gcc
+sudo dnf install -y g++
 sudo dnf install -y make
 sudo dnf install -y cmake
 sudo dnf install -y fd
