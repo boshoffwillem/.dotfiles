@@ -21,7 +21,7 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 13 :weight 'regular)
+(setq doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 13 :weight 'regular)
       doom-variable-pitch-font (font-spec :family "Cantarell" :size 14))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
@@ -91,9 +91,6 @@
         lsp-headerline-breadcrumb-enable t
         lsp-lens-place-position 'above-line)
   )
-
-;; (after! csharp-mode
-;;   (add-hook! csharp-mode #'lsp))
 
 (use-package! company
   :config

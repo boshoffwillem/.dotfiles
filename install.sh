@@ -8,7 +8,7 @@ sudo dnf install -y gcc
 sudo dnf install -y g++
 sudo dnf install -y make
 sudo dnf install -y cmake
-sudo dnf install -y fd
+sudo dnf install -y fd-find
 sudo dnf install -y starship
 sudo dnf install -y nodejs
 sudo dnf install -y npm
@@ -17,6 +17,7 @@ sudo dnf install -y emacs
 sudo dnf install -y fzf
 sudo dnf install -y neovim
 sudo dnf install -y stow
+sudo dnf install -y unzip
 
 sudo dnf install -y dotnet-sdk-7.0
 dotnet tool install -g dotnet-grpc
