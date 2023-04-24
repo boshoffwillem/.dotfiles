@@ -9,6 +9,7 @@ require('nvim-treesitter.configs').setup {
     'go',
     'hcl',
     'lua',
+    'proto',
     'python',
     'rust',
     'tsx',

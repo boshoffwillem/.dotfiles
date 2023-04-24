@@ -7,13 +7,27 @@ vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
   local nmap = function(keys, func, desc)
     if desc then
       desc = 'LSP: ' .. desc
     end
 
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
+  end
+
+  if client.name == 'omnisharp' then
+    -- https://github.com/OmniSharp/omnisharp-roslyn/issues/2483#issuecomment-1492605642
+    local tokenModifiers = client.server_capabilities.semanticTokensProvider.legend.tokenModifiers
+    for i, v in ipairs(tokenModifiers) do
+      tmp = string.gsub(v, ' ', '_')
+      tokenModifiers[i] = string.gsub(tmp, '-_', '')
+    end
+    local tokenTypes = client.server_capabilities.semanticTokensProvider.legend.tokenTypes
+    for i, v in ipairs(tokenTypes) do
+      tmp = string.gsub(v, ' ', '_')
+      tokenTypes[i] = string.gsub(tmp, '-_', '')
+    end
   end
 
   nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
@@ -53,7 +67,6 @@ local lsp_flags = {
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
-  csharp_ls = {},
   fsautocomplete = {},
   jsonls = {
     json = {
@@ -61,13 +74,14 @@ local servers = {
       validate = { enable = true },
     },
   },
-  rust_analyzer = {},
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
     },
   },
+  omnisharp = {},
+  rust_analyzer = {},
   tflint = {},
   terraformls = {},
   yamlls = {
@@ -100,12 +114,21 @@ mason_lspconfig.setup {
 
 mason_lspconfig.setup_handlers {
   function(server_name)
-    require('lspconfig')[server_name].setup {
-      capabilities = capabilities,
-      on_attach = on_attach,
-      flags = lsp_flags,
-      settings = servers[server_name],
-    }
+    if server_name == 'omnisharp' then
+      require('lspconfig')[server_name].setup {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        flags = lsp_flags,
+        settings = servers[server_name],
+      }
+    else
+      require('lspconfig')[server_name].setup {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        flags = lsp_flags,
+        settings = servers[server_name],
+      }
+    end
   end,
 }
 
@@ -163,10 +186,12 @@ local null_ls = require("null-ls")
 
 null_ls.setup({
   sources = {
+    null_ls.builtins.formatting.buf,
     null_ls.builtins.formatting.stylua,
     null_ls.builtins.formatting.terraform_fmt,
     null_ls.builtins.diagnostics.eslint,
-    -- null_ls.builtins.diagnostics.editorconfig_checker,
+    null_ls.builtins.diagnostics.buf,
+    null_ls.builtins.diagnostics.editorconfig_checker,
     null_ls.builtins.diagnostics.cspell,
     null_ls.builtins.code_actions.cspell
   },
