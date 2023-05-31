@@ -5,11 +5,11 @@ end
 
 -- In init.lua or filetype.nvim's config file
 filetype.setup {
-  enabled = false,
+  enabled = true,
   overrides = {
     complex = {
       ["Directory.Build.props"] = "xml",
       ["nuget.config"] = "xml",
-    }
+    },
   },
 }

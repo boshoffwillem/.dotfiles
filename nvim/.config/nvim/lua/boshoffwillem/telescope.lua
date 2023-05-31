@@ -1,5 +1,7 @@
 -- [[ Configure Telescope ]]
 -- See `:help telescope` and `:help telescope.setup()`
+local project_actions = require("telescope._extensions.project.actions")
+
 require('telescope').setup {
   defaults = {
     mappings = {
@@ -9,6 +11,26 @@ require('telescope').setup {
       },
     },
   },
+  extensions = {
+    project = {
+      base_dirs = {
+        {path = '~/code', max_depth = 2},
+        {path = '~/code/work', max_depth = 2},
+        {path = '~/code/work/Psicle.Base.Worktrees', max_depth = 2},
+      },
+      hidden_files = true, -- default: false
+      theme = "dropdown",
+      order_by = "asc",
+      search_by = "title",
+      sync_with_nvim_tree = false, -- default false
+      -- default for on_project_selected = find project files
+      on_project_selected = function(prompt_bufnr)
+        -- Do anything you want in here. For example:
+        project_actions.change_working_directory(prompt_bufnr, false)
+        require("harpoon.ui").nav_file(1)
+      end
+    }
+  }
 }
 
 -- Enable telescope fzf native, if installed
@@ -30,3 +52,12 @@ vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc
 vim.keymap.set('n', '<leader>pw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
 vim.keymap.set('n', '<leader>p/', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>pd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+
+pcall(require('telescope').load_extension, 'project')
+require'telescope'.extensions.project.project{ display_type = 'full' }
+vim.api.nvim_set_keymap(
+  'n',
+  '<leader>pp',
+  ":lua require'telescope'.extensions.project.project{}<CR>",
+  {noremap = true, silent = true}
+)

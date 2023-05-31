@@ -13,7 +13,8 @@ require('nvim-treesitter.configs').setup {
     'python',
     'rust',
     'tsx',
-    'typescript'
+    'typescript',
+    'zig'
   },
   -- ensure_installed = "all",
 

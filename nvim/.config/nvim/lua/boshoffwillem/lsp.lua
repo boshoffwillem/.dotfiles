@@ -96,7 +96,8 @@ local servers = {
       },
       validate = true
     }
-  }
+  },
+  zls = {}
 }
 
 -- Setup neovim lua configuration

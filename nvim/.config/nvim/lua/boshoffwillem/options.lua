@@ -48,7 +48,8 @@ vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
 
 vim.o.termguicolors = true
-vim.opt.guifont = "JetBrainsMono Nerd Font:h11"
+-- vim.opt.guifont = "JetBrainsMono Nerd Font:h11"
+vim.opt.guifont = "FiraCode Nerd Font Mono:h11"
 
 vim.o.completeopt = 'menuone,noselect'
 
@@ -68,3 +69,10 @@ vim.o.expandtab = true
 vim.o.smartindent = true
 
 vim.o.wrap = false
+
+-- auto refresh file
+vim.o.autoread = true
+vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
+  command = "if mode() != 'c' | checktime | endif",
+  pattern = { "*" },
+})
