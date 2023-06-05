@@ -12,6 +12,7 @@ require('nvim-treesitter.configs').setup {
     'proto',
     'python',
     'rust',
+    'toml',
     'tsx',
     'typescript',
     'zig'

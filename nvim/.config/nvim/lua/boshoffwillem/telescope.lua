@@ -11,6 +11,11 @@ require('telescope').setup {
       },
     },
   },
+  pickers = {
+    find_files = {
+      theme = "dropdown",
+    }
+  },
   extensions = {
     project = {
       base_dirs = {
@@ -54,7 +59,7 @@ vim.keymap.set('n', '<leader>p/', require('telescope.builtin').live_grep, { desc
 vim.keymap.set('n', '<leader>pd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
 pcall(require('telescope').load_extension, 'project')
-require'telescope'.extensions.project.project{ display_type = 'full' }
+-- require'telescope'.extensions.project.project{ display_type = 'full' }
 vim.api.nvim_set_keymap(
   'n',
   '<leader>pp',

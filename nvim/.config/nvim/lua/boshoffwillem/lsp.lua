@@ -45,8 +45,8 @@ local on_attach = function(client, bufnr)
   nmap('<space>lr', vim.lsp.buf.rename, '')
   nmap('<space>la', vim.lsp.buf.code_action, '')
   nmap('<space>l=', function() vim.lsp.buf.format { async = true } end, '')
-  nmap('<leader>ds', require('telescope.builtin').lsp_document_symbols, '')
-  nmap('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '')
+  -- nmap('<leader>pt', require('telescope.builtin').lsp_document_symbols, '')
+  nmap('<leader>pt', require('telescope.builtin').lsp_dynamic_workspace_symbols, '')
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)

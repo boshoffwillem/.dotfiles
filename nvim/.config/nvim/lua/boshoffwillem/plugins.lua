@@ -73,6 +73,7 @@ require('packer').startup(function(use)
   use 'lewis6991/gitsigns.nvim'
 
   use 'Mofiqul/vscode.nvim'
+  use({ 'rose-pine/neovim', as = 'rose-pine' })
   use 'felipeagc/fleet-theme-nvim'
   use 'zorbn/rider-dark.nvim'
   use 'kyazdani42/nvim-web-devicons'
