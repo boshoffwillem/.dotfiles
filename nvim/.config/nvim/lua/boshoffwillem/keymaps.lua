@@ -26,6 +26,8 @@ keymap("n", "k", "j", opts)
 keymap("n", "l", "k", opts)
 keymap("n", ";", "l", opts)
 keymap("n", "<leader>bk", ":bdelete<CR>", opts)
+keymap("n", "<A-n>", ":cnext<CR>", opts)
+keymap("n", "<A-p>", ":cprevious<CR>", opts)
 
 -- Yank rest of line
 -- =========================================================================================================
