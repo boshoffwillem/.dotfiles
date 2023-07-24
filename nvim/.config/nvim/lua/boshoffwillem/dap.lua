@@ -1,3 +1,7 @@
+-- Debugger installation location
+local HOME = os.getenv "HOME"
+local DEBUGGER_LOCATION = HOME .. "/.local/share/nvim/netcoredbg"
+
 local dap = require('dap')
 vim.keymap.set('n', '<leader>lb', dap.toggle_breakpoint, { desc = '[T]oggle [B]reakpoint' })
 
@@ -14,7 +18,10 @@ dap.configurations.cs = {
     name = "launch - PsicleServerService",
     request = "launch",
     program = function()
-      return vim.fn.input('Path to dll', vim.fn.getcwd() .. 'PsicleServerApps/PsicleServerService/bin/SERVER_DEBUG/net7.0/', 'PsicleServerService.dll')
+      return vim.fn.input(
+        'Path to dll',
+        vim.fn.getcwd() .. 'PsicleServerApps/PsicleServerService/bin/SERVER_DEBUG/net7.0/',
+        'PsicleServerService.dll')
     end,
   },
 }

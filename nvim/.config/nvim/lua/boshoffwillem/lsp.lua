@@ -81,6 +81,7 @@ local servers = {
     },
   },
   omnisharp = {},
+  powershell_es = {},
   rust_analyzer = {},
   tflint = {},
   terraformls = {},
