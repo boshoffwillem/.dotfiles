@@ -1,2 +1,9 @@
 **/plugin/
 .luarc.json
+
+# emacs
+straight/
+eln-cache/
+transient/
+history
+recentf
