@@ -79,7 +79,8 @@ require('rose-pine').setup({
 })
 
 -- Set colorscheme after options
-vim.cmd('colorscheme rose-pine')
+-- vim.cmd('colorscheme rose-pine')
+vim.cmd('colorscheme modus-operandi')
 
 
 -- Set lualine as statusline
@@ -87,7 +88,7 @@ vim.cmd('colorscheme rose-pine')
 require('lualine').setup {
   options = {
     icons_enabled = false,
-    theme = 'rose-pine',
+    theme = 'modus-operandi',
     component_separators = '|',
     section_separators = '',
   },
