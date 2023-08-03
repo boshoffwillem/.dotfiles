@@ -55,7 +55,7 @@
 (add-hook 'dired-mode-hook #'my-dired-mode-hook)
 (setq dired-use-ls-dired nil)
 
-(global-display-line-numbers-mode 1)
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
 (column-number-mode)
 (setq display-line-numbers-type 'relative)
 ;; Disable visual line mode (this causes issues with $ and a few other things in evil)
@@ -102,6 +102,14 @@
 (set-face-attribute 'fixed-pitch nil :font "FiraCode Nerd Font 10" :weight 'regular)
 ;; Set the variable pitch face
 (set-face-attribute 'variable-pitch nil :font "Cantarell 11" :weight 'regular)
+
+(global-unset-key (kbd "<left>"))
+
+(global-unset-key (kbd "<right>"))
+
+(global-unset-key (kbd "<up>"))
+
+(global-unset-key (kbd "<down>"))
 
 (provide 'defaults)
 

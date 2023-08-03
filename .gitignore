@@ -2,8 +2,14 @@
 .luarc.json
 
 # emacs
-straight/
-eln-cache/
-transient/
-history
-recentf
+emacs/.config/emacs/straight/
+emacs/.config/emacs/eln-cache/
+emacs/.config/emacs/transient/
+emacs/.config/emacs/history
+emacs/.config/emacs/recentf
+emacs/.config/emacs/.cache/
+emacs/.config/emacs/.dap-breakpoints
+emacs/.config/emacs/.lsp-session-v1
+emacs/.config/emacs/eshell/
+emacs/.config/emacs/projects
+emacs/.config/emacs/url/

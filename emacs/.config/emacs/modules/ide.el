@@ -63,67 +63,21 @@
             (company-complete-common)
           (indent-for-tab-command)))))
 
-(defun wb/lsp-setup ()
-  "Setup when switching to LSP mode."
-  (lsp-enable-which-key-integration)
-  )
+(use-package eglot)
+(add-hook 'csharp-mode-hook 'eglot-ensure)
+(add-hook 'dockerfile-mode-hook 'eglot-ensure)
+(add-hook 'json-mode-hook 'eglot-ensure)
+(add-hook 'yaml-mode-hook 'eglot-ensure)
 
-(use-package lsp-mode
-  :init
-  (setq lsp-keymap-prefix "C-c l")
-  :config
-  (setq lsp-lens-place-position 'above-line)
-  :custom
-  (setq lsp-idle-delay 0.5)
-  (setq lsp-log-io nil)
-  (setq lsp-auto-execute-action nil)
-  (setq lsp-enable-file-watchers nil)
-  (setq lsp-lens-enable t)
-  (setq lsp-headerline-breadcrumb-enable nil)
-  (setq lsp-headerline-breadcrumb-enable-symbol-numbers nil)
-  (setq lsp-modeline-code-actions-enable t)
-  (setq lsp-modeline-diagnostics-enable t)
-  (setq lsp-modeline-diagnostics-scope :workspace)
-  (lsp-eldoc-render-all t)
-  (lsp-rust-analyzer-cargo-watch-command "clippy")
-  ;; enable / disable the hints as you prefer:
-  (lsp-rust-analyzer-server-display-inlay-hints t)
-  (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
-  (lsp-rust-analyzer-display-chaining-hints t)
-  (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
-  (lsp-rust-analyzer-display-closure-return-type-hints t)
-  (lsp-rust-analyzer-display-parameter-hints nil)
-  (lsp-rust-analyzer-display-reborrow-hints nil)
-  :hook
-  (
-   (lsp-mode . wb/lsp-setup)
-   (csharp-mode . wb/csharp-lsp)
-   (dockerfile-mode . lsp-deferred)
-   (yaml-mode . lsp-deferred)
-   (nxml-mode . lsp-deferred)
-   )
-  :commands (lsp lsp-deferred))
-
-(use-package lsp-treemacs
-  :config
-  (lsp-treemacs-sync-mode 1)
-  :commands lsp-treemacs-errors-list)
-
-(use-package consult-lsp
-  :config
-  ;; find symbol in project.
-  (define-key lsp-mode-map (kbd "C-c p t") 'consult-lsp-symbols)
-  (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols))
-
-(use-package dap-mode
-  :commands (dap-debug dap-breakpoints-add)
-  :init
-  (dap-mode 1)
-  (dap-ui-mode 1)
-  (dap-auto-configure-mode)
-  (require 'dap-netcore)
-  :custom
-  (dap-netcore-install-dir "/home/hoagie/.emacs.d/.cache/"))
+;; (use-package dap-mode
+;;   :commands (dap-debug dap-breakpoints-add)
+;;   :init
+;;   (dap-mode 1)
+;;   (dap-ui-mode 1)
+;;   (dap-auto-configure-mode)
+;;   (require 'dap-netcore)
+;;   :custom
+;;   (dap-netcore-install-dir "/home/hoagie/.emacs.d/.cache/"))
 
 (use-package posframe)
 
@@ -139,11 +93,11 @@
   (setq-local standard-indent 4)
   (setq-local tab-width 4))
 
-(defun dap-netcore--populate-default-args (conf)
-  "Populate CONF with the default arguments."
-  (dap--put-if-absent conf :cwd default-directory)
-  (dap--put-if-absent conf :program (read-file-name "Select an executable:" (concat (lsp-workspace-root) "bin/Debug")))
-  (dap--put-if-absent conf :dap-server-path (list (dap-netcore--debugger-locate) "--interpreter=vscode")))
+;; (defun dap-netcore--populate-default-args (conf)
+;;   "Populate CONF with the default arguments."
+;;   (dap--put-if-absent conf :cwd default-directory)
+;;   (dap--put-if-absent conf :program (read-file-name "Select an executable:" (concat (lsp-workspace-root) "bin/Debug")))
+;;   (dap--put-if-absent conf :dap-server-path (list (dap-netcore--debugger-locate) "--interpreter=vscode")))
 
 ;; (dap-register-debug-provider
 ;;  "Psicle SERVER_DEBUG"

@@ -77,6 +77,8 @@
 
 (use-package multiple-cursors)
 
+(global-set-key (kbd "M-o") 'ace-window)
+
 ;; ============================== Navigation
 ;; "C-f" Navigate to forward character
 ;; "M-f" Navigate to forward word

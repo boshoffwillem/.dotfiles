@@ -43,7 +43,7 @@
   :config
   (evil-commentary-mode))
 
-(use-package org-evil)
+;; (use-package org-evil)
 
 
 (evil-define-key 'normal 'global (kbd "<leader>x") 'eval-last-sexp)
