@@ -118,11 +118,11 @@
 ;;                                    :stopAtEntry f))
 
 (use-package csharp-mode
-  :bind
-  (:map lsp-mode-map
-        ("C-c l t r" . lsp-csharp-run-test-at-point)
-        ("C-c l r a" . lsp-csharp-run-all-tests-in-buffer)
-        )
+  ;; :bind
+;; (:map lsp-mode-map
+  ;;       ("C-c l t r" . lsp-csharp-run-test-at-point)
+  ;;       ("C-c l r a" . lsp-csharp-run-all-tests-in-buffer)
+  ;;       )
   :hook
   (
    (csharp-mode . wb/csharp-setup)

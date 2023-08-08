@@ -67,7 +67,7 @@ local lsp_flags = {
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
-  fsautocomplete = {},
+  -- fsautocomplete = {},
   jsonls = {
     json = {
       schemas = require('schemastore').json.schemas(),
@@ -98,7 +98,7 @@ local servers = {
       validate = true
     }
   },
-  zls = {}
+  -- zls = {}
 }
 
 -- Setup neovim lua configuration
