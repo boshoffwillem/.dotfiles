@@ -13,17 +13,14 @@ sudo dnf install -y starship
 sudo dnf install -y nodejs
 sudo dnf install -y npm
 sudo dnf install -y fontconfig
-sudo dnf install -y emacs
 sudo dnf install -y fzf
+sudo dnf install -y tmux
 sudo dnf install -y neovim
 sudo dnf install -y stow
 sudo dnf install -y unzip
 
 sudo dnf install -y dotnet-sdk-7.0
 dotnet tool install -g dotnet-grpc
-
-git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs
-~/.config/emacs/bin/doom install
 
 # use starship shell prompt
 curl -sS https://starship.rs/install.sh | sh
@@ -37,9 +34,4 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 stow starship
 stow git
-
-rm -rdf ~/.config/doom
-stow doom.d
-~/.config/emacs/bin/doom sync
-
 stow nvim
