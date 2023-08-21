@@ -63,7 +63,6 @@
             (company-complete-common)
           (indent-for-tab-command)))))
 
-(use-package eglot)
 (add-hook 'csharp-mode-hook 'eglot-ensure)
 (add-hook 'dockerfile-mode-hook 'eglot-ensure)
 (add-hook 'json-mode-hook 'eglot-ensure)
@@ -89,7 +88,6 @@
 
 (defun wb/csharp-setup ()
   "Setup for csharp mode."
-  (csharp-tree-sitter-mode)
   (setq-local standard-indent 4)
   (setq-local tab-width 4))
 
@@ -212,7 +210,6 @@
 
 (defun wb/terraform-setup ()
   "Setup for terraform mode."
-  (tree-sitter-require 'hcl)
   (setq-local standard-indent 2)
   (setq-local tab-width 2))
 
