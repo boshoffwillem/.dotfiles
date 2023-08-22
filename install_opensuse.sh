@@ -5,7 +5,7 @@ sudo zypper install -y ripgrep
 sudo zypper install -y bat
 sudo zypper install -y exa
 sudo zypper install -y gcc
-sudo zypper install -y g++
+sudo zypper install -y gcc-c++
 sudo zypper install -y make
 sudo zypper install -y cmake
 sudo zypper install -y fd-find
@@ -18,6 +18,7 @@ sudo zypper install -y tmux
 sudo zypper install -y neovim
 sudo zypper install -y stow
 sudo zypper install -y unzip
+sudo zypper install -y openssl
 
 # install dotnet
 sudo zypper install -y libicu
@@ -37,6 +38,8 @@ echo 'eval "$(starship init bash)"' | sudo tee -a ~/.bashrc
 
 # Install rustup
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source "$HOME/.cargo/env"
+rustup component add rust-analyzer
 
 # install emacs from source
 mkdir ~/code

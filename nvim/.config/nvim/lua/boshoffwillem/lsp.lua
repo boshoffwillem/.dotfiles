@@ -194,7 +194,5 @@ null_ls.setup({
     null_ls.builtins.diagnostics.eslint,
     null_ls.builtins.diagnostics.buf,
     null_ls.builtins.diagnostics.editorconfig_checker,
-    null_ls.builtins.diagnostics.cspell,
-    null_ls.builtins.code_actions.cspell
   },
 })

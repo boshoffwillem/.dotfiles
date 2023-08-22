@@ -97,11 +97,11 @@
   (advice-add 'yes-or-no-p :override #'y-or-n-p))
 
 ;; Font
-(set-face-attribute 'default nil :font "FiraCode Nerd Font 10" :weight 'regular)
+(set-face-attribute 'default nil :font "Fira Code 11" :weight 'regular)
 ;; Set the fixed pitch face
-(set-face-attribute 'fixed-pitch nil :font "FiraCode Nerd Font 10" :weight 'regular)
+(set-face-attribute 'fixed-pitch nil :font "Fira Code 11" :weight 'regular)
 ;; Set the variable pitch face
-(set-face-attribute 'variable-pitch nil :font "Cantarell 11" :weight 'regular)
+;;(set-face-attribute 'variable-pitch nil :font "Cantarell 11" :weight 'regular)
 
 (global-unset-key (kbd "<left>"))
 
