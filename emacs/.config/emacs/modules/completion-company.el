@@ -21,10 +21,6 @@
         company-dabbrev-downcase nil
         company-minimum-prefix-length 1
         company-selection-wrap-around t)
-  (advice-add 'company-complete-common :before (lambda () (setq my-company-point (point))))
-  (advice-add 'company-complete-common :after (lambda ()
-                                                (when (equal my-company-point (point))
-                                                  (yas-expand))))
   )
 
 (use-package company-box
@@ -38,25 +34,8 @@
   :hook
   (company-mode . company-box-mode))
 
-;; (use-package company-quickhelp
-;;   :after company
-;;   :config
-;;   (company-quickhelp-mode)
-;;   )
-
 (use-package company-tabnine
   :after company
-  :config
-  (defvar company-mode/enable-tabnine t
-    "Enable tabnine for all backends.")
-
-  (defun company-mode/backend-with-tabnine (backend)
-    (if (or (not company-mode/enable-tabnine) (and (listp backend) (member 'company-tabnine backend)))
-        backend
-      (append (if (consp backend) backend (list backend))
-              '(:with company-tabnine))))
-
-  (setq company-backends (mapcar #'company-mode/backend-with-tabnine company-backends))
   )
 
 (provide 'completion-company)

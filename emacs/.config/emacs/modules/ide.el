@@ -29,39 +29,6 @@
 (use-package yasnippet-snippets
   :after yasnippet)
 
-(use-package company
-  :bind
-  (:map company-mode-map
-        ("<tab>". tab-indent-or-complete)
-        ("TAB". tab-indent-or-complete)))
-
-(defun company-yasnippet-or-completion ()
-  (interactive)
-  (or (do-yas-expand)
-      (company-complete-common)))
-
-(defun check-expansion ()
-  (save-excursion
-    (if (looking-at "\\_>") t
-      (backward-char 1)
-      (if (looking-at "\\.") t
-        (backward-char 1)
-        (if (looking-at "::") t nil)))))
-
-(defun do-yas-expand ()
-  (let ((yas/fallback-behavior 'return-nil))
-    (yas/expand)))
-
-(defun tab-indent-or-complete ()
-  (interactive)
-  (if (minibufferp)
-      (minibuffer-complete)
-    (if (or (not yas/minor-mode)
-            (null (do-yas-expand)))
-        (if (check-expansion)
-            (company-complete-common)
-          (indent-for-tab-command)))))
-
 ;; (use-package dap-mode
 ;;   :commands (dap-debug dap-breakpoints-add)
 ;;   :init
@@ -98,116 +65,49 @@
 ;;                                    :name "NetCoreDbg::Launch"
 ;;                                    :stopAtEntry f))
 
-;; (use-package csharp-mode
-;;   ;; :bind
-;;   ;; (:map lsp-mode-map
-;;   ;;       ("C-c l t r" . lsp-csharp-run-test-at-point)
-;;   ;;       ("C-c l r a" . lsp-csharp-run-all-tests-in-buffer)
-;;   ;;       )
-;;   :config
-;;   (setq-local standard-indent 4)
-;;   (setq-local tab-width 4)
-;;   )
-
-;; .csproj files
-(use-package csproj-mode
-  :config
-  (setq-local standard-indent 4)
-  (setq-local tab-width 4)
-  )
-
-;; dockerfiles
-(use-package dockerfile-mode)
-
 ;; .editorconfig files
 (use-package editorconfig
   :config
   (editorconfig-mode 1)
   )
 
-;; Gherkin files
 (use-package feature-mode)
-
-;; Markdown files
-(use-package markdown-mode)
-
-(use-package json-mode
-  :config
-  (setq-local tab-width 2)
-  (setq-local standard-indent 2)
-  )
-
-(use-package powershell
-  :config
-  (setq-local tab-width 2)
-  (setq-local standard-indent 2)
-  )
-
 (use-package protobuf-mode)
 
 (use-package restclient)
-
-(use-package terraform-mode
-  :config
-  (setq-local standard-indent 2)
-  (setq-local tab-width 2)
-  )
 
 ;; .xml files
 (setq nxml-slash-auto-complete-flag t)
 (setq nxml-child-indent 4)
 (setq nxml-attribute-indent 4)
+(add-to-list 'auto-mode-alist '("\\.csproj\\'" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.nuspec\\'" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.xaml\\'" . nxml-mode))
 
 ;; tree-sitter
+;; (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+;; (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+;; (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+;; (proto "https://github.com/mitchellh/tree-sitter-proto")
+;; (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+
+(add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-ts-mode))
+(add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . dockerfile-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-ts-mode))
 
-(use-package rust-ts-mode
-  :hook ((rust-ts-mode . lsp))
-  :config
-  (setq-local standard-indent 4)
-  (setq-local tab-width 4)
-  )
-
 (use-package yaml-ts-mode
-  :hook ((yaml-ts-mode . lsp))
-  :config
-  (setq-local standard-indent 2)
-  (setq-local tab-width 2)
-  )
-
-;; (setq treesit-language-source-alist
-;;       '(
-;;         ;; (bash "https://github.com/tree-sitter/tree-sitter-bash")
-;;         ;; (css "https://github.com/tree-sitter/tree-sitter-css")
-;;         (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-;;         ;; (html "https://github.com/tree-sitter/tree-sitter-html")
-;;         ;; (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-;;         ;; (json "https://github.com/tree-sitter/tree-sitter-json")
-;;         ;; (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-;;         ;; (python "https://github.com/tree-sitter/tree-sitter-python")
-;;         ;; (toml "https://github.com/tree-sitter/tree-sitter-toml")
-;;         (rust "https://github.com/tree-sitter/tree-sitter-rust")
-;;         ;; (yaml "https://github.com/ikatyang/tree-sitter-yaml")
-;;         ))
-;; (setq major-mode-remap-alist
-;;       '(
-;;         (elisp-mode . elisp-ts-mode)
-;;         ;; (yaml-mode . yaml-ts-mode)
-;;         ;; (bash-mode . bash-ts-mode)
-;;         ;; (js2-mode . js-ts-mode)
-;;         ;; (typescript-mode . typescript-ts-mode)
-;;         ;; (json-mode . json-ts-mode)
-;;         ;; (css-mode . css-ts-mode)
-;;         (rustic-mode . rust-ts-mode)
-;;         ;; (python-mode . python-ts-mode)
-;;         ))
+  :hook (yaml-ts-mode . lsp-mode))
 
 ;; LSP
 (use-package lsp-mode
+  :bind
+  (:map lsp-mode-map
+        ("C-c l t r" . lsp-csharp-run-test-at-point)
+        ("C-c l r a" . lsp-csharp-run-all-tests-in-buffer)
+        )
   :init
   (setq lsp-keymap-prefix "C-c l")
   :config
@@ -233,8 +133,7 @@
   (lsp-rust-analyzer-display-closure-return-type-hints t)
   (lsp-rust-analyzer-display-parameter-hints nil)
   (lsp-rust-analyzer-display-reborrow-hints nil)
-  :hook ((lsp-mode . lsp-which-key-integration)
-         (rust-ts-mode . lsp-deferred))
+  :hook (lsp-mode . lsp-enable-which-key-integration)
   :commands (lsp lsp-deferred))
 
 (use-package lsp-treemacs
@@ -245,8 +144,12 @@
 (use-package consult-lsp
   :config
   ;; find symbol in project.
-  (define-key lsp-mode-map (kbd "C-c p t") 'consult-lsp-symbols)
-  (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols))
+  ;; (define-key lsp-mode-map (kbd "C-c p t") 'consult-lsp-symbols)
+  ;; (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
+  )
+
+(add-to-list 'image-types 'svg)
+(add-hook 'prog-mode-hook #'lsp-deferred)
 
 (provide 'ide)
 

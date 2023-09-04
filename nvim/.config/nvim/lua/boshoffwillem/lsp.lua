@@ -66,6 +66,25 @@ local lsp_flags = {
 --
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
+
+local omnisharp_cmd = {
+}
+local omnisharp_setup = function(cmd)
+  table.insert(cmd, 'omnisharp')
+  table.insert(cmd, '-z') -- https://github.com/OmniSharp/omnisharp-vscode/pull/4300
+  vim.list_extend(cmd, { '--hostPID', tostring(vim.fn.getpid()) })
+  vim.list_extend(cmd, { '--encoding', 'utf-8' })
+  table.insert(cmd, '--languageserver')
+  table.insert(cmd, 'DotNet:EnablePackageRestore=true')
+  table.insert(cmd, 'FormattingOptions:EnableEditorConfigSupport=true')
+  table.insert(cmd, 'FormattingOptions:OrganizeImports=true')
+  table.insert(cmd, 'RoslynExtensionsOptions:EnableAnalyzersSupport=true')
+  table.insert(cmd, 'RoslynExtensionsOptions:EnableImportCompletion=true')
+  table.insert(cmd, 'RoslynExtensionsOptions:EnableDecompilationSupport=true')
+  table.insert(cmd, 'Sdk:IncludePrereleases=true')
+end
+omnisharp_setup(omnisharp_cmd)
+
 local servers = {
   -- fsautocomplete = {},
   jsonls = {
@@ -80,7 +99,8 @@ local servers = {
       telemetry = { enable = false },
     },
   },
-  omnisharp = {},
+  omnisharp = {
+  },
   powershell_es = {},
   rust_analyzer = {},
   tflint = {},
@@ -118,7 +138,7 @@ mason_lspconfig.setup_handlers {
   function(server_name)
     if server_name == 'omnisharp' then
       require('lspconfig')[server_name].setup {
-        capabilities = capabilities,
+        cmd = omnisharp_cmd,
         on_attach = on_attach,
         flags = lsp_flags,
         settings = servers[server_name],

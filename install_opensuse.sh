@@ -8,6 +8,7 @@ sudo zypper install -y gcc
 sudo zypper install -y gcc-c++
 sudo zypper install -y make
 sudo zypper install -y cmake
+sudo zypper install -y autoconf
 sudo zypper install -y fd-find
 sudo zypper install -y starship
 sudo zypper install -y nodejs
@@ -19,6 +20,7 @@ sudo zypper install -y neovim
 sudo zypper install -y stow
 sudo zypper install -y unzip
 sudo zypper install -y openssl
+sudo zypper install -y fira-code-fonts
 
 # install dotnet
 sudo zypper install -y libicu
@@ -32,7 +34,6 @@ dotnet tool install -g dotnet-grpc
 # use starship shell prompt
 curl -sS https://starship.rs/install.sh | sh
 echo 'alias ls="exa"' | sudo tee -a ~/.bashrc
-echo 'alias cat="bat"' | sudo tee -a ~/.bashrc
 echo '# use starship prompt' | sudo tee -a ~/.bashrc
 echo 'eval "$(starship init bash)"' | sudo tee -a ~/.bashrc
 
@@ -46,7 +47,6 @@ mkdir ~/code
 cd ~/code
 git clone git://git.sv.gnu.org/emacs.git
 cd emacs
-sudo zypper install -y autoconf
 ./autogen.sh
 sudo zypper install -y -t pattern devel_basis
 sudo zypper install -y gtk3-devel
@@ -58,7 +58,6 @@ sudo zypper install -y libtiff-devel
 sudo zypper install -y gnome-tweaks
 sudo zypper install -y texinfo
 sudo zypper install -y libotf-devel
-sudo zypper install -y fira-code-fonts
 sudo zypper install -y tree-sitter-devel
 echo 'LIBOTF_CFLAGS="libotf-config --cflags"' | sudo tee -a ~/.bashrc
 echo 'LIBOTF_LIBS="libotf-config --libs"' | sudo tee -a ~/.bashrc

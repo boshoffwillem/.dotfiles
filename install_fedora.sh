@@ -8,6 +8,7 @@ sudo dnf install -y gcc
 sudo dnf install -y g++
 sudo dnf install -y make
 sudo dnf install -y cmake
+sudo dnf install -y autoconf
 sudo dnf install -y fd-find
 sudo dnf install -y starship
 sudo dnf install -y nodejs
@@ -18,21 +19,45 @@ sudo dnf install -y tmux
 sudo dnf install -y neovim
 sudo dnf install -y stow
 sudo dnf install -y unzip
-
+sudo dnf install -y autoconf
+sudo dnf install -y fira-code-fonts
+sudo dnf install -y gtk3-devel
+sudo dnf install -y texinfo
+sudo dnf install -y libtiff-devel
+sudo dnf install -y giflib-devel
+sudo dnf install -y libgccjit-devel
+sudo dnf install -y libxml2-devel
+sudo dnf install -y libtree-sitter-devel
+sudo dnf install -y libotf-devel
+sudo dnf install -y gnutls-devel
+sudo dnf install -y jansson-devel
+sudo dnf install -y ncurses-devel
 sudo dnf install -y dotnet-sdk-7.0
 dotnet tool install -g dotnet-grpc
 
 # use starship shell prompt
 curl -sS https://starship.rs/install.sh | sh
 echo 'alias ls="exa"' | sudo tee -a ~/.bashrc
-echo 'alias cat="bat"' | sudo tee -a ~/.bashrc
 echo '# use starship prompt' | sudo tee -a ~/.bashrc
 echo 'eval "$(starship init bash)"' | sudo tee -a ~/.bashrc
 
 # Install rustup
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
+# install emacs
+mkdir ~/code
+cd ~/code
+git clone git://git.sv.gnu.org/emacs.git -b emacs-29
+cd emacs
+./autogen.sh
+./configure --with-native-compilation=aot --with-json --with-tree-sitter --with-pgtk --with-mailutils
+make -j8
+# src/emacs -Q
+sudo make install
+cd ~/.dotfiles
+
 stow starship
 stow alacritty
 stow git
 stow nvim
+stow emacs
