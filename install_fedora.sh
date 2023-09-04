@@ -10,13 +10,11 @@ sudo dnf install -y make
 sudo dnf install -y cmake
 sudo dnf install -y autoconf
 sudo dnf install -y fd-find
-sudo dnf install -y starship
 sudo dnf install -y nodejs
 sudo dnf install -y npm
 sudo dnf install -y fontconfig
 sudo dnf install -y fzf
 sudo dnf install -y tmux
-sudo dnf install -y neovim
 sudo dnf install -y stow
 sudo dnf install -y unzip
 sudo dnf install -y autoconf
@@ -36,18 +34,32 @@ sudo dnf install -y dotnet-sdk-7.0
 dotnet tool install -g dotnet-grpc
 
 # use starship shell prompt
+# =============================================================================
+sudo dnf install -y starship
 curl -sS https://starship.rs/install.sh | sh
 echo 'alias ls="exa"' | sudo tee -a ~/.bashrc
 echo '# use starship prompt' | sudo tee -a ~/.bashrc
 echo 'eval "$(starship init bash)"' | sudo tee -a ~/.bashrc
+stow starship
+# =============================================================================
 
+# Rust
+# =============================================================================
 # Install rustup
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# =============================================================================
+
+# nvim
+# =============================================================================
+sudo dnf install -y neovim
+stow nvim
+# =============================================================================
 
 # install emacs
+# =============================================================================
 mkdir ~/code
 cd ~/code
-git clone git://git.sv.gnu.org/emacs.git -b emacs-29
+git clone git://git.sv.gnu.org/emacs.git -b emacs-29 --depth=1
 cd emacs
 ./autogen.sh
 ./configure --with-native-compilation=aot --with-json --with-tree-sitter --with-pgtk --with-mailutils
@@ -56,8 +68,13 @@ make -j8
 sudo make install
 cd ~/.dotfiles
 
-stow starship
+# doom emacs
+git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs
+~/.config/emacs/bin/doom install
+rm -rdf ~/.config/doom
+stow doom.d
+~/.config/emacs/bin/doom sync
+# =============================================================================
+
 stow alacritty
 stow git
-stow nvim
-stow emacs
