@@ -6,6 +6,8 @@
 
 ;;; Code:
 
+(use-package diminish)
+
 (use-package doom-themes
   :config
   ;; (load-theme 'doom-dark+)

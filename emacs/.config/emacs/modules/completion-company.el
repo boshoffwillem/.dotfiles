@@ -22,6 +22,7 @@
         company-minimum-prefix-length 1
         company-selection-wrap-around t)
   )
+(diminish 'company-mode)
 
 (use-package company-box
   :after company
@@ -30,9 +31,9 @@
   (company-box-frame-behavior 'point)
   (company-box-show-single-candidate t)
   (company-box-doc-delay 1)
-
   :hook
   (company-mode . company-box-mode))
+(diminish 'company-box-mode)
 
 (use-package company-tabnine
   :after company

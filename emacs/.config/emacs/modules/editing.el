@@ -18,8 +18,6 @@
   :config
   (ws-butler-mode 1))
 
-(whitespace-mode)
-
 (use-package origami
   :config (global-origami-mode))
 

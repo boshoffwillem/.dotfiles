@@ -17,6 +17,7 @@
   (set-face-background 'git-gutter:added "LightGreen")
   (set-face-background 'git-gutter:deleted "LightCoral")
   )
+(diminish 'git-gutter-mode)
 
 (use-package magit)
 
