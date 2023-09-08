@@ -167,7 +167,7 @@ schemes:
       white:   '#ffffff'
      # Bright colors
     bright:
-       black:   '#000000'
+       black:   '#777777'
        red:     '#ff5f5f'
        green:   '#44df44'
        yellow:  '#efef00'
