@@ -1,0 +1,92 @@
+set tabstop=4 softtabstop=4
+set shiftwidth=4
+set expandtab
+set smartindent
+set exrc
+set relativenumber
+set nu
+set nohlsearch
+set hidden
+set visualbell
+set noerrorbells
+set nowrap
+set noswapfile
+set nobackup
+set undodir=~/.vim/undodir
+set undofile
+set incsearch
+set scrolloff=8
+set signcolumn=yes
+set colorcolumn=80
+set clipboard^=unnamed,unnamedplus
+
+nnoremap <A-k> :m .+1<CR>==
+nnoremap <A-l> :m .-2<CR>==
+vnoremap <A-k> :m .+1<CR>==
+vnoremap <A-l> :m .-2<CR>==
+nnoremap j h
+nnoremap k j
+nnoremap l k
+nnoremap ; l
+vnoremap j h
+vnoremap k j
+vnoremap l k
+vnoremap ; l
+vnoremap < <gv
+vnoremap > >gv
+nnoremap Y yg$
+
+let mapleader = " "
+set ideajoin
+set idearefactormode=keep
+
+" File actions
+nnoremap <leader><leader> :action Switcher<CR>
+nnoremap <leader>bk :action CloseEditor<CR>
+nnoremap <leader>pf :action GotoFile<CR>
+nnoremap <leader>sr :action RecentFiles<CR>
+nnoremap <leader>p/ :action FindInPath<CR>
+nnoremap <leader>/ :action Find<CR>
+nnoremap <leader>% :action Replace<CR>
+nnoremap <leader>p% :action ReplaceInPath<CR>
+
+" Window actions
+nnoremap <C-w>s :action SplitHorizontally<CR>
+nnoremap <C-w>v :action SplitVertically<CR>
+nnoremap <C-w>q :action CloseEditor<CR>
+nnoremap <C-w>l :action NextSplitter<CR>
+nnoremap <C-w>h :action PreviousSplitter<CR>
+nnoremap <C-w>t :action ActivateTerminalToolWindow<CR>
+nnoremap <C-w>u :action Unsplit<CR>
+nnoremap <C-w>x :action HideAllWindows<CR>
+nnoremap <C-w>z :action ToggleDistractionFreeMode<CR>
+
+" LSP navigation commands
+nnoremap gd :action GotoDeclaration<CR>
+nnoremap gi :action GotoImplementation<CR>
+nnoremap gr :action FindUsages<CR>
+
+" LSP action commands
+nnoremap <C-Space> :action CodeCompletion<CR>
+nnoremap <leader>e :action ShowErrorDescription<CR>
+nnoremap <leader>lb :action ToggleLineBreakpoint<CR>
+nnoremap gcc :action CommentByLineComment<CR>
+vnoremap gcc :action CommentByLineComment<CR>
+nnoremap gcb :action CommentByBlockComment<CR>
+vnoremap gcb :action CommentByBlockComment<CR>
+nnoremap K :action QuickJavaDoc<CR>
+nnoremap <leader>la :action ShowIntentionActions<CR>
+nnoremap <leader>pt :action GotoSymbol<CR>
+nnoremap <leader>x :action EvaluateExpression<CR>
+vnoremap <leader>x :action EvaluateExpression<CR>
+
+" Unit test commands
+nnoremap <leader>tt :action ActivateUnitTestsToolWindow<CR>
+nnoremap <leader>tr :action RiderUnitTestRunContextAction<CR>
+nnoremap <leader>td :action RiderUnitTestDebugContextAction<CR>
+
+" Text actions
+nnoremap zc :action CollapseRegion<CR>
+nnoremap zo :action ExpandRegion<CR>
+nnoremap zM :action CollapseAllRegions<CR>
+nnoremap zR :action ExpandAllRegions<CR>
