@@ -7,10 +7,11 @@
 ;;; Code:
 
 (use-package company
+  :config
+  (global-company-mode)
   :hook
   ((emacs-lisp-mode . (lambda ()
                         (setq-local company-backends '(company-elisp))))
-   (prog-mode . company-mode)
    )
   :config
   (setq company-show-quick-access t
@@ -22,7 +23,6 @@
         company-minimum-prefix-length 1
         company-selection-wrap-around t)
   )
-(diminish 'company-mode)
 
 (use-package company-box
   :after company
@@ -33,7 +33,6 @@
   (company-box-doc-delay 1)
   :hook
   (company-mode . company-box-mode))
-(diminish 'company-box-mode)
 
 (use-package company-tabnine
   :after company

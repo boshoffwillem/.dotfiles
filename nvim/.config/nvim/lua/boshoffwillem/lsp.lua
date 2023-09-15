@@ -67,8 +67,8 @@ local lsp_flags = {
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 
-local omnisharp_cmd = {
-}
+local omnisharp_cmd = {}
+
 local omnisharp_setup = function(cmd)
   table.insert(cmd, 'omnisharp')
   table.insert(cmd, '-z') -- https://github.com/OmniSharp/omnisharp-vscode/pull/4300
@@ -136,21 +136,27 @@ mason_lspconfig.setup {
 
 mason_lspconfig.setup_handlers {
   function(server_name)
-    if server_name == 'omnisharp' then
-      require('lspconfig')[server_name].setup {
-        cmd = omnisharp_cmd,
-        on_attach = on_attach,
-        flags = lsp_flags,
-        settings = servers[server_name],
-      }
-    else
-      require('lspconfig')[server_name].setup {
-        capabilities = capabilities,
-        on_attach = on_attach,
-        flags = lsp_flags,
-        settings = servers[server_name],
-      }
-    end
+    -- if server_name == 'omnisharp' then
+    --   require('lspconfig')[server_name].setup {
+    --     cmd = omnisharp_cmd,
+    --     on_attach = on_attach,
+    --     flags = lsp_flags,
+    --     settings = servers[server_name],
+    --   }
+    -- else
+    --   require('lspconfig')[server_name].setup {
+    --     capabilities = capabilities,
+    --     on_attach = on_attach,
+    --     flags = lsp_flags,
+    --     settings = servers[server_name],
+    --   }
+    -- end
+    require('lspconfig')[server_name].setup {
+      capabilities = capabilities,
+      on_attach = on_attach,
+      flags = lsp_flags,
+      settings = servers[server_name],
+    }
   end,
 }
 
@@ -195,7 +201,7 @@ cmp.setup {
     end, { 'i', 's' }),
   },
   sources = {
-    { name = 'buffer' },
+    -- { name = 'buffer' },
     { name = 'path' },
     { name = 'nvim_lsp', keyword_length = 1 },
     { name = 'nvim_lua', keyword_length = 1 },
@@ -208,11 +214,36 @@ local null_ls = require("null-ls")
 
 null_ls.setup({
   sources = {
+    -- c#
+    null_ls.builtins.formatting.csharpier,
+    -- rust
+    null_ls.builtins.formatting.rustfmt,
+    -- protobuf
     null_ls.builtins.formatting.buf,
-    null_ls.builtins.formatting.stylua,
-    null_ls.builtins.formatting.terraform_fmt,
-    null_ls.builtins.diagnostics.eslint,
     null_ls.builtins.diagnostics.buf,
+    null_ls.builtins.diagnostics.protoc_gen_lint,
+    null_ls.builtins.diagnostics.protolint,
+    null_ls.builtins.formatting.protolint,
+    -- dockerfile
+    null_ls.builtins.diagnostics.hadolint,
+    -- json
+    null_ls.builtins.diagnostics.jsonlint,
+    -- lua
+    null_ls.builtins.formatting.stylua,
+    null_ls.builtins.diagnostics.luacheck,
+    -- terraform
+    null_ls.builtins.formatting.terraform_fmt,
+    null_ls.builtins.diagnostics.terraform_validate,
+    null_ls.builtins.diagnostics.tfsec,
+    null_ls.builtins.formatting.hclfmt,
+    -- .env
+    null_ls.builtins.diagnostics.dotenv_linter,
+    -- editorconfig
     null_ls.builtins.diagnostics.editorconfig_checker,
+    -- yaml
+    null_ls.builtins.diagnostics.yamllint,
+    -- { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "css",
+    -- "scss", "less", "html", "json", "jsonc", "yaml", "markdown", "markdown.mdx", "graphql", "handlebars" }
+    null_ls.builtins.formatting.prettier,
   },
 })

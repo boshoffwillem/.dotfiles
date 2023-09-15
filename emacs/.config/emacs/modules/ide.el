@@ -67,12 +67,11 @@
 
 ;; .editorconfig files
 (use-package editorconfig
-  :hook
-  (prog-mode . editorconfig-mode)
+  :config
+  (editorconfig-mode)
   )
 
 (use-package feature-mode)
-(use-package protobuf-mode)
 
 (use-package restclient)
 
@@ -83,23 +82,6 @@
 (add-to-list 'auto-mode-alist '("\\.csproj\\'" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.nuspec\\'" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.xaml\\'" . nxml-mode))
-
-;; tree-sitter
-;; (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
-;; (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-;; (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-;; (proto "https://github.com/mitchellh/tree-sitter-proto")
-;; (yaml "https://github.com/ikatyang/tree-sitter-yaml")
-
-(add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-ts-mode))
-(add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . dockerfile-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-ts-mode))
-
-(use-package yaml-ts-mode
-  :hook (yaml-ts-mode . lsp-mode))
 
 ;; LSP
 (use-package lsp-mode
@@ -133,8 +115,37 @@
   (lsp-rust-analyzer-display-closure-return-type-hints t)
   (lsp-rust-analyzer-display-parameter-hints nil)
   (lsp-rust-analyzer-display-reborrow-hints nil)
-  :hook (lsp-mode . lsp-enable-which-key-integration)
+  :hook ((lsp-mode . lsp-enable-which-key-integration))
   :commands (lsp lsp-deferred))
+
+;; tree-sitter
+;; (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+;; (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+;; (hcl "https://github.com/mitchellh/tree-sitter-hcl")
+;; (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+;; (proto "Https://github.com/mitchellh/tree-sitter-proto")
+;; (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+(use-package terraform-mode
+  :hook (terraform-mode . eglot-ensure))
+(with-eval-after-load 'eglot
+  (add-to-list 'eglot-server-programs
+               '(terraform-mode . ("terraform-ls" "serve"))))
+
+(add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-ts-mode))
+(add-hook 'csharp-ts-mode-hook #'lsp-deferred)
+(add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . dockerfile-ts-mode))
+(add-hook 'dockerfile-ts-mode-hook #'lsp-deferred)
+;; (add-to-list 'auto-mode-alist '("\\.tf\\'" . hcl-ts-mode))
+;; (add-hook 'hcl-ts-mode-hook #'lsp-deferred)
+(add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
+(add-hook 'json-ts-mode-hook #'lsp-deferred)
+;; (add-to-list 'auto-mode-alist '("\\.proto\\'" . proto-ts-mode))
+;; (add-hook 'proto-ts-mode-hook #'lsp-deferred)
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
+(add-hook 'rust-ts-mode-hook #'lsp-deferred)
+(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-ts-mode))
+(add-hook 'yaml-ts-mode-hook 'eglot-ensure)
 
 (use-package lsp-treemacs
   :config
@@ -149,7 +160,6 @@
   )
 
 (add-to-list 'image-types 'svg)
-(add-hook 'prog-mode-hook #'lsp-deferred)
 
 (provide 'ide)
 

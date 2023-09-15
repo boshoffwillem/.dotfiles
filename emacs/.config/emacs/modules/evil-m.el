@@ -53,6 +53,8 @@
 (evil-define-key '(normal visual) 'global (kbd "k") 'evil-next-line)
 (evil-define-key '(normal visual) 'global (kbd "l") 'evil-previous-line)
 (evil-define-key '(normal visual) 'global (kbd ";") 'evil-forward-char)
+;; (evil-define-key '(normal visual) 'dired-mode-map (kbd "k") 'dired-next-line)
+;; (evil-define-key '(normal visual) 'dired-mode-map (kbd "l") 'dired-previous-line)
 (evil-define-key '(normal visual) 'global (kbd "M-k") 'drag-stuff-down)
 (evil-define-key '(normal visual) 'global (kbd "M-l") 'drag-stuff-up)
 (evil-define-key 'normal 'global (kbd "zo") 'evil-toggle-fold)

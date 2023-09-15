@@ -7,7 +7,9 @@
 ;;; Code:
 
 (use-package diminish)
-
+(use-package highlight-indent-guides)
+(setq highlight-indent-guides-method 'bitmap)
+(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 (use-package doom-themes
   :config
   ;; (load-theme 'doom-dark+)
