@@ -90,3 +90,5 @@ nnoremap zc :action CollapseRegion<CR>
 nnoremap zo :action ExpandRegion<CR>
 nnoremap zM :action CollapseAllRegions<CR>
 nnoremap zR :action ExpandAllRegions<CR>
+nnoremap gn :action MethodDown<CR>
+nnoremap gp :action MethodUp<CR>
