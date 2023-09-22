@@ -19,18 +19,14 @@ sudo apt install -y stow
 sudo apt install -y unzip
 sudo apt install -y autoconf
 sudo apt install -y fira-code-fonts
-sudo apt install -y gtk3-devel
 sudo apt install -y texinfo
-sudo apt install -y libtiff-devel
-sudo apt install -y giflib-devel
-sudo apt install -y libgccjit-devel
-sudo apt install -y libxml2-devel
-sudo apt install -y libtree-sitter-devel
-sudo apt install -y libotf-devel
-sudo apt install -y gnutls-devel
-sudo apt install -y jansson-devel
-sudo apt install -y ncurses-devel
-sudo apt install -y dotnet-sdk-7.0
+sudo apt install -y libtree-sitter-dev
+
+wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+rm packages-microsoft-prod.deb
+sudo apt-get update -y
+sudo apt-get install -y dotnet-sdk-7.0
 dotnet tool install -g dotnet-grpc
 
 # use starship shell prompt
@@ -54,7 +50,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 # nvim
 # =============================================================================
-sudo dnf install -y neovim
+sudo apt install -y neovim
 stow nvim
 # =============================================================================
 
@@ -62,6 +58,7 @@ stow nvim
 # =============================================================================
 # mkdir ~/code
 # cd ~/code
+#sudo apt install build-essential libgtk-3-dev libgnutls28-dev libtiff5-dev libgif-dev libjpeg-dev libpng-dev libxpm-dev libncurses-dev texinfo
 # git clone git://git.sv.gnu.org/emacs.git -b emacs-29 --depth=1
 # cd emacs
 # ./autogen.sh
@@ -74,3 +71,8 @@ stow nvim
 cd ~/.dotfiles
 stow alacritty
 stow git
+stow omnisharp
+
+sudo apt install kali-desktop-xfce -y
+sudo apt install xrdp -y
+sudo service xrdp start
