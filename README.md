@@ -1,3 +1,3 @@
 # environment setup
 
-Repo for my dotfiles and nix config.
+Repo for my dotfiles and machine setup.
