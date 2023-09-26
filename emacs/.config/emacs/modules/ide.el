@@ -126,10 +126,10 @@
 ;; (proto "Https://github.com/mitchellh/tree-sitter-proto")
 ;; (yaml "https://github.com/ikatyang/tree-sitter-yaml")
 (use-package terraform-mode
-  :hook (terraform-mode . eglot-ensure))
-(with-eval-after-load 'eglot
-  (add-to-list 'eglot-server-programs
-               '(terraform-mode . ("terraform-ls" "serve"))))
+  :hook (terraform-mode . lsp-deferred))
+;; (with-eval-after-load 'eglot
+;;   (add-to-list 'eglot-server-programs
+;;                '(terraform-mode . ("terraform-ls" "serve"))))
 
 (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-ts-mode))
 (add-hook 'csharp-ts-mode-hook #'lsp-deferred)
@@ -145,7 +145,7 @@
 (add-hook 'rust-ts-mode-hook #'lsp-deferred)
 (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-ts-mode))
-(add-hook 'yaml-ts-mode-hook 'eglot-ensure)
+(add-hook 'yaml-ts-mode-hook #'lsp-deferred)
 
 (use-package lsp-treemacs
   :config
@@ -159,7 +159,7 @@
   ;; (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
   )
 
-(add-to-list 'image-types 'svg)
+;; (add-to-list 'image-types 'svg)
 
 (provide 'ide)
 

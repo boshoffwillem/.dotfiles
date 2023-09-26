@@ -3,6 +3,7 @@
 sudo apt install -y git
 sudo apt install -y ripgrep
 sudo apt install -y bat
+sudo apt install -y curl
 sudo apt install -y exa
 sudo apt install -y gcc
 sudo apt install -y g++
@@ -21,6 +22,7 @@ sudo apt install -y autoconf
 sudo apt install -y fira-code-fonts
 sudo apt install -y texinfo
 sudo apt install -y libtree-sitter-dev
+sudo apt install terraform -y
 
 wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
@@ -33,14 +35,7 @@ dotnet tool install -g dotnet-grpc
 # =============================================================================
 sudo apt install -y starship
 curl -sS https://starship.rs/install.sh | sh
-echo 'alias ls="exa"' | sudo tee -a ~/.bashrc
-echo '# use starship prompt' | sudo tee -a ~/.bashrc
-echo 'eval "$(starship init bash)"' | sudo tee -a ~/.bashrc
-stow starship
 # =============================================================================
-
-echo 'export PATH=~/omnisharp:$PATH' | sudo tess -a ~/.bashrc
-echo 'export PATH=~/terraform-lsp:$PATH' | sudo tess -a ~/.bashrc
 
 # Rust
 # =============================================================================
@@ -51,7 +46,6 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # nvim
 # =============================================================================
 sudo apt install -y neovim
-stow nvim
 # =============================================================================
 
 # install emacs
@@ -69,10 +63,22 @@ stow nvim
 # =============================================================================
 
 cd ~/.dotfiles
+rm ~/.zshrc
+rm ~/.bashrc
 stow alacritty
+stow bashrc
 stow git
+stow ideavimrc
+stow nvim
 stow omnisharp
+stow starship
 
 sudo apt install kali-desktop-xfce -y
 sudo apt install xrdp -y
 sudo service xrdp start
+sudo apt install -y kali-win-kex
+
+sudo curl -fsSLo /usr/share/keyrings/brave-browser-beta-archive-keyring.gpg https://brave-browser-apt-beta.s3.brave.com/brave-browser-beta-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/brave-browser-beta-archive-keyring.gpg] https://brave-browser-apt-beta.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-beta.list
+sudo apt update -y
+sudo apt install brave-browser-beta -y
