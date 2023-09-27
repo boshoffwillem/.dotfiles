@@ -7,6 +7,7 @@ require('nvim-treesitter.configs').setup {
     'cpp',
     'c_sharp',
     'go',
+    'json',
     'hcl',
     'lua',
     'proto',
@@ -15,9 +16,9 @@ require('nvim-treesitter.configs').setup {
     'toml',
     'tsx',
     'typescript',
+    'yaml',
     'zig'
   },
-  -- ensure_installed = "all",
 
   highlight = { enable = true },
   indent = { enable = true },

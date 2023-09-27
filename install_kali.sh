@@ -31,6 +31,11 @@ sudo apt-get update -y
 sudo apt-get install -y dotnet-sdk-7.0
 dotnet tool install -g dotnet-grpc
 
+# general
+# =============================================================================
+mkdir ~/code
+# =============================================================================
+
 # use starship shell prompt
 # =============================================================================
 sudo apt install -y starship
@@ -44,13 +49,16 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # =============================================================================
 
 # nvim
-# =============================================================================
-sudo apt install -y neovim
+# ============================================================================
+sudo apt-get update -y
+sudo apt-get install -y ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen
+git clone git@github.com:neovim/neovim.git -b release-0.9 --depth=1 ~/code
+make CMAKE_BUILD_TYPE=RelWithDebInfo
+sudo make install
 # =============================================================================
 
 # install emacs
 # =============================================================================
-# mkdir ~/code
 # cd ~/code
 #sudo apt install build-essential libgtk-3-dev libgnutls28-dev libtiff5-dev libgif-dev libjpeg-dev libpng-dev libxpm-dev libncurses-dev texinfo
 # git clone git://git.sv.gnu.org/emacs.git -b emacs-29 --depth=1
@@ -73,9 +81,6 @@ stow nvim
 stow omnisharp
 stow starship
 
-sudo apt install kali-desktop-xfce -y
-sudo apt install xrdp -y
-sudo service xrdp start
 sudo apt install -y kali-win-kex
 
 sudo curl -fsSLo /usr/share/keyrings/brave-browser-beta-archive-keyring.gpg https://brave-browser-apt-beta.s3.brave.com/brave-browser-beta-archive-keyring.gpg
