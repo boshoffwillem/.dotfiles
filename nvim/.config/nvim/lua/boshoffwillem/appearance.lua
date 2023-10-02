@@ -10,6 +10,15 @@ require('lualine').setup {
     component_separators = '|',
     section_separators = '',
   },
+  tabline = {
+    lualine_a = {},
+    lualine_b = {'branch'},
+    lualine_c = {'filename'},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {}
+  },
+  sections = {lualine_c = {'lsp_progress'}, lualine_x = {'tabnine'}}
 }
 
 -- [[ Highlight on yank ]]
