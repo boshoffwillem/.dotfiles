@@ -86,6 +86,17 @@ end
 omnisharp_setup(omnisharp_cmd)
 
 local servers = {
+  azure_pipelines_ls = {
+    yaml = {
+      schemas = {
+        ["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
+          "**/azure-pipeline*.y*l",
+          "pipelines/*.y*l"
+        },
+      },
+    },
+  },
+  bufls = {},
   -- fsautocomplete = {},
   jsonls = {
     json = {
@@ -112,10 +123,9 @@ local servers = {
         enable = true
       },
       schemas = {
-        ["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = { "/*Pipeline*.yml" },
         ["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.k8s.yaml"
       },
-      validate = true
+      validate = true,
     }
   },
   -- zls = {}
@@ -136,27 +146,17 @@ mason_lspconfig.setup {
 
 mason_lspconfig.setup_handlers {
   function(server_name)
-    -- if server_name == 'omnisharp' then
-    --   require('lspconfig')[server_name].setup {
-    --     cmd = omnisharp_cmd,
-    --     on_attach = on_attach,
-    --     flags = lsp_flags,
-    --     settings = servers[server_name],
-    --   }
-    -- else
-    --   require('lspconfig')[server_name].setup {
-    --     capabilities = capabilities,
-    --     on_attach = on_attach,
-    --     flags = lsp_flags,
-    --     settings = servers[server_name],
-    --   }
-    -- end
     require('lspconfig')[server_name].setup {
       capabilities = capabilities,
       on_attach = on_attach,
       flags = lsp_flags,
       settings = servers[server_name],
     }
+    -- if server_name == 'efm' then
+    --   require('lspconfig')[server_name].setup {
+    --     init_options = { documentFormatting = true }
+    --   }
+    -- end
   end,
 }
 
@@ -216,32 +216,38 @@ null_ls.setup({
   sources = {
     -- c#
     null_ls.builtins.formatting.csharpier,
+
     -- rust
     null_ls.builtins.formatting.rustfmt,
+
     -- protobuf
     null_ls.builtins.formatting.buf,
     null_ls.builtins.diagnostics.buf,
-    null_ls.builtins.diagnostics.protoc_gen_lint,
     null_ls.builtins.diagnostics.protolint,
     null_ls.builtins.formatting.protolint,
+
     -- dockerfile
     null_ls.builtins.diagnostics.hadolint,
+
     -- json
     null_ls.builtins.diagnostics.jsonlint,
+
     -- lua
     null_ls.builtins.formatting.stylua,
     null_ls.builtins.diagnostics.luacheck,
+
     -- terraform
-    null_ls.builtins.formatting.terraform_fmt,
-    null_ls.builtins.diagnostics.terraform_validate,
     null_ls.builtins.diagnostics.tfsec,
-    null_ls.builtins.formatting.hclfmt,
+
     -- .env
     null_ls.builtins.diagnostics.dotenv_linter,
+
     -- editorconfig
     null_ls.builtins.diagnostics.editorconfig_checker,
+
     -- yaml
     null_ls.builtins.diagnostics.yamllint,
+
     -- { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "css",
     -- "scss", "less", "html", "json", "jsonc", "yaml", "markdown", "markdown.mdx", "graphql", "handlebars" }
     null_ls.builtins.formatting.prettier,

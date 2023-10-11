@@ -17,12 +17,12 @@ require('packer').startup(function(use)
   end}
 
   -- LSP Support
-  use { 'neovim/nvim-lspconfig', commit = 'b6091272422bb0fbd729f7f5d17a56d37499c54f' }
-  use { 'mfussenegger/nvim-dap', commit = '5a39d1fe390aa30953c2a8340784e572c2e6933b' }
-  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"}, commit = '85b16ac2309d85c88577cd8ee1733ce52be8227e' }
-  use { 'williamboman/mason.nvim', commit = 'fe9e34a9ab4d64321cdc3ecab4ea1809239bb73f' }
-  use { 'williamboman/mason-lspconfig.nvim', commit = 'e86a4c84ff35240639643ffed56ee1c4d55f538e' }
-  use { 'jose-elias-alvarez/null-ls.nvim', commit = 'e45670abdcda293282b7a00d0e2f7d473e7d6251' }
+  use { 'neovim/nvim-lspconfig' }
+  use { 'mfussenegger/nvim-dap' }
+  use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
+  use { 'williamboman/mason.nvim' }
+  use { 'williamboman/mason-lspconfig.nvim' }
+  use { 'jose-elias-alvarez/null-ls.nvim' }
 
   -- Autocompletion
   use 'hrsh7th/nvim-cmp'
@@ -76,16 +76,16 @@ require('packer').startup(function(use)
 
   use 'Mofiqul/vscode.nvim'
   use 'ishan9299/modus-theme-vim'
-  use { 'rose-pine/neovim', as = 'rose-pine' }
   use 'kyazdani42/nvim-web-devicons'
   use 'nvim-lualine/lualine.nvim' -- Fancier statusline
-  use 'lukas-reineke/indent-blankline.nvim' -- Add indentation guides even on blank lines
+  use { 'lukas-reineke/indent-blankline.nvim' } -- Add indentation guides even on blank lines
   use 'numToStr/Comment.nvim' -- "gc" to comment visual regions/lines
   use 'tpope/vim-sleuth' -- Detect tabstop and shiftwidth automatically
   use 'mbbill/undotree'
 
   -- Fuzzy Finder (files, lsp, etc)
-  use { 'nvim-telescope/telescope.nvim', commit = 'b6fccfb0f7589a87587875206786daccba62acc3', requires = { 'nvim-lua/plenary.nvim' } }
+  use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
+  use 'ThePrimeagen/harpoon'
   use { 'nvim-telescope/telescope-project.nvim' }
 
   -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available

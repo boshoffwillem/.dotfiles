@@ -38,6 +38,9 @@
   :after company
   )
 
+(add-to-list 'company-backends #'company-yasnippet)
+(add-to-list 'company-backends #'company-tabnine)
+
 (provide 'completion-company)
 
 ;;; completion-company.el ends here

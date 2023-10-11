@@ -23,6 +23,9 @@ sudo apt install -y fira-code-fonts
 sudo apt install -y texinfo
 sudo apt install -y libtree-sitter-dev
 sudo apt install terraform -y
+sudo apt install luarocks -y
+sudo apt install golang -y
+python3 -m pip install --upgrade pip setuptools wheel
 
 wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
@@ -77,6 +80,7 @@ stow alacritty
 stow bashrc
 stow git
 stow ideavimrc
+stow kitty
 stow nvim
 stow omnisharp
 stow starship

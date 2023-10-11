@@ -260,7 +260,9 @@ fi
 eval "$(starship init zsh)"
 . "$HOME/.cargo/env"
 export PATH=~/omnisharp:$PATH
+alias omnisharp='OmniSharp.exe'
 export PATH=~/terraform-ls:$PATH
+export PATH=~/.local/bin:$PATH
 
 export ARM_CLIENT_ID=14d152df-32ae-4477-a70c-685f0e85616b
 export ARM_CLIENT_SECRET=u1t8Q~68lMk2Dq5tpsJtyny0VjLATKoiHv26sajS
