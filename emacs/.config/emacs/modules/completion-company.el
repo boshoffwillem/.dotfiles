@@ -40,6 +40,7 @@
 
 (add-to-list 'company-backends #'company-yasnippet)
 (add-to-list 'company-backends #'company-tabnine)
+(add-to-list 'company-backends #'company-capf)
 
 (provide 'completion-company)
 

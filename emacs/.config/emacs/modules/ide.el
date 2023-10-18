@@ -71,17 +71,25 @@
   (editorconfig-mode)
   )
 
-;; (use-package feature-mode)
+(use-package feature-mode)
 
 ;; (use-package restclient)
 
+(use-package terraform-mode)
+
 ;; .xml files
-;; (setq nxml-slash-auto-complete-flag t)
-;; (setq nxml-child-indent 4)
-;; (setq nxml-attribute-indent 4)
-;; (add-to-list 'auto-mode-alist '("\\.csproj\\'" . nxml-mode))
-;; (add-to-list 'auto-mode-alist '("\\.nuspec\\'" . nxml-mode))
-;; (add-to-list 'auto-mode-alist '("\\.xaml\\'" . nxml-mode))
+(setq nxml-slash-auto-complete-flag t)
+(add-to-list 'auto-mode-alist '("\\.csproj\\'" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\\.nuspec\\'" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\\.xaml\\'" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\\.axaml\\'" . nxml-mode))
+
+
+;; tree-sitter
+(add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-ts-mode))
 
 ;; LSP
 (use-package lsp-mode
@@ -116,38 +124,39 @@
   ;; (lsp-rust-analyzer-display-reborrow-hints nil)
   :hook (
          (lsp-mode . lsp-enable-which-key-integration)
-         (csharp-mode . lsp-deferred)
+         (bash-ts-mode . lsp-deferred)
+         (c++-ts-mode . lsp-deferred)
+         (c-ts-mode . lsp-deferred)
+         (csharp-ts-mode . lsp-deferred)
+         (css-ts-mode . lsp-deferred)
+         (dockerfile-ts-mode . lsp-deferred)
+         (go-mod-ts-mode . lsp-deferred)
+         (go-ts-mode . lsp-deferred)
+         (js-ts-mode . lsp-deferred)
+         (json-ts-mode . lsp-deferred)
+         (python-ts-mode . lsp-deferred)
+         (rust-ts-mode . lsp-deferred)
+         (terraform-mode . lsp-deferred)
+         (toml-ts-mode . lsp-deferred)
+         (tsx-ts-mode . lsp-deferred)
+         (typescript-ts-mode . lsp-deferred)
          (yaml-ts-mode . lsp-deferred)
          (lsp-mode . (lambda ()
-                       (setq-local company-backends '(company-capf :with (company-tabnine))))))
+                       (setq-local company-backends '(
+                                                      company-capf
+                                                      company-tabnine
+                                                      company-yasnippet
+                                                      company-bbdb
+                                                      company-semantic
+                                                      company-cmake
+                                                      company-clang
+                                                      company-files
+                                                      )
+                                   )
+                       )
+                   )
+         )
   :commands (lsp lsp-deferred))
-
-;; tree-sitter
-;; (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
-;; (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-;; (hcl "https://github.com/mitchellh/tree-sitter-hcl")
-;; (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-;; (proto "Https://github.com/mitchellh/tree-sitter-proto")
-
-;; (use-package terraform-mode
-  ;; :hook (terraform-mode . lsp-deferred))
-
-;; (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-ts-mode))
-;; (add-hook 'csharp-ts-mode-hook #'lsp-deferred)
-;; (add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . dockerfile-ts-mode))
-;; (add-hook 'dockerfile-ts-mode-hook #'lsp-deferred)
-;; (add-to-list 'auto-mode-alist '("\\.tf\\'" . hcl-ts-mode))
-;; (add-hook 'hcl-ts-mode-hook #'lsp-deferred)
-;; (add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
-;; (add-hook 'json-ts-mode-hook #'lsp-deferred)
-;; (add-to-list 'auto-mode-alist '("\\.proto\\'" . proto-ts-mode))
-;; (add-hook 'proto-ts-mode-hook #'lsp-deferred)
-;; (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
-;; (add-hook 'rust-ts-mode-hook #'lsp-deferred)
-
-;; (yaml "https://github.com/ikatyang/tree-sitter-yaml")
-(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-ts-mode))
 
 (use-package lsp-treemacs
   :config
