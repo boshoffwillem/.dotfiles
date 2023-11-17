@@ -4,16 +4,46 @@ local project_actions = require("telescope._extensions.project.actions")
 
 require('telescope').setup {
   defaults = {
+    layout_strategy = "vertical",
+    path_display = "absolute",
     mappings = {
       i = {
-        ['<C-u>'] = false,
-        ['<C-d>'] = false,
+        ["<C-h>"] = "which_key"
       },
     },
   },
   pickers = {
+    buffers = {
+      theme = "ivy",
+      layout_strategy = "vertical"
+    },
+    current_buffer_fuzzy_find = {
+      theme = "ivy",
+      layout_strategy = "vertical"
+    },
+    diagnostics = {
+      theme = "ivy",
+      layout_strategy = "vertical"
+    },
     find_files = {
-      theme = "dropdown",
+      theme = "ivy",
+      layout_strategy = "vertical"
+    },
+    grep_string = {
+      theme = "ivy",
+      layout_strategy = "vertical"
+    },
+    help_tags = {
+      theme = "ivy",
+      layout_strategy = "vertical"
+    },
+    live_grep = {
+      theme = "ivy",
+      layout_strategy = "vertical"
+    },
+    old_files = {
+      theme = "ivy",
+      layout_strategy = "vertical"
     }
   },
   extensions = {
@@ -21,10 +51,10 @@ require('telescope').setup {
       base_dirs = {
         {path = '~/code', max_depth = 2},
         {path = '~/code/work', max_depth = 2},
-        {path = '~/code/work/Psicle.Base.Worktrees', max_depth = 2},
+        -- {path = '~/code/work/Psicle.Base.Worktrees', max_depth = 2},
       },
       hidden_files = true, -- default: false
-      theme = "dropdown",
+      theme = "ivy",
       order_by = "asc",
       search_by = "title",
       sync_with_nvim_tree = false, -- default false
@@ -34,35 +64,21 @@ require('telescope').setup {
         project_actions.change_working_directory(prompt_bufnr, false)
         require("harpoon.ui").nav_file(1)
       end
-    }
+    },
+    fzf = {}
   }
 }
 
--- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
+pcall(require('telescope').load_extension, 'project')
 
 -- See `:help telescope.builtin`
-vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[ ] Find existing buffers' })
-vim.keymap.set('n', '<leader>/', function()
-  -- You can pass additional configuration to telescope to change theme, layout, etc.
-  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-    winblend = 10,
-    previewer = false,
-  })
-end, { desc = '[/] Fuzzily search in current buffer]' })
-
-vim.keymap.set('n', '<leader>pf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
-vim.keymap.set('n', '<leader>sr', require('telescope.builtin').oldfiles, { desc = '[?] Find recently opened files' })
-vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>ps', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
-vim.keymap.set('n', '<leader>pd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
-
-pcall(require('telescope').load_extension, 'project')
--- require'telescope'.extensions.project.project{ display_type = 'full' }
-vim.api.nvim_set_keymap(
-  'n',
-  '<leader>pp',
-  ":lua require'telescope'.extensions.project.project{}<CR>",
-  {noremap = true, silent = true}
-)
+vim.keymap.set('n', '<leader><space>', require('telescope.builtin').buffers, { desc = '[F]ind [B]uffers' })
+vim.keymap.set('n', '<leader>/', require('telescope.builtin').current_buffer_fuzzy_find, { desc = '[/] Find text in current buffer' })
+vim.keymap.set('n', '<leader>pf', require('telescope.builtin').find_files, { desc = '[F]ind [F]ile in project' })
+vim.keymap.set('n', '<leader>sr', require('telescope.builtin').oldfiles, { desc = '[F]ind [R]ecent File' })
+vim.keymap.set('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[F]ind [H]elp' })
+vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[F]ind [W]ord in project' })
+vim.keymap.set('n', '<leader>ps', require('telescope.builtin').live_grep, { desc = '[F]ind [T]ext in project' })
+vim.keymap.set('n', '<leader>pd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics in project' })
+vim.keymap.set('n', '<leader>pp',require('telescope').extensions.project.project, { desc = '[F]ind [P]roject' })

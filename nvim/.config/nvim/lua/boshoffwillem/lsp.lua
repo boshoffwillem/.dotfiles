@@ -88,12 +88,14 @@ omnisharp_setup(omnisharp_cmd)
 local servers = {
   azure_pipelines_ls = {
     yaml = {
-      schemas = {
-        ["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
-          "**/azure-pipeline*.y*l",
-          "pipelines/*.y*l"
-        },
+      schemaStore = {
+        -- You must disable built-in schemaStore support if you want to use
+        -- this plugin and its advanced options like `ignore`.
+        enable = false,
+        -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
+        url = "",
       },
+      schemas = require('schemastore').yaml.schemas(),
     },
   },
   bufls = {},
@@ -201,55 +203,8 @@ cmp.setup {
     end, { 'i', 's' }),
   },
   sources = {
-    -- { name = 'buffer' },
     { name = 'path' },
     { name = 'nvim_lsp', keyword_length = 1 },
     { name = 'nvim_lua', keyword_length = 1 },
-    { name = 'cmp_tabnine' },
   },
 }
-
--- null-ls
-local null_ls = require("null-ls")
-
-null_ls.setup({
-  sources = {
-    -- c#
-    null_ls.builtins.formatting.csharpier,
-
-    -- rust
-    null_ls.builtins.formatting.rustfmt,
-
-    -- protobuf
-    null_ls.builtins.formatting.buf,
-    null_ls.builtins.diagnostics.buf,
-    null_ls.builtins.diagnostics.protolint,
-    null_ls.builtins.formatting.protolint,
-
-    -- dockerfile
-    null_ls.builtins.diagnostics.hadolint,
-
-    -- json
-    null_ls.builtins.diagnostics.jsonlint,
-
-    -- lua
-    null_ls.builtins.formatting.stylua,
-    null_ls.builtins.diagnostics.luacheck,
-
-    -- terraform
-    null_ls.builtins.diagnostics.tfsec,
-
-    -- .env
-    null_ls.builtins.diagnostics.dotenv_linter,
-
-    -- editorconfig
-    null_ls.builtins.diagnostics.editorconfig_checker,
-
-    -- yaml
-    null_ls.builtins.diagnostics.yamllint,
-
-    -- { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "css",
-    -- "scss", "less", "html", "json", "jsonc", "yaml", "markdown", "markdown.mdx", "graphql", "handlebars" }
-    null_ls.builtins.formatting.prettier,
-  },
-})

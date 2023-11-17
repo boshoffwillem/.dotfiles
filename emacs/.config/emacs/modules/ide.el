@@ -84,7 +84,6 @@
 (add-to-list 'auto-mode-alist '("\\.xaml\\'" . nxml-mode))
 (add-to-list 'auto-mode-alist '("\\.axaml\\'" . nxml-mode))
 
-
 ;; tree-sitter
 (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))

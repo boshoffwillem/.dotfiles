@@ -22,7 +22,6 @@ require('packer').startup(function(use)
   use { "rcarriga/nvim-dap-ui", requires = {"mfussenegger/nvim-dap"} }
   use { 'williamboman/mason.nvim' }
   use { 'williamboman/mason-lspconfig.nvim' }
-  use { 'jose-elias-alvarez/null-ls.nvim' }
 
   -- Autocompletion
   use 'hrsh7th/nvim-cmp'
