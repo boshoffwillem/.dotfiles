@@ -54,14 +54,14 @@ sudo zypper install -y neovim
 mkdir ~/code
 # sudo zypper install -y emacs-pgtk
 sudo zypper install -y -t pattern devel_C_C++
-git clone git://git.sv.gnu.org/emacs.git -b emacs-29 --depth=1 ~/code/emacs
-cd ~/code/emacs
-./autogen.sh
 sudo zypper install -y glib2-devel gtk3-devel libgccjit0-devel-gcc13 gnutls-devel mailutils
 sudo zypper install -y libjansson4 libjansson-devel
-./configure --with-json --with-tree-sitter --with-native-compilation --with-pgtk --with-mailutils CFLAGS='-march=native'
-make -j8
-sudo make install -j8
+# git clone git://git.sv.gnu.org/emacs.git -b emacs-29 --depth=1 ~/code/emacs
+# cd ~/code/emacs
+# ./autogen.sh
+# ./configure --with-json --with-tree-sitter --with-native-compilation --with-pgtk --with-mailutils CFLAGS='-march=native'
+# make -j8
+# sudo make install -j8
 # =============================================================================
 
 cd ~/.dotfiles
