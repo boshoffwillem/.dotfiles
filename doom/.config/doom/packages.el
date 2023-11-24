@@ -8,7 +8,8 @@
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)
 (package! protobuf-mode)
-(package! company-tabnine)
+;; (package! company-tabnine)
+(package! tabnine)
 (package! modus-themes)
 (package! evil-terminal-cursor-changer)
 

@@ -220,9 +220,12 @@
   ;; Number the candidates (use M-1, M-2 etc to select completions).
   (setq company-show-quick-access t))
 
-(after! company
-  (setq +lsp-company-backends '(company-tabnine :separate company-capf company-yasnippet))
-  )
+;; (after! company
+;;   (setq +lsp-company-backends '(company-tabnine :separate company-capf company-yasnippet))
+;;   )
+(use-package! tabnine
+  :config
+  (tabnine-mode))
 
 (use-package! drag-stuff
   :bind
