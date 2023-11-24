@@ -5,6 +5,7 @@
 ;;; Commentary:
 
 ;;; Code:
+(use-package tabnine)
 
 ;; ==================================== Project wide searching using ripgrep
 (use-package deadgrep)

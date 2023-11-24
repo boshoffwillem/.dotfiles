@@ -34,12 +34,12 @@
   :hook
   (company-mode . company-box-mode))
 
-(use-package company-tabnine
-  :after company
-  )
+;; (use-package company-tabnine
+;;   :after company
+;;   )
 
 (add-to-list 'company-backends #'company-yasnippet)
-(add-to-list 'company-backends #'company-tabnine)
+;; (add-to-list 'company-backends #'company-tabnine)
 (add-to-list 'company-backends #'company-capf)
 
 (provide 'completion-company)

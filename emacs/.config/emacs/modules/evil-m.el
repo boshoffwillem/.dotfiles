@@ -21,8 +21,11 @@
   (electric-pair-mode nil)
   (setq-default evil-shift-width tab-width))
 
-(use-package evil-terminal-cursor-changer
-  :hook (tty-setup . evil-terminal-cursor-changer-activate))
+(use-package evil-terminal-cursor-changer)
+(unless (display-graphic-p)
+  (require 'evil-terminal-cursor-changer)
+  (evil-terminal-cursor-changer-activate) ; or (etcc-on)
+  )
 
 (use-package evil-collection
   :after evil
