@@ -6,6 +6,7 @@ require('nvim-treesitter.configs').setup {
     'c',
     'cpp',
     'c_sharp',
+    'dockerfile',
     'go',
     'json',
     'hcl',

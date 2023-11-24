@@ -100,6 +100,8 @@ local servers = {
   },
   bufls = {},
   -- fsautocomplete = {},
+  dockerls = {},
+  docker_compose_language_service = {},
   jsonls = {
     json = {
       schemas = require('schemastore').json.schemas(),
