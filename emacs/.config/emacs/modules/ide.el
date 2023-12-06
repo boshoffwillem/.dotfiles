@@ -5,7 +5,18 @@
 ;;; Commentary:
 
 ;;; Code:
-(use-package tabnine)
+;; tree-sitter
+;; (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+;; (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+;; (hcl "https://github.com/mitchellh/tree-sitter-hcl")
+;; (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+;; (proto "Https://github.com/mitchellh/tree-sitter-proto")
+;; (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+
+(use-package tabnine
+  :hook
+  (prog-mode . tabnine-mode)
+  (text-mode . tabnine-mode))
 
 ;; ==================================== Project wide searching using ripgrep
 (use-package deadgrep)
@@ -141,20 +152,6 @@
          (tsx-ts-mode . lsp-deferred)
          (typescript-ts-mode . lsp-deferred)
          (yaml-ts-mode . lsp-deferred)
-         (lsp-mode . (lambda ()
-                       (setq-local company-backends '(
-                                                      company-capf
-                                                      company-tabnine
-                                                      company-yasnippet
-                                                      company-bbdb
-                                                      company-semantic
-                                                      company-cmake
-                                                      company-clang
-                                                      company-files
-                                                      )
-                                   )
-                       )
-                   )
          )
   :commands (lsp lsp-deferred))
 
@@ -170,7 +167,7 @@
   ;; (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
   )
 
-;; (add-to-list 'image-types 'svg)
+(setq image-types '(svg png gif tiff jpeg xpm xbm pbm))
 (provide 'ide)
 
 ;;; ide.el ends here
