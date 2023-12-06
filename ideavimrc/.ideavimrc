@@ -42,11 +42,9 @@ set idearefactormode=keep
 
 " File actions
 nnoremap <leader><leader> :action Switcher<CR>
-nnoremap <leader>bk :action CloseEditor<CR>
 nnoremap <leader>pf :action GotoFile<CR>
 nnoremap <leader>sr :action RecentFiles<CR>
 nnoremap <leader>p/ :action FindInPath<CR>
-nnoremap <leader>/ :action Find<CR>
 nnoremap <leader>% :action Replace<CR>
 nnoremap <leader>p% :action ReplaceInPath<CR>
 
@@ -56,10 +54,8 @@ nnoremap <C-w>v :action SplitVertically<CR>
 nnoremap <C-w>q :action CloseEditor<CR>
 nnoremap <C-w>l :action NextSplitter<CR>
 nnoremap <C-w>h :action PreviousSplitter<CR>
-nnoremap <C-w>t :action ActivateTerminalToolWindow<CR>
 nnoremap <C-w>u :action Unsplit<CR>
 nnoremap <C-w>x :action HideAllWindows<CR>
-nnoremap <C-w>z :action ToggleDistractionFreeMode<CR>
 
 " LSP navigation commands
 nnoremap gd :action GotoDeclaration<CR>
@@ -67,7 +63,6 @@ nnoremap gi :action GotoImplementation<CR>
 nnoremap gr :action FindUsages<CR>
 
 " LSP action commands
-nnoremap <C-Space> :action CodeCompletion<CR>
 nnoremap <leader>e :action ShowErrorDescription<CR>
 nnoremap <leader>lb :action ToggleLineBreakpoint<CR>
 nnoremap gcc :action CommentByLineComment<CR>
