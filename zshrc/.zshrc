@@ -263,13 +263,3 @@ export PATH=~/omnisharp:$PATH
 alias omnisharp='OmniSharp.exe'
 export PATH=~/terraform-ls:$PATH
 export PATH=~/.local/bin:$PATH
-
-export ARM_CLIENT_ID=14d152df-32ae-4477-a70c-685f0e85616b
-export ARM_CLIENT_SECRET=u1t8Q~68lMk2Dq5tpsJtyny0VjLATKoiHv26sajS
-export ARM_SUBSCRIPTION_ID=1c74a1c1-4aa3-45bd-9231-2f7c474207cc
-export ARM_TENANT_ID=900993f4-cd20-41e9-b024-a200ed7ba3ec
-export TF_VAR_CONTAINER_REGISTRY_LOGIN_SERVER=psiclesaasservicesregistry.azurecr.io
-export TF_VAR_CONTAINER_REGISTRY_PASSWORD=Z1rggz9vulvfH3Zk01i4Ep4wPqdnXApG4cgY640J0W+ACRAquqHP
-export TF_VAR_CONTAINER_REGISTRY_USER=psicleSaasServicesRegistry
-export TF_VAR_SERVICE_NAME=dataService
-export TF_VAR_SQL_SERVER_PASSWORD=SqlServer-Testing

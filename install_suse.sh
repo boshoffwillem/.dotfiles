@@ -25,6 +25,10 @@ sudo zypper install -y texinfo
 sudo zypper install -y tree-sitter-devel
 sudo zypper install -y terraform
 sudo zypper install -y golang
+sudo zypper install -y net-tools
+sudo zypper install -y -t pattern wsl_gui
+sudo zypper install -y -t pattern wsl_base
+sudo zypper install -y -t pattern wsl_systemd
 
 sudo zypper install -y libicu
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -53,13 +57,20 @@ sudo zypper install -y neovim
 # =============================================================================
 mkdir ~/code
 # sudo zypper install -y emacs-pgtk
+sudo zypper install -y -t pattern devel_basis
 sudo zypper install -y -t pattern devel_C_C++
+sudo zypper install -y libxml2-devel
+sudo zypper install -y giflib-devel
+sudo zypper install -y libtiff-devel
+sudo zypper install -y gnome-tweaks
+sudo zypper install -y texinfo
+sudo zypper install -y libotf-devel
 sudo zypper install -y glib2-devel gtk3-devel libgccjit0-devel-gcc13 gnutls-devel mailutils
 sudo zypper install -y libjansson4 libjansson-devel
 # git clone git://git.sv.gnu.org/emacs.git -b emacs-29 --depth=1 ~/code/emacs
 # cd ~/code/emacs
 # ./autogen.sh
-# ./configure --with-json --with-tree-sitter --with-native-compilation --with-pgtk --with-mailutils CFLAGS='-march=native'
+# ./configure --with-json --with-tree-sitter --with-native-compilation --with-mailutils --with-pgtk
 # make -j8
 # sudo make install -j8
 # =============================================================================
@@ -74,4 +85,3 @@ stow kitty
 stow nvim
 stow omnisharp
 stow starship
-

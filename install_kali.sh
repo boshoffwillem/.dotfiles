@@ -55,39 +55,33 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # ============================================================================
 sudo apt-get update -y
 sudo apt-get install -y ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl doxygen
-git clone git@github.com:neovim/neovim.git -b release-0.9 --depth=1 ~/code
+git clone git@github.com:neovim/neovim.git -b release-0.9 --depth=1 ~/code/nvim
 make CMAKE_BUILD_TYPE=RelWithDebInfo
 sudo make install
 # =============================================================================
 
 # install emacs
 # =============================================================================
-# cd ~/code
-#sudo apt install build-essential libgtk-3-dev libgnutls28-dev libtiff5-dev libgif-dev libjpeg-dev libpng-dev libxpm-dev libncurses-dev texinfo
-# git clone git://git.sv.gnu.org/emacs.git -b emacs-29 --depth=1
-# cd emacs
-# ./autogen.sh
-# ./configure --with-native-compilation=aot --with-json --with-tree-sitter --with-pgtk --with-mailutils
+sudo apt install build-essential libgtk-3-dev libgnutls28-dev libtiff5-dev libgif-dev libjpeg-dev libpng-dev libxpm-dev libncurses-dev texinfo
+git clone git://git.sv.gnu.org/emacs.git -b emacs-29 --depth=1 ~/code/emacs
+~/code/emacs/autogen.sh
+~/code/emacs/configure --with-native-compilation=aot --with-json --with-tree-sitter --with-pgtk --with-mailutils
 # make -j8
 # src/emacs -Q
 # sudo make install
 # =============================================================================
 
 cd ~/.dotfiles
-rm ~/.zshrc
-rm ~/.bashrc
+# rm ~/.zshrc
+# rm ~/.bashrc
 stow alacritty
 stow bashrc
 stow git
 stow ideavimrc
 stow kitty
 stow nvim
+stow doom
 stow omnisharp
 stow starship
 
 sudo apt install -y kali-win-kex
-
-sudo curl -fsSLo /usr/share/keyrings/brave-browser-beta-archive-keyring.gpg https://brave-browser-apt-beta.s3.brave.com/brave-browser-beta-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/brave-browser-beta-archive-keyring.gpg] https://brave-browser-apt-beta.s3.brave.com/ stable main"|sudo tee /etc/apt/sources.list.d/brave-browser-beta.list
-sudo apt update -y
-sudo apt install brave-browser-beta -y

@@ -213,6 +213,10 @@
   :commands (lsp lsp-deferred)
   )
 
+(use-package! xclip
+  :config
+  (xclip-mode))
+
 (use-package! company
   :config
   ;; Trigger completion immediately.
