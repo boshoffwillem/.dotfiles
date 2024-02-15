@@ -11,6 +11,8 @@
 ;; (hcl "https://github.com/mitchellh/tree-sitter-hcl")
 ;; (markdown "https://github.com/ikatyang/tree-sitter-markdown")
 ;; (proto "Https://github.com/mitchellh/tree-sitter-proto")
+;; (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+;; (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
 ;; (yaml "https://github.com/ikatyang/tree-sitter-yaml")
 
 (use-package tabnine
@@ -40,6 +42,16 @@
 
 (use-package yasnippet-snippets
   :after yasnippet)
+
+(use-package apheleia
+  :config
+  (apheleia-global-mode +1))
+(push '(csharpier . ("dotnet"
+                     "csharpier"
+                     ))
+      apheleia-formatters)
+(push '(csharp-ts-mode . csharpier)
+      apheleia-mode-alist)
 
 ;; (use-package dap-mode
 ;;   :commands (dap-debug dap-breakpoints-add)
@@ -77,6 +89,10 @@
 ;;                                    :name "NetCoreDbg::Launch"
 ;;                                    :stopAtEntry f))
 
+(use-package sharper
+  :bind
+  ("C-c n" . sharper-main-transient))
+
 ;; .editorconfig files
 (use-package editorconfig
   :config
@@ -98,7 +114,11 @@
 
 ;; tree-sitter
 (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . ts-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-ts-mode))
 
@@ -119,20 +139,22 @@
   (setq lsp-auto-execute-action nil)
   (setq lsp-enable-file-watchers nil)
   (setq lsp-lens-enable t)
+  (setq lsp-inlay-hint-enable nil)
+  (setq lsp-insert-final-newline nil)
   (setq lsp-headerline-breadcrumb-enable nil)
   (setq lsp-headerline-breadcrumb-enable-symbol-numbers nil)
   (setq lsp-modeline-code-actions-enable t)
   (setq lsp-modeline-diagnostics-enable t)
   (setq lsp-modeline-diagnostics-scope :workspace)
   (lsp-eldoc-render-all t)
-  ;; (lsp-rust-analyzer-cargo-watch-command "clippy")
-  ;; (lsp-rust-analyzer-server-display-inlay-hints t)
-  ;; (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
-  ;; (lsp-rust-analyzer-display-chaining-hints t)
-  ;; (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
-  ;; (lsp-rust-analyzer-display-closure-return-type-hints t)
-  ;; (lsp-rust-analyzer-display-parameter-hints nil)
-  ;; (lsp-rust-analyzer-display-reborrow-hints nil)
+  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-rust-analyzer-server-display-inlay-hints t)
+  (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
+  (lsp-rust-analyzer-display-chaining-hints t)
+  (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
+  (lsp-rust-analyzer-display-closure-return-type-hints t)
+  (lsp-rust-analyzer-display-parameter-hints nil)
+  (lsp-rust-analyzer-display-reborrow-hints nil)
   :hook (
          (lsp-mode . lsp-enable-which-key-integration)
          (bash-ts-mode . lsp-deferred)
@@ -143,6 +165,7 @@
          (dockerfile-ts-mode . lsp-deferred)
          (go-mod-ts-mode . lsp-deferred)
          (go-ts-mode . lsp-deferred)
+         (mhtml-mode . lsp-deferred)
          (js-ts-mode . lsp-deferred)
          (json-ts-mode . lsp-deferred)
          (python-ts-mode . lsp-deferred)

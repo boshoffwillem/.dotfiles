@@ -25,14 +25,26 @@ require("formatter").setup({
         }
       end,
     },
+    html = {
+      require("formatter.filetypes.html").prettier,
+    },
     lua = {
       require("formatter.filetypes.lua").stylua,
     },
     json = {
       require("formatter.filetypes.json").jq,
     },
+    rust = {
+      require("formatter.filetypes.rust").rustfmt,
+    },
     terraform = {
       require("formatter.filetypes.terraform").terraformfmt,
+    },
+    typescript = {
+      require("formatter.filetypes.typescript").prettier,
+    },
+    vue = {
+      require("formatter.filetypes.vue").prettier,
     },
     yaml = {
       require("formatter.filetypes.yaml").yamlfmt,
