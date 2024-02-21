@@ -43,7 +43,7 @@ require("packer").startup(function(use)
   use("rafamadriz/friendly-snippets")
 
   -- Useful status updates for LSP
-  use({ "j-hui/fidget.nvim", tag = "legacy" })
+  use({ "j-hui/fidget.nvim" })
 
   -- JSON and YAML schemas
   use("b0o/schemastore.nvim")
@@ -89,7 +89,7 @@ require("packer").startup(function(use)
   use("ishan9299/modus-theme-vim")
   use("kyazdani42/nvim-web-devicons")
   use("nvim-lualine/lualine.nvim") -- Fancier statusline
-  use({ "lukas-reineke/indent-blankline.nvim" }) -- Add indentation guides even on blank lines
+  use({ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} }) -- Add indentation guides even on blank lines
   use("numToStr/Comment.nvim") -- "gc" to comment visual regions/lines
   use("tpope/vim-sleuth") -- Detect tabstop and shiftwidth automatically
   use("mbbill/undotree")

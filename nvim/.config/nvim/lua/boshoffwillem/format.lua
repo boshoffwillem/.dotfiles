@@ -11,19 +11,8 @@ require("formatter").setup({
   filetype = {
     -- Formatter configurations for filetype "lua" go here
     -- and will be executed in order
-    csharp = {
-      function()
-        -- Full specification of configurations is down below and in Vim help
-        -- files
-        return {
-          exe = "dotnet",
-          args = {
-            "csharpier",
-            ".",
-          },
-          stdin = true,
-        }
-      end,
+    cs = {
+      require("formatter.filetypes.cs").csharpier,
     },
     html = {
       require("formatter.filetypes.html").prettier,
