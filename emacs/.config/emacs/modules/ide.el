@@ -99,10 +99,9 @@
 
 (use-package feature-mode)
 (use-package protobuf-mode)
+(use-package terraform-mode)
 
 ;; (use-package restclient)
-
-(use-package terraform-mode)
 
 ;; .xml files
 (setq nxml-slash-auto-complete-flag t)
@@ -128,22 +127,36 @@
         (markdown "https://github.com/ikatyang/tree-sitter-markdown")
         (proto "https://github.com/mitchellh/tree-sitter-proto")
         (python "https://github.com/tree-sitter/tree-sitter-python")
+        (rust "https://github.com/tree-sitter/tree-sitter-rust")
         (toml "https://github.com/tree-sitter/tree-sitter-toml")
         (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
         (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
         (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+
 ;; (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
-(add-to-list 'auto-mode-alist '("\\.sh\\'" . bash-ts-mode))
+
 (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.css\\'" . css-ts-mode))
 (add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . dockerfile-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.sh\\'" . bash-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . ts-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-ts-mode))
+
+(setq major-mode-remap-alist
+      '(
+        (sh-mode . bash-ts-mode)
+        ;; (css-mode . css-ts-mode)
+        ;; (json-mode . json-ts-mode)
+        ;; (js2-mode . js-ts-mode)
+        ;; (python-mode . python-ts-mode)
+        ;; (typescript-mode . typescript-ts-mode)
+        ;; (yaml-mode . yaml-ts-mode)
+        ))
 
 (use-package web-mode
   :config
@@ -155,73 +168,86 @@
 (add-to-list 'auto-mode-alist '("\\.cshtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.razor\\'" . web-mode))
 
-;; ;; LSP
-;; (use-package lsp-mode
-;;   :bind
-;;   (:map lsp-mode-map
-;;         ("C-c l t r" . lsp-csharp-run-test-at-point)
-;;         ("C-c l r a" . lsp-csharp-run-all-tests-in-buffer)
-;;         )
-;;   :init
-;;   (setq lsp-keymap-prefix "C-c l")
-;;   :config
-;;   (setq lsp-lens-place-position 'above-line)
-;;   :custom
-;;   (setq lsp-idle-delay 0.5)
-;;   (setq lsp-log-io nil)
-;;   (setq lsp-auto-execute-action nil)
-;;   (setq lsp-enable-file-watchers nil)
-;;   (setq lsp-lens-enable t)
-;;   (setq lsp-inlay-hint-enable nil)
-;;   (setq lsp-insert-final-newline nil)
-;;   (setq lsp-headerline-breadcrumb-enable nil)
-;;   (setq lsp-headerline-breadcrumb-enable-symbol-numbers nil)
-;;   (setq lsp-modeline-code-actions-enable t)
-;;   (setq lsp-modeline-diagnostics-enable t)
-;;   (setq lsp-modeline-diagnostics-scope :workspace)
-;;   (lsp-eldoc-render-all t)
-;;   (lsp-rust-analyzer-cargo-watch-command "clippy")
-;;   (lsp-rust-analyzer-server-display-inlay-hints t)
-;;   (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
-;;   (lsp-rust-analyzer-display-chaining-hints t)
-;;   (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
-;;   (lsp-rust-analyzer-display-closure-return-type-hints t)
-;;   (lsp-rust-analyzer-display-parameter-hints nil)
-;;   (lsp-rust-analyzer-display-reborrow-hints nil)
-;;   :hook (
-;;          (lsp-mode . lsp-enable-which-key-integration)
-;;          (bash-ts-mode . lsp-deferred)
-;;          (c++-ts-mode . lsp-deferred)
-;;          (c-ts-mode . lsp-deferred)
-;;          (csharp-ts-mode . lsp-deferred)
-;;          (css-ts-mode . lsp-deferred)
-;;          (dockerfile-ts-mode . lsp-deferred)
-;;          (go-mod-ts-mode . lsp-deferred)
-;;          (go-ts-mode . lsp-deferred)
-;;          (mhtml-mode . lsp-deferred)
-;;          (js-ts-mode . lsp-deferred)
-;;          (json-ts-mode . lsp-deferred)
-;;          (python-ts-mode . lsp-deferred)
-;;          (rust-ts-mode . lsp-deferred)
-;;          (terraform-mode . lsp-deferred)
-;;          (toml-ts-mode . lsp-deferred)
-;;          (tsx-ts-mode . lsp-deferred)
-;;          (typescript-ts-mode . lsp-deferred)
-;;          (yaml-ts-mode . lsp-deferred)
-;;          )
-;;   :commands (lsp lsp-deferred))
-;;
-;; (use-package lsp-treemacs
-;;   :config
-;;   (lsp-treemacs-sync-mode 1)
-;;   :commands lsp-treemacs-errors-list)
-;;
-;; (use-package consult-lsp
-;;   :config
-;;   ;; find symbol in project.
-;;   ;; (define-key lsp-mode-map (kbd "C-c p t") 'consult-lsp-symbols)
-;;   ;; (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
-;;   )
+;; LSP
+(use-package lsp-mode
+  :bind
+  (:map lsp-mode-map
+        ("C-c l t r" . lsp-csharp-run-test-at-point)
+        ("C-c l r a" . lsp-csharp-run-all-tests-in-buffer)
+        )
+  :init
+  (setq lsp-keymap-prefix "C-c l")
+  :config
+  (setq lsp-lens-place-position 'above-line)
+  :custom
+  (setq lsp-idle-delay 0.5)
+  (setq lsp-log-io nil)
+  (setq lsp-auto-execute-action nil)
+  (setq lsp-enable-file-watchers nil)
+  (setq lsp-lens-enable t)
+  (setq lsp-inlay-hint-enable t)
+  (setq lsp-insert-final-newline nil)
+  (setq lsp-headerline-breadcrumb-enable nil)
+  (setq lsp-headerline-breadcrumb-enable-symbol-numbers nil)
+  (setq lsp-modeline-code-actions-enable t)
+  (setq lsp-modeline-diagnostics-enable t)
+  (setq lsp-modeline-diagnostics-scope :workspace)
+  (lsp-eldoc-render-all t)
+  (setq lsp-eldoc-hook nil)
+  ;; (setq lsp-enable-symbol-highlighting nil)
+  (setq lsp-signature-auto-activate nil)
+  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-rust-analyzer-server-display-inlay-hints t)
+  (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
+  (lsp-rust-analyzer-display-chaining-hints t)
+  (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
+  (lsp-rust-analyzer-display-closure-return-type-hints t)
+  (lsp-rust-analyzer-display-parameter-hints nil)
+  (lsp-rust-analyzer-display-reborrow-hints nil)
+  :hook (
+         (lsp-mode . lsp-enable-which-key-integration)
+         ;; (lsp-mode . lsp-ui-mode)
+         (bash-ts-mode . lsp-deferred)
+         (c++-ts-mode . lsp-deferred)
+         (c-ts-mode . lsp-deferred)
+         (csharp-ts-mode . lsp-deferred)
+         (css-ts-mode . lsp-deferred)
+         (dockerfile-ts-mode . lsp-deferred)
+         (go-mod-ts-mode . lsp-deferred)
+         (go-ts-mode . lsp-deferred)
+         (mhtml-mode . lsp-deferred)
+         (js-ts-mode . lsp-deferred)
+         (json-ts-mode . lsp-deferred)
+         (python-ts-mode . lsp-deferred)
+         (rust-ts-mode . lsp-deferred)
+         (terraform-mode . lsp-deferred)
+         (toml-ts-mode . lsp-deferred)
+         (tsx-ts-mode . lsp-deferred)
+         (typescript-ts-mode . lsp-deferred)
+         (yaml-ts-mode . lsp-deferred)
+         )
+  :commands (lsp lsp-deferred))
+
+(use-package lsp-ui
+  :ensure
+  :commands lsp-ui-mode
+  :custom
+  (lsp-ui-peek-always-show t)
+  (lsp-ui-sideline-show-hover t)
+  (lsp-ui-doc-enable nil))
+
+
+(use-package lsp-treemacs
+  :config
+  (lsp-treemacs-sync-mode 1)
+  :commands lsp-treemacs-errors-list)
+
+(use-package consult-lsp
+  :config
+  ;; find symbol in project.
+  ;; (define-key lsp-mode-map (kbd "C-c p t") 'consult-lsp-symbols)
+  ;; (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
+  )
 
 (setq image-types '(svg png gif tiff jpeg xpm xbm pbm))
 (provide 'ide)

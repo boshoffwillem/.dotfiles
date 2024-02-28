@@ -12,7 +12,6 @@ sudo dnf install -y autoconf
 sudo dnf install -y fd-find
 sudo dnf install -y nodejs
 sudo dnf install -y npm
-sudo npm install -g @bufbuild/buf
 sudo dnf install -y fontconfig
 sudo dnf install -y fzf
 sudo dnf install -y tmux
@@ -32,7 +31,14 @@ sudo dnf install -y gnutls-devel
 sudo dnf install -y jansson-devel
 sudo dnf install -y ncurses-devel
 sudo dnf install -y gnome-tweaks
+sudo dnf install -y wget
 sudo dnf install -y dotnet-sdk-8.0
+dotnet tool install --global PowerShell
+
+# linters and formatters
+sudo npm install -g @bufbuild/buf
+sudo npm install -g prettier
+sudo dnf install -y shfmt
 
 # use starship shell prompt
 # =============================================================================

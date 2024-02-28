@@ -3,6 +3,7 @@
 
 # emacs
 emacs/.config/emacs/straight/
+emacs/.config/emacs/elpa/
 emacs/.config/emacs/eln-cache/
 emacs/.config/emacs/transient/
 emacs/.config/emacs/history
