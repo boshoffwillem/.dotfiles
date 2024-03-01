@@ -4,12 +4,15 @@ if not status_ok then
 end
 
 -- In init.lua or filetype.nvim's config file
-filetype.setup {
+filetype.setup({
   enabled = true,
-  overrides = {
+  extensions = {
+    overrides = {
+      razor = "html",
+    },
     complex = {
       ["Directory.Build.props"] = "xml",
       ["nuget.config"] = "xml",
     },
   },
-}
+})

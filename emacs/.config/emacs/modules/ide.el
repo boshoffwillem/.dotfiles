@@ -87,6 +87,8 @@
 ;;                                    :name "NetCoreDbg::Launch"
 ;;                                    :stopAtEntry f))
 
+(use-package fsharp-mode)
+
 (use-package sharper
   :bind
   ("C-c n" . sharper-main-transient))
@@ -213,6 +215,7 @@
          (csharp-ts-mode . lsp-deferred)
          (css-ts-mode . lsp-deferred)
          (dockerfile-ts-mode . lsp-deferred)
+         (fsharp-mode . lsp-deferred)
          (go-mod-ts-mode . lsp-deferred)
          (go-ts-mode . lsp-deferred)
          (mhtml-mode . lsp-deferred)

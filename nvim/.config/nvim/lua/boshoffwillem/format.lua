@@ -20,8 +20,11 @@ require("formatter").setup({
     lua = {
       require("formatter.filetypes.lua").stylua,
     },
+    javascript = {
+      require("formatter.filetypes.javascript").prettier,
+    },
     json = {
-      require("formatter.filetypes.json").jq,
+      require("formatter.filetypes.json").prettier,
     },
     rust = {
       require("formatter.filetypes.rust").rustfmt,
@@ -34,6 +37,9 @@ require("formatter").setup({
     },
     vue = {
       require("formatter.filetypes.vue").prettier,
+    },
+    xml = {
+      require("formatter.filetypes.xml").xmlformat,
     },
     yaml = {
       require("formatter.filetypes.yaml").yamlfmt,

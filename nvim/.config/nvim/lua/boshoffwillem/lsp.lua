@@ -105,6 +105,7 @@ local servers = {
   -- fsautocomplete = {},
   dockerls = {},
   docker_compose_language_service = {},
+  fsautocomplete = {},
   html = {},
   jsonls = {
     json = {
@@ -137,7 +138,7 @@ local servers = {
       validate = true,
     },
   },
-  -- zls = {}
+  zls = {},
 }
 
 -- Setup neovim lua configuration
