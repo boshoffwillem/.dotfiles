@@ -2,6 +2,7 @@
 
 sudo dnf install -y git
 sudo dnf install -y go
+sudo dnf install -y htop
 #sudo dnf install -y bsd-mailx build-essential language-pack-en-base
 sudo dnf install -y dbus-x11 debhelper dpkg-dev emacs-common gawk libsqlite3x-devel \
   gvfs ibus-gtk3 libacl-devel libsoundio libsoundio-devel \
@@ -69,9 +70,6 @@ sudo dnf install -y ncurses-devel
 sudo dnf install -y gnome-tweaks
 sudo dnf install -y wget
 sudo dnf install -y zig
-sudo apt install zsh
-chsh -s $(which zsh)
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 sudo dnf install -y hyperfine
 sudo dnf install -y dotnet-sdk-8.0
 dotnet tool install --global PowerShell
@@ -85,6 +83,11 @@ sudo dnf install -y shfmt
 # =============================================================================
 curl -sS https://starship.rs/install.sh | sh
 stow starship
+sudo dnf install -y zsh
+chsh -s $(which zsh)
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+sudo lchsh $USER
+sudo lchsh $USER
 # =============================================================================
 
 # Rust
