@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 sudo dnf install -y git
+sudo dnf install -y go
 #sudo dnf install -y bsd-mailx build-essential language-pack-en-base
 sudo dnf install -y dbus-x11 debhelper dpkg-dev emacs-common gawk libsqlite3x-devel \
   gvfs ibus-gtk3 libacl-devel libsoundio libsoundio-devel \

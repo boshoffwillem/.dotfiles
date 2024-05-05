@@ -1,7 +1,7 @@
 require("boshoffwillem.plugins")
 require("boshoffwillem.appearance")
 require("boshoffwillem.comment")
-require("boshoffwillem.dap")
+-- require("boshoffwillem.dap")
 require("boshoffwillem.filetype")
 require("boshoffwillem.format")
 require("boshoffwillem.info")
