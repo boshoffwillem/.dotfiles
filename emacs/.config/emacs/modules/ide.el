@@ -1,7 +1,3 @@
-;;; ide.el --- ide configuration for emacs -*- lexical-binding: t -*-
-;; Author: Willem Boshoff <boshoffwillem@protonmail.com>
-;; URL: https://github.com/boshoffwillem/.emacs.d
-
 ;;; Commentary:
 
 ;;; Code:
@@ -51,41 +47,41 @@
 (push '(protobuf-mode . buf)
       apheleia-mode-alist)
 
-;; (use-package dap-mode
-;;   :commands (dap-debug dap-breakpoints-add)
-;;   :init
-;;   (dap-mode 1)
-;;   (dap-ui-mode 1)
-;;   (dap-auto-configure-mode)
-;;   (require 'dap-netcore)
-;;   :custom
-;;   (dap-netcore-install-dir "/home/hoagie/.emacs.d/.cache/"))
+(use-package dap-mode
+  :commands (dap-debug dap-breakpoints-add)
+  :init
+  (dap-mode 1)
+  (dap-ui-mode 1)
+  (dap-auto-configure-mode)
+  (require 'dap-netcore)
+  :custom
+  (dap-netcore-install-dir "~/.config/emacs/.cache/"))
 
-;; (use-package posframe)
+(use-package posframe)
 
-;; (defun dap-netcore--populate-default-args (conf)
-;;   "Populate CONF with the default arguments."
-;;   (dap--put-if-absent conf :cwd default-directory)
-;;   (dap--put-if-absent conf :program (read-file-name "Select an executable:" (concat (lsp-workspace-root) "bin/Debug")))
-;;   (dap--put-if-absent conf :dap-server-path (list (dap-netcore--debugger-locate) "--interpreter=vscode")))
+(defun dap-netcore--populate-default-args (conf)
+  "Populate CONF with the default arguments."
+  (dap--put-if-absent conf :cwd lsp-workspace-root)
+  (dap--put-if-absent conf :program (read-file-name "Select an executable:"))
+  (dap--put-if-absent conf :dap-server-path (list (dap-netcore--debugger-locate) "--interpreter=vscode")))
 
-;; (dap-register-debug-provider
-;;  "Psicle SERVER_DEBUG"
-;;  'dap-netcore--populate-default-args)
+(dap-register-debug-provider
+ ".NET"
+ 'dap-netcore--populate-default-args)
 
-;; (dap-register-debug-template ".Net Core Launch (Psicle SERVER_DEBUG)"
-;;                              (list :type "coreclr"
-;;                                    :request "launch"
-;;                                    :name "NetCoreDbg::Launch"
-;;                                    :stopAtEntry t))
+(dap-register-debug-template ".Net Core Launch (Psicle SERVER_DEBUG)"
+                             (list :type "coreclr"
+                                   :request "launch"
+                                   :name "NetCoreDbg::Launch"
+                                   :stopAtEntry t))
 
-;; (dap-register-debug-template ".Net Core Attach (Psicle SERVER_DEBUG)"
-;;                              (list :type "coreclr"
-;;                                    :request "attach"
-;;                                    :program ""
-;;                                    :processId "${command:pickProcess}"
-;;                                    :name "NetCoreDbg::Launch"
-;;                                    :stopAtEntry f))
+(dap-register-debug-template ".Net Core Attach (Psicle SERVER_DEBUG)"
+                             (list :type "coreclr"
+                                   :request "attach"
+                                   :program ""
+                                   :processId "${command:pickProcess}"
+                                   :name "NetCoreDbg::Launch"
+                                   :stopAtEntry f))
 
 (use-package fsharp-mode)
 
