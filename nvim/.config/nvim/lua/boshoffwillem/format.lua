@@ -26,6 +26,9 @@ require("formatter").setup({
     json = {
       require("formatter.filetypes.json").prettier,
     },
+    proto = {
+      require("formatter.filetypes.proto").buf_format,
+    },
     rust = {
       require("formatter.filetypes.rust").rustfmt,
     },

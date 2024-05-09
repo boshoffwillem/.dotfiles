@@ -1,27 +1,28 @@
 -- Debugger installation location
-local HOME = os.getenv "HOME"
-local DEBUGGER_LOCATION = HOME .. "/.local/share/nvim/netcoredbg"
+local HOME = os.getenv("HOME")
+local DEBUGGER_LOCATION = HOME .. "/.local/share/nvim/mason/packages/netcoredbg/netcoredbg"
 
-local dap = require('dap')
-vim.keymap.set('n', '<leader>lb', dap.toggle_breakpoint, { desc = '[T]oggle [B]reakpoint' })
+local dap = require("dap")
+vim.keymap.set("n", "<leader>lb", dap.toggle_breakpoint, { desc = "[T]oggle [B]reakpoint" })
+vim.keymap.set("n", "<leader>dr", dap.repl.open, { desc = "[R]epl" })
+vim.keymap.set("n", "<F5>", dap.continue, { desc = "[C]ontinue" })
+vim.keymap.set("n", "<F10>", dap.step_over, { desc = "[S]tep [O]ver" })
+vim.keymap.set("n", "<F11>", dap.step_into, { desc = "[S]tep [I]nto" })
 
 -- .NET setup
 dap.adapters.coreclr = {
-  type = 'executable',
-  command = 'netcoredbg',
-  args = {'--interpreter=vscode'}
+  type = "executable",
+  command = DEBUGGER_LOCATION,
+  args = { "--interpreter=vscode" },
 }
 
 dap.configurations.cs = {
   {
     type = "coreclr",
-    name = "launch - PsicleServerService",
+    name = "launch - netcoredbg",
     request = "launch",
     program = function()
-      return vim.fn.input(
-        'Path to dll',
-        vim.fn.getcwd() .. 'PsicleServerApps/PsicleServerService/bin/SERVER_DEBUG/net7.0/',
-        'PsicleServerService.dll')
+      return vim.fn.input("Path to dll? ", vim.fn.getcwd(), "file")
     end,
   },
 }
@@ -104,5 +105,5 @@ require("dapui").setup({
   render = {
     max_type_length = nil, -- Can be integer or nil.
     max_value_lines = 100, -- Can be integer or nil.
-  }
+  },
 })
