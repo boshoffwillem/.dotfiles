@@ -1,0 +1,6 @@
+[window]
+  opacity = 0.9
+
+[font]
+  normal = { family = "Fira Code", style = "Regular"}
+  size = 11

@@ -73,6 +73,8 @@ sudo dnf install -y zig
 sudo dnf install -y hyperfine
 sudo dnf install -y dotnet-sdk-8.0
 dotnet tool install --global PowerShell
+dotnet new install Avalonia.Templates
+dotnet new install SpecFlow.Templates.DotNet
 
 # linters and formatters
 sudo npm install -g @bufbuild/buf

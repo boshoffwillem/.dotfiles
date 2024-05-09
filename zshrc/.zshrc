@@ -115,5 +115,5 @@ export ARM_CLIENT_SECRET='VjK8Q~XJCMHqZYCt3-AIg55MgMDi55K1_ZkW3b3K'
 export ARM_SUBSCRIPTION_ID='865cf421-b3c0-4e25-bbee-aad3c9b00ffa'
 export ARM_TENANT_ID='900993f4-cd20-41e9-b024-a200ed7ba3ec'
 
-# eval "$(starship init zsh)"
+eval "$(starship init zsh)"
 . "$HOME/.cargo/env"
