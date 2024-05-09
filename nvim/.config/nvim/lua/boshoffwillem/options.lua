@@ -58,7 +58,7 @@ vim.o.sidescroll = 4
 vim.o.number = true
 vim.o.relativenumber = true
 
-vim.o.clipboard = "unnamed,unnamedplus"
+vim.opt.clipboard = "unnamedplus"
 
 vim.o.tabstop = 2
 vim.o.shiftwidth = 2
