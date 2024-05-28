@@ -26,20 +26,34 @@ sudo zypper install -y tree-sitter-devel
 sudo zypper install -y terraform
 sudo zypper install -y golang
 sudo zypper install -y net-tools
-sudo zypper install -y -t pattern wsl_gui
-sudo zypper install -y -t pattern wsl_base
-sudo zypper install -y -t pattern wsl_systemd
+sudo zypper install -y zig
+sudo zypper install -y gnome-tweaks
+sudo zypper install -y hyperfine
+sudo zypper install -y wget
 
 sudo zypper install -y libicu
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 wget https://packages.microsoft.com/config/opensuse/15/prod.repo
 sudo mv prod.repo /etc/zypp/repos.d/microsoft-prod.repo
 sudo chown root:root /etc/zypp/repos.d/microsoft-prod.repo
-sudo zypper install -y dotnet-sdk-7.0
+sudo zypper install -y dotnet-sdk-8.0
+dotnet tool install --global PowerShell
+dotnet new install Avalonia.Templates
+dotnet new install SpecFlow.Templates.DotNet
 
-# use starship shell prompt
+# linters and formatters
+sudo npm install -g @bufbuild/buf
+sudo npm install -g prettier
+sudo zypper install -y shfmt
+dotnet tool install --global csharpier
+
+# use starship shell prompt and zsh
 # =============================================================================
-sudo zypper install -y starship
+curl -sS https://starship.rs/install.sh | sh
+stow starship
+sudo dnf install -y zsh
+chsh -s $(which zsh)
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 # =============================================================================
 
 # Rust
@@ -55,18 +69,18 @@ sudo zypper install -y neovim
 
 # install emacs
 # =============================================================================
-mkdir ~/code
+# mkdir ~/code
 # sudo zypper install -y emacs-pgtk
-sudo zypper install -y -t pattern devel_basis
-sudo zypper install -y -t pattern devel_C_C++
-sudo zypper install -y libxml2-devel
-sudo zypper install -y giflib-devel
-sudo zypper install -y libtiff-devel
-sudo zypper install -y gnome-tweaks
-sudo zypper install -y texinfo
-sudo zypper install -y libotf-devel
-sudo zypper install -y glib2-devel gtk3-devel libgccjit0-devel-gcc13 gnutls-devel mailutils
-sudo zypper install -y libjansson4 libjansson-devel
+# sudo zypper install -y -t pattern devel_basis
+# sudo zypper install -y -t pattern devel_C_C++
+# sudo zypper install -y libxml2-devel
+# sudo zypper install -y giflib-devel
+# sudo zypper install -y libtiff-devel
+# sudo zypper install -y gnome-tweaks
+# sudo zypper install -y texinfo
+# sudo zypper install -y libotf-devel
+# sudo zypper install -y glib2-devel gtk3-devel libgccjit0-devel-gcc13 gnutls-devel mailutils
+# sudo zypper install -y libjansson4 libjansson-devel
 # git clone git://git.sv.gnu.org/emacs.git -b emacs-29 --depth=1 ~/code/emacs
 # cd ~/code/emacs
 # ./autogen.sh
