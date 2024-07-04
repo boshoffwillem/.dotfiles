@@ -37,6 +37,7 @@ wget https://packages.microsoft.com/config/opensuse/15/prod.repo
 sudo mv prod.repo /etc/zypp/repos.d/microsoft-prod.repo
 sudo chown root:root /etc/zypp/repos.d/microsoft-prod.repo
 sudo zypper install -y dotnet-sdk-8.0
+sudo zypper install -y azure-cli
 dotnet tool install --global PowerShell
 dotnet new install Avalonia.Templates
 dotnet new install SpecFlow.Templates.DotNet
@@ -47,13 +48,10 @@ sudo npm install -g prettier
 sudo zypper install -y shfmt
 dotnet tool install --global csharpier
 
-# use starship shell prompt and zsh
+# use starship shell prompt
 # =============================================================================
 curl -sS https://starship.rs/install.sh | sh
 stow starship
-sudo dnf install -y zsh
-chsh -s $(which zsh)
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 # =============================================================================
 
 # Rust
@@ -99,3 +97,10 @@ stow kitty
 stow nvim
 stow omnisharp
 stow starship
+
+# ZSH
+# =============================================================================
+sudo zypper install -y zsh
+chsh -s $(which zsh)
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+# =============================================================================
