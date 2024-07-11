@@ -1,6 +1,6 @@
 [wsl2]
-memory=8GB
+memory=16GB
 processors=2
 
 [experimental]
-autoMemoryReclaim=true
+autoMemoryReclaim=gradual
