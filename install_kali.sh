@@ -84,6 +84,7 @@ stow git
 stow ideavimrc
 stow kitty
 stow nvim
+stow emacs
 stow omnisharp
 stow starship
 
