@@ -35,7 +35,7 @@ vim.o.breakindent = true
 
 -- Save undo history
 vim.o.undofile = true
-vim.o.undodir = os.getenv("HOME") .. "/.vim/undodir"
+-- vim.o.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.o.swapfile = false
 vim.o.backup = false
 
@@ -62,7 +62,7 @@ vim.opt.clipboard = "unnamedplus"
 
 vim.o.tabstop = 2
 vim.o.shiftwidth = 2
-vim.o.smarttab = 2
+-- vim.o.smarttab = 2
 vim.o.softtabstop = 2
 vim.o.expandtab = true
 vim.o.smartindent = true
@@ -75,3 +75,10 @@ vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGai
   command = "if mode() != 'c' | checktime | endif",
   pattern = { "*" },
 })
+
+if vim.loop.os_uname().sysname == "Windows_NT" then
+  vim.o.shell= "pwsh"
+  vim.o.shellcmdflag = "-command"
+  vim.o.shellquote = "\""
+  vim.o.shellxquote = ""
+end
