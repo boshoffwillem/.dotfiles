@@ -12,8 +12,8 @@
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 (use-package doom-themes
   :config
-  ;; (load-theme 'doom-dark+)
-  (load-theme 'modus-vivendi)
+  (load-theme 'doom-dark+)
+  ;; (load-theme 'modus-vivendi)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
   (doom-themes-treemacs-config)

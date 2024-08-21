@@ -32,6 +32,9 @@
 (use-package apheleia
   :config
   (apheleia-global-mode +1))
+(with-eval-after-load 'apheleia
+  (add-to-list 'apheleia-formatters
+               '(terraform-mode . "terraform fmt -")))
 (push '(csharpier . ("dotnet"
                      "csharpier"
                      ))
@@ -42,46 +45,46 @@
                "-w"
                ))
       apheleia-formatters)
-(push '(csharp-ts-mode . csharpier)
+(push '(csharp-mode . csharpier)
       apheleia-mode-alist)
 (push '(protobuf-mode . buf)
       apheleia-mode-alist)
 
-(use-package dap-mode
-  :commands (dap-debug dap-breakpoints-add)
-  :init
-  (dap-mode 1)
-  (dap-ui-mode 1)
-  (dap-auto-configure-mode)
-  (require 'dap-netcore)
-  :custom
-  (dap-netcore-install-dir "~/.config/emacs/.cache/"))
+;; (use-package dap-mode
+;;   :commands (dap-debug dap-breakpoints-add)
+;;   :init
+;;   (dap-mode 1)
+;;   (dap-ui-mode 1)
+;;   (dap-auto-configure-mode)
+;;   (require 'dap-netcore)
+;;   :custom
+;;   (dap-netcore-install-dir "~/.config/emacs/.cache/"))
 
-(use-package posframe)
+;; (use-package posframe)
 
-(defun dap-netcore--populate-default-args (conf)
-  "Populate CONF with the default arguments."
-  (dap--put-if-absent conf :cwd lsp-workspace-root)
-  (dap--put-if-absent conf :program (read-file-name "Select an executable:"))
-  (dap--put-if-absent conf :dap-server-path (list (dap-netcore--debugger-locate) "--interpreter=vscode")))
+;; (defun dap-netcore--populate-default-args (conf)
+;;   "Populate CONF with the default arguments."
+;;   (dap--put-if-absent conf :cwd lsp-workspace-root)
+;;   (dap--put-if-absent conf :program (read-file-name "Select an executable:"))
+;;   (dap--put-if-absent conf :dap-server-path (list (dap-netcore--debugger-locate) "--interpreter=vscode")))
 
-(dap-register-debug-provider
- ".NET"
- 'dap-netcore--populate-default-args)
+;; (dap-register-debug-provider
+;;  ".NET"
+;;  'dap-netcore--populate-default-args)
 
-(dap-register-debug-template ".Net Core Launch (Psicle SERVER_DEBUG)"
-                             (list :type "coreclr"
-                                   :request "launch"
-                                   :name "NetCoreDbg::Launch"
-                                   :stopAtEntry t))
+;; (dap-register-debug-template ".Net Core Launch (Psicle SERVER_DEBUG)"
+;;                              (list :type "coreclr"
+;;                                    :request "launch"
+;;                                    :name "NetCoreDbg::Launch"
+;;                                    :stopAtEntry t))
 
-(dap-register-debug-template ".Net Core Attach (Psicle SERVER_DEBUG)"
-                             (list :type "coreclr"
-                                   :request "attach"
-                                   :program ""
-                                   :processId "${command:pickProcess}"
-                                   :name "NetCoreDbg::Launch"
-                                   :stopAtEntry f))
+;; (dap-register-debug-template ".Net Core Attach (Psicle SERVER_DEBUG)"
+;;                              (list :type "coreclr"
+;;                                    :request "attach"
+;;                                    :program ""
+;;                                    :processId "${command:pickProcess}"
+;;                                    :name "NetCoreDbg::Launch"
+;;                                    :stopAtEntry f))
 
 (use-package fsharp-mode)
 
@@ -98,6 +101,7 @@
 (use-package feature-mode)
 (use-package protobuf-mode)
 (use-package terraform-mode)
+(add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode))
 
 ;; (use-package restclient)
 
@@ -133,7 +137,7 @@
 
 ;; (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
 
-(add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.css\\'" . css-ts-mode))
 (add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . dockerfile-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js-ts-mode))
@@ -148,6 +152,8 @@
 (setq major-mode-remap-alist
       '(
         (sh-mode . bash-ts-mode)
+        ;; (terraform-mode . hcl-ts-mode)
+        ;; (csharp-mode . csharp-ts-mode)
         ;; (css-mode . css-ts-mode)
         ;; (json-mode . json-ts-mode)
         ;; (js2-mode . js-ts-mode)
@@ -156,76 +162,94 @@
         ;; (yaml-mode . yaml-ts-mode)
         ))
 
-(use-package web-mode
-  :config
-  (setq web-mode-engines-alist
-        '(("csharp-ts-mode" . "\\.cshtml\\'")
-          ("csharp-ts-mode" . "\\.razor\\."))
-        )
-  )
-(add-to-list 'auto-mode-alist '("\\.cshtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.razor\\'" . web-mode))
+;;          (bash-ts-mode . lsp-deferred)
+;;          (c++-ts-mode . lsp-deferred)
+;;          (c-ts-mode . lsp-deferred)
+;;          (csharp-mode . lsp-deferred)
+;;          (css-ts-mode . lsp-deferred)
+;;          (dockerfile-ts-mode . lsp-deferred)
+;;          (fsharp-mode . lsp-deferred)
+;;          (go-mod-ts-mode . lsp-deferred)
+;;          (go-ts-mode . lsp-deferred)
+;;          ;; (hcl-ts-mode . lsp-deferred)
+;;          (mhtml-mode . lsp-deferred)
+;;          (js-ts-mode . lsp-deferred)
+;;          (json-ts-mode . lsp-deferred)
+;;          (python-ts-mode . lsp-deferred)
+;;          (rust-ts-mode . lsp-deferred)
+;;          (terraform-mode . lsp-deferred)
+;;          (toml-ts-mode . lsp-deferred)
+;;          (tsx-ts-mode . lsp-deferred)
+;;          (typescript-ts-mode . lsp-deferred)
+;;          (yaml-ts-mode . lsp-deferred)
+(add-hook 'bash-ts-mode-hook 'eglot-ensure)
+(add-hook 'csharp-mode-hook 'eglot-ensure)
+(add-hook 'json-ts-mode-hook 'eglot-ensure)
+(add-hook 'terraform-mode-hook 'eglot-ensure)
+(add-hook 'yaml-ts-mode-hook 'eglot-ensure)
 
 ;; LSP
-(use-package lsp-mode
-  :bind
-  (:map lsp-mode-map
-        ("C-c l t r" . lsp-csharp-run-test-at-point)
-        ("C-c l r a" . lsp-csharp-run-all-tests-in-buffer)
-        )
-  :init
-  (setq lsp-keymap-prefix "C-c l")
-  :config
-  (setq lsp-lens-place-position 'above-line)
-  :custom
-  (setq lsp-idle-delay 0.5)
-  (setq lsp-log-io nil)
-  (setq lsp-auto-execute-action nil)
-  (setq lsp-enable-file-watchers nil)
-  (setq lsp-lens-enable t)
-  (setq lsp-inlay-hint-enable t)
-  (setq lsp-insert-final-newline nil)
-  (setq lsp-headerline-breadcrumb-enable nil)
-  (setq lsp-headerline-breadcrumb-enable-symbol-numbers nil)
-  (setq lsp-modeline-code-actions-enable t)
-  (setq lsp-modeline-diagnostics-enable t)
-  (setq lsp-modeline-diagnostics-scope :workspace)
-  (lsp-eldoc-render-all t)
-  (setq lsp-eldoc-hook nil)
-  ;; (setq lsp-enable-symbol-highlighting nil)
-  (setq lsp-signature-auto-activate nil)
-  (lsp-rust-analyzer-cargo-watch-command "clippy")
-  (lsp-rust-analyzer-server-display-inlay-hints t)
-  (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
-  (lsp-rust-analyzer-display-chaining-hints t)
-  (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
-  (lsp-rust-analyzer-display-closure-return-type-hints t)
-  (lsp-rust-analyzer-display-parameter-hints nil)
-  (lsp-rust-analyzer-display-reborrow-hints nil)
-  :hook (
-         (lsp-mode . lsp-enable-which-key-integration)
-         ;; (lsp-mode . lsp-ui-mode)
-         (bash-ts-mode . lsp-deferred)
-         (c++-ts-mode . lsp-deferred)
-         (c-ts-mode . lsp-deferred)
-         (csharp-ts-mode . lsp-deferred)
-         (css-ts-mode . lsp-deferred)
-         (dockerfile-ts-mode . lsp-deferred)
-         (fsharp-mode . lsp-deferred)
-         (go-mod-ts-mode . lsp-deferred)
-         (go-ts-mode . lsp-deferred)
-         (mhtml-mode . lsp-deferred)
-         (js-ts-mode . lsp-deferred)
-         (json-ts-mode . lsp-deferred)
-         (python-ts-mode . lsp-deferred)
-         (rust-ts-mode . lsp-deferred)
-         (terraform-mode . lsp-deferred)
-         (toml-ts-mode . lsp-deferred)
-         (tsx-ts-mode . lsp-deferred)
-         (typescript-ts-mode . lsp-deferred)
-         (yaml-ts-mode . lsp-deferred)
-         )
-  :commands (lsp lsp-deferred))
+;; (use-package lsp-mode
+;;   :bind
+;;   (:map lsp-mode-map
+;;         ("C-c l t r" . lsp-csharp-run-test-at-point)
+;;         ("C-c l r a" . lsp-csharp-run-all-tests-in-buffer)
+;;         )
+;;   :init
+;;   (setq lsp-keymap-prefix "C-c l")
+;;   :config
+;;   (setq lsp-lens-place-position 'above-line)
+;;   :custom
+;;   (setq lsp-idle-delay 0.5)
+;;   (setq lsp-log-io nil)
+;;   (setq lsp-auto-execute-action nil)
+;;   (setq lsp-enable-file-watchers nil)
+;;   (setq lsp-lens-enable t)
+;;   (setq lsp-inlay-hint-enable t)
+;;   (setq lsp-insert-final-newline nil)
+;;   (setq lsp-headerline-breadcrumb-enable nil)
+;;   (setq lsp-headerline-breadcrumb-enable-symbol-numbers nil)
+;;   (setq lsp-modeline-code-actions-enable t)
+;;   (setq lsp-modeline-diagnostics-enable t)
+;;   (setq lsp-modeline-diagnostics-scope :workspace)
+;;   (lsp-eldoc-render-all t)
+;;   (setq lsp-eldoc-hook nil)
+;;   ;; (setq lsp-enable-symbol-highlighting nil)
+;;   (setq lsp-signature-auto-activate nil)
+;;   (lsp-rust-analyzer-cargo-watch-command "clippy")
+;;   (lsp-rust-analyzer-server-display-inlay-hints t)
+;;   (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
+;;   (lsp-rust-analyzer-display-chaining-hints t)
+;;   (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
+;;   (lsp-rust-analyzer-display-closure-return-type-hints t)
+;;   (lsp-rust-analyzer-display-parameter-hints nil)
+;;   (lsp-rust-analyzer-display-reborrow-hints nil)
+;;   (lsp-csharp-omnisharp-enable-decompilation-support t)
+;;   :hook (
+;;          (lsp-mode . lsp-enable-which-key-integration)
+;;          ;; (lsp-mode . lsp-ui-mode)
+;;          (bash-ts-mode . lsp-deferred)
+;;          (c++-ts-mode . lsp-deferred)
+;;          (c-ts-mode . lsp-deferred)
+;;          (csharp-mode . lsp-deferred)
+;;          (css-ts-mode . lsp-deferred)
+;;          (dockerfile-ts-mode . lsp-deferred)
+;;          (fsharp-mode . lsp-deferred)
+;;          (go-mod-ts-mode . lsp-deferred)
+;;          (go-ts-mode . lsp-deferred)
+;;          ;; (hcl-ts-mode . lsp-deferred)
+;;          (mhtml-mode . lsp-deferred)
+;;          (js-ts-mode . lsp-deferred)
+;;          (json-ts-mode . lsp-deferred)
+;;          (python-ts-mode . lsp-deferred)
+;;          (rust-ts-mode . lsp-deferred)
+;;          (terraform-mode . lsp-deferred)
+;;          (toml-ts-mode . lsp-deferred)
+;;          (tsx-ts-mode . lsp-deferred)
+;;          (typescript-ts-mode . lsp-deferred)
+;;          (yaml-ts-mode . lsp-deferred)
+;;          )
+;;   :commands (lsp lsp-deferred))
 
 (use-package lsp-ui
   :ensure

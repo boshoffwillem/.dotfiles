@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 sudo apt-get update -y
+sudo apt install gpg -y
 sudo apt-get dist-upgrade -y
 sudo apt install -y git
 sudo apt install -y ripgrep
@@ -23,13 +24,24 @@ sudo apt install -y unzip
 sudo apt install -y fira-code-fonts
 sudo apt install -y texinfo
 sudo apt install -y libtree-sitter-dev
+
 sudo apt install terraform -y
+wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com jammy main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt install terraform-ls -y
+
+sudo apt update -y
+grep ^Package: /var/lib/apt/lists/apt.releases.hashicorp.com*Packages | sort -u
 sudo apt install luarocks -y
 sudo apt install golang -y
 sudo apt install net-tools -y
 sudo apt install zig -y
 sudo apt install hyperfine -y
 sudo apt install shfmt -y
+sudo apt install libsoup-3.0-dev -y
+sudo apt install -y libwebkit2gtk-4.1-dev -y
+sudo apt install libjavascriptcoregtk-4.1-dev -y
 python3 -m pip install --upgrade pip setuptools wheel
 
 wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
@@ -47,6 +59,8 @@ dotnet new install SpecFlow.Templates.DotNet
 # linters and formatters
 sudo npm install -g @bufbuild/buf
 sudo npm install -g prettier
+sudo npm install -g yaml-language-server
+sudo npm install -g bash-language-server
 
 # use starship shell prompt
 # =============================================================================
@@ -58,6 +72,7 @@ stow starship
 # =============================================================================
 # Install rustup
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+cargo install --locked bat
 # =============================================================================
 
 # nvim
