@@ -82,6 +82,8 @@
 ;;    :config
 ;;     (unicode-fonts-setup))
 
+(global-display-line-numbers-mode)
+
 (provide 'appearance)
 
 ;;; appearance.el ends here

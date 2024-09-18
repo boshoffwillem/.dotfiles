@@ -24,7 +24,18 @@ require("packer").startup(function(use)
   use({ "neovim/nvim-lspconfig" })
   use({ "mfussenegger/nvim-dap" })
   use({ "mfussenegger/nvim-lint" })
-  use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap" } })
+  use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap", "nvim-neotest/neotest" } })
+  use({ "theHamsta/nvim-dap-virtual-text" })
+  use({
+    "nvim-neotest/neotest",
+    requires = {
+      "nvim-neotest/nvim-nio",
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "Issafalcon/neotest-dotnet",
+    },
+  })
   use({ "williamboman/mason.nvim" })
   use({ "williamboman/mason-lspconfig.nvim" })
   use({ "mhartington/formatter.nvim" })
@@ -61,7 +72,7 @@ require("packer").startup(function(use)
   --   })
   else
     use({ "codota/tabnine-nvim", run = "./dl_binaries.sh" })
-  --   use({ "tzachar/cmp-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-cmp" })
+    --   use({ "tzachar/cmp-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-cmp" })
   end
 
   use("nvim-treesitter/playground")

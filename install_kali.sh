@@ -82,7 +82,8 @@ sudo apt-get install -y neovim
 
 # install emacs
 # =============================================================================
-# sudo apt install build-essential libgtk-3-dev libgnutls28-dev libtiff5-dev libgif-dev libjpeg-dev libpng-dev libxpm-dev libncurses-dev texinfo
+sudo apt install build-essential libgtk-3-dev libgnutls28-dev libtiff5-dev libgif-dev libjpeg-dev libpng-dev libxpm-dev libncurses-dev texinfo
+sudo apt-get install -y libclang-dev libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxkbcommon-dev libssl-dev
 # git clone git://git.sv.gnu.org/emacs.git -b emacs-29 --depth=1 ~/code/emacs
 # ~/code/emacs/autogen.sh
 # ~/code/emacs/configure --with-native-compilation=aot --with-json --with-tree-sitter --with-pgtk --with-mailutils

@@ -21,7 +21,7 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "FiraCode Nerd Font Mono" :size 14 :weight 'regular)
+(setq doom-font (font-spec :family "Fira Code" :size 14 :weight 'regular)
       doom-variable-pitch-font (font-spec :family "Cantarell" :size 14))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
@@ -32,11 +32,11 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'modus-vivendi)
+(setq doom-theme 'doom-dark+)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type 'relative)
+;; (setq display-line-numbers-type 'relative)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -124,12 +124,11 @@
 (add-hook 'dired-mode-hook #'my-dired-mode-hook)
 (setq dired-use-ls-dired nil)
 
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
-(column-number-mode)
-(setq display-line-numbers-type 'relative)
+;; (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+;; (column-number-mode)
 ;; Disable visual line mode (this causes issues with $ and a few other things in evil)
-(global-visual-line-mode -1)
-(setq-default truncate-lines t)
+;; (global-visual-line-mode -1)
+;; (setq-default truncate-lines t)
 
 ;; Use space to indent by default.
 (setq-default indent-tabs-mode nil)
@@ -150,10 +149,10 @@
 (delete-selection-mode 1)
 ;; Emacs has problems with very long lines. so-long detects them and takes appropriate action.
 ;; Good for minified code and whatnot.
-(global-so-long-mode)
+;; (global-so-long-mode)
 ;; I want recent files
-(require 'recentf)
-(recentf-mode)
+;; (require 'recentf)
+;; (recentf-mode)
 
 (global-auto-revert-mode t)
 (setq auto-revert-interval 2)
@@ -176,42 +175,34 @@
   (evil-terminal-cursor-changer-activate) ; or (etcc-on)
   )
 
-(use-package! lsp-mode
-  :bind
-  (:map lsp-mode-map
-        ("C-c l t r" . lsp-csharp-run-test-at-point)
-        ("C-c l r a" . lsp-csharp-run-all-tests-in-buffer)
-        )
-  :init
-  (setq lsp-keymap-prefix "C-c l")
-  :config
-  (setq lsp-lens-place-position 'above-line)
-  :custom
-  (setq lsp-idle-delay 0.5)
-  (setq lsp-log-io nil)
-  (setq lsp-auto-execute-action nil)
-  (setq lsp-enable-file-watchers nil)
-  (setq lsp-lens-enable t)
-  (setq lsp-headerline-breadcrumb-enable nil)
-  (setq lsp-headerline-breadcrumb-enable-symbol-numbers nil)
-  (setq lsp-modeline-code-actions-enable t)
-  (setq lsp-modeline-diagnostics-enable t)
-  (setq lsp-modeline-diagnostics-scope :workspace)
-  (lsp-eldoc-render-all t)
-  ;; (lsp-rust-analyzer-cargo-watch-command "clippy")
-  ;; (lsp-rust-analyzer-server-display-inlay-hints t)
-  ;; (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
-  ;; (lsp-rust-analyzer-display-chaining-hints t)
-  ;; (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
-  ;; (lsp-rust-analyzer-display-closure-return-type-hints t)
-  ;; (lsp-rust-analyzer-display-parameter-hints nil)
-  ;; (lsp-rust-analyzer-display-reborrow-hints nil)
-  :hook (
-         (lsp-mode . lsp-enable-which-key-integration)
-         (terraform-mode . lsp-deferred)
-         )
-  :commands (lsp lsp-deferred)
-  )
+;; (use-package! lsp-mode
+;;   :bind
+;;   (:map lsp-mode-map
+;;         ("C-c l t r" . lsp-csharp-run-test-at-point)
+;;         ("C-c l r a" . lsp-csharp-run-all-tests-in-buffer)
+;;         )
+;;   :init
+;;   (setq lsp-keymap-prefix "C-c l")
+;;   :config
+;;   (setq lsp-lens-place-position 'above-line)
+;;   :custom
+;;   (setq lsp-idle-delay 0.5)
+;;   (setq lsp-log-io nil)
+;;   (setq lsp-auto-execute-action nil)
+;;   (setq lsp-enable-file-watchers nil)
+;;   (setq lsp-lens-enable t)
+;;   (setq lsp-headerline-breadcrumb-enable nil)
+;;   (setq lsp-headerline-breadcrumb-enable-symbol-numbers nil)
+;;   (setq lsp-modeline-code-actions-enable t)
+;;   (setq lsp-modeline-diagnostics-enable t)
+;;   (setq lsp-modeline-diagnostics-scope :workspace)
+;;   (lsp-eldoc-render-all t)
+;;   :hook (
+;;          (lsp-mode . lsp-enable-which-key-integration)
+;;          (terraform-mode . lsp-deferred)
+;;          )
+;;   :commands (lsp lsp-deferred)
+;;   )
 
 (use-package! xclip
   :config

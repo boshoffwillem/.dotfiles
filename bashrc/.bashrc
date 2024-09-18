@@ -18,4 +18,4 @@ export ARM_SUBSCRIPTION_ID='865cf421-b3c0-4e25-bbee-aad3c9b00ffa'
 export ARM_TENANT_ID='900993f4-cd20-41e9-b024-a200ed7ba3ec'
 
 eval "$(starship init bash)"
-# . "$HOME/.cargo/env"
+. "$HOME/.cargo/env"
