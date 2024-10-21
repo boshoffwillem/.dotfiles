@@ -100,6 +100,7 @@
 
 ;; (use-package feature-mode)
 ;; (use-package protobuf-mode)
+(use-package powershell)
 (use-package terraform-mode)
 (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode))
 (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
