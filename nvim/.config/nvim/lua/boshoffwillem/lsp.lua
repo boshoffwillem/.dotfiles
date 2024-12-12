@@ -101,7 +101,6 @@ local servers = {
       schemas = require("schemastore").yaml.schemas(),
     },
   },
-  bufls = {},
   -- fsautocomplete = {},
   dockerls = {},
   docker_compose_language_service = {},
@@ -123,7 +122,7 @@ local servers = {
   powershell_es = {},
   rust_analyzer = {},
   terraformls = {},
-  tsserver = {},
+  ts_ls = {},
   volar = {},
   yamlls = {
     yaml = {

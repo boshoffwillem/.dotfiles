@@ -1,7 +1,6 @@
 #!/usr/bin/env sh
 
 sudo apt update -y && sudo upgrade -y
-sudo apt install -y git
 sudo apt install -y autoconf automake bsd-mailx build-essential \
     dbus-x11 debhelper dpkg-dev emacs-bin-common emacs-common g++-10 gawk \
     gcc-10 git gvfs ibus-gtk3 language-pack-en-base libacl1-dev libasound2 \
@@ -39,7 +38,6 @@ sudo apt install -y autoconf automake bsd-mailx build-essential \
 
 sudo apt install -y ripgrep
 sudo apt install -y bat
-sudo apt install -y exa
 sudo apt install -y gcc
 sudo apt install -y g++
 sudo apt install -y make
@@ -55,12 +53,21 @@ sudo apt install -y fira-code-fonts
 sudo apt install -y gnome-tweaks
 sudo apt install -y wget
 sudo apt install -y zig
-sudo apt install zsh
+sudo apt install luarocks -y
+sudo apt install golang -y
+sudo apt install zsh -y
+sudo apt install net-tools -y
 chsh -s $(which zsh)
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 sudo apt install -y hyperfine
 sudo apt install -y dotnet-sdk-8.0
-dotnet tool install --global PowerShell
+sudo apt install -y dotnet-sdk-9.0
+sudo apt install -y azure-cli
+dotnet tool install -g dotnet-grpc
+dotnet tool install -g PowerShell
+dotnet tool install --global csharpier
+dotnet new install Avalonia.Templates
+dotnet new install SpecFlow.Templates.DotNet
 
 # linters and formatters
 sudo npm install -g @bufbuild/buf
@@ -70,7 +77,6 @@ sudo apt install -y shfmt
 # use starship shell prompt
 # =============================================================================
 curl -sS https://starship.rs/install.sh | sh
-stow starship
 # =============================================================================
 
 # Rust
@@ -82,21 +88,20 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # nvim
 # =============================================================================
 sudo apt install -y neovim
-stow nvim
 # =============================================================================
 
 # install emacs
 # =============================================================================
-mkdir ~/code
-cd ~/code
-git clone git://git.sv.gnu.org/emacs.git -b emacs-29 --depth=1
-cd emacs
-export CC="gcc-10" CXX="gcc-10"
-./autogen.sh
-./configure --with-native-compilation=aot --with-json --with-tree-sitter --with-pgtk --with-mailutils
-make -j$(nproc)
-sudo make -j$(nproc) install
-cd ~/.dotfiles
+#mkdir ~/code
+#cd ~/code
+#git clone git://git.sv.gnu.org/emacs.git -b emacs-29 --depth=1
+#cd emacs
+#export CC="gcc-10" CXX="gcc-10"
+#./autogen.sh
+#./configure --with-native-compilation=aot --with-json --with-tree-sitter --with-pgtk --with-mailutils
+#make -j$(nproc)
+#sudo make -j$(nproc) install
+#cd ~/.dotfiles
 #
 # # doom emacs
 # git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs
@@ -106,9 +111,20 @@ cd ~/.dotfiles
 # ~/.config/emacs/bin/doom sync
 # =============================================================================
 
-stow git
+cd ~/.dotfiles
+rm ~/.bashrc
+stow alacritty
 stow bashrc
+stow git
 stow ideavimrc
+stow kitty
 stow nvim
+stow emacs
 stow omnisharp
 stow starship
+
+# ZSH
+# =============================================================================
+sudo apt-get install -y zsh
+chsh -s $(which zsh)
+# =============================================================================
