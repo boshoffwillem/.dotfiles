@@ -49,6 +49,7 @@ sudo dpkg -i packages-microsoft-prod.deb
 rm packages-microsoft-prod.deb
 sudo apt-get update -y
 sudo apt-get install -y dotnet-sdk-8.0
+sudo apt-get install -y dotnet-sdk-9.0
 sudo apt-get install -y azure-cli
 dotnet tool install -g dotnet-grpc
 dotnet tool install -g PowerShell
@@ -65,7 +66,6 @@ sudo npm install -g bash-language-server
 # use starship shell prompt
 # =============================================================================
 curl -sS https://starship.rs/install.sh | sh
-stow starship
 # =============================================================================
 
 # Rust
