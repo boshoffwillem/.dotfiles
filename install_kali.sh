@@ -22,6 +22,7 @@ sudo apt install -y tmux
 sudo apt install -y stow
 sudo apt install -y unzip
 sudo apt install -y fira-code-fonts
+sudo apt install -y fonts-firacode
 sudo apt install -y texinfo
 sudo apt install -y libtree-sitter-dev
 

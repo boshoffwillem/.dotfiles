@@ -237,6 +237,7 @@
          (c++-ts-mode . lsp-deferred)
          (c-ts-mode . lsp-deferred)
          (css-ts-mode . lsp-deferred)
+         (csharp-mode . lsp-deferred)
          (dockerfile-ts-mode . lsp-deferred)
          (go-mod-ts-mode . lsp-deferred)
          (go-ts-mode . lsp-deferred)
