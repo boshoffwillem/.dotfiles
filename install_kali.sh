@@ -84,6 +84,10 @@ sudo apt-get install -y neovim
 # =============================================================================
 sudo apt install build-essential libgtk-3-dev libgnutls28-dev libtiff5-dev libgif-dev libjpeg-dev libpng-dev libxpm-dev libncurses-dev texinfo
 sudo apt-get install -y libclang-dev libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxkbcommon-dev libssl-dev
+sudo apt install libgccjit0 -y
+sudo apt install libgccjit-14-dev -y
+sudo apt install libjsonparser-dev -y
+sudo apt install libjansson-dev -y
 # git clone git://git.sv.gnu.org/emacs.git -b emacs-29 --depth=1 ~/code/emacs
 # ~/code/emacs/autogen.sh
 # ~/code/emacs/configure --with-native-compilation=aot --with-json --with-tree-sitter --with-pgtk --with-mailutils
@@ -110,5 +114,5 @@ sudo apt-get install -y zsh
 chsh -s $(which zsh)
 # =============================================================================
 
-sudo apt-get install -y metasploit-framework
-sudo apt install -y kali-win-kex
+#sudo apt-get install -y metasploit-framework
+#sudo apt install -y kali-win-kex
