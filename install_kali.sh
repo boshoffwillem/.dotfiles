@@ -89,9 +89,9 @@ sudo apt install libgccjit0 -y
 sudo apt install libgccjit-14-dev -y
 sudo apt install libjsonparser-dev -y
 sudo apt install libjansson-dev -y
-# git clone git://git.sv.gnu.org/emacs.git -b emacs-29 --depth=1 ~/code/emacs
+# git clone https://github.com/emacs-mirror/emacs.git -b emacs-30 --depth=1 ~/code/emacs
 # ~/code/emacs/autogen.sh
-# ~/code/emacs/configure --with-native-compilation=aot --with-json --with-tree-sitter --with-pgtk --with-mailutils
+# ~/code/emacs/configure --with-native-compilation=aot --with-tree-sitter --with-pgtk --with-mailutils
 # make -j8
 # src/emacs -Q
 # sudo make install
