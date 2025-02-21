@@ -97,10 +97,11 @@ require("packer").startup(function(use)
   use("lewis6991/gitsigns.nvim")
 
   use("Mofiqul/vscode.nvim")
+  use("rose-pine/neovim")
   use("ishan9299/modus-theme-vim")
   use("kyazdani42/nvim-web-devicons")
   use("nvim-lualine/lualine.nvim") -- Fancier statusline
-  use({ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} }) -- Add indentation guides even on blank lines
+  -- use({ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} }) -- Add indentation guides even on blank lines
   use("numToStr/Comment.nvim") -- "gc" to comment visual regions/lines
   use("tpope/vim-sleuth") -- Detect tabstop and shiftwidth automatically
   use("mbbill/undotree")

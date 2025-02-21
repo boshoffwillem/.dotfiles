@@ -265,3 +265,7 @@ export PATH
 
 eval "$(starship init zsh)"
 . "$HOME/.cargo/env"
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)

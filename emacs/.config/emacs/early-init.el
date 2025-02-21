@@ -26,10 +26,6 @@
 ;; Make the initial buffer load faster by setting its mode to fundamental-mode
 (setq initial-major-mode 'fundamental-mode)
 
-;; Improve garbage collection performance.
-(setq gc-cons-threshold (* 100 1024 1024))
-
-;; Improve processing of sub-processes that generates large chunk.
-(setq read-process-output-max (* 1024 1024))
+(setenv "LSP_USE_PLISTS" "true")
 
 ;;; early-init.el ends here
