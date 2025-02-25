@@ -26,6 +26,6 @@
 ;; Make the initial buffer load faster by setting its mode to fundamental-mode
 (setq initial-major-mode 'fundamental-mode)
 
-(setenv "LSP_USE_PLISTS" "true")
+;; (setenv "LSP_USE_PLISTS" "true")
 
 ;;; early-init.el ends here
