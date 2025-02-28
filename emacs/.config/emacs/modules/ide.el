@@ -1,11 +1,5 @@
 ;;; Commentary:
 
-;; Code:
-;; (use-package tabnine
-;;   :hook
-;;   (prog-mode . tabnine-mode)
-;;   (text-mode . tabnine-mode))
-
 ;; ==================================== Project wide searching using ripgrep
 (use-package deadgrep)
 
@@ -19,25 +13,19 @@
               ("M-n" . flycheck-next-error) ; optional but recommended error navigation
               ("M-p" . flycheck-previous-error)))
 
-;; (use-package apheleia
-;;   :diminish ""
-;;   :config
-;;   (apheleia-global-mode +1))
-;; ;; (with-eval-after-load 'apheleia
-;; ;;   (add-to-list 'apheleia-formatters
-;; ;;                '(terraform-mode . "terraform fmt -")))
-;; (push '(csharpier . ("dotnet"
-;;                      "csharpier"
-;;                      ))
-;;       apheleia-formatters)
+(use-package apheleia
+  :diminish ""
+  :config
+  (apheleia-global-mode +1))
+;; (with-eval-after-load 'apheleia
+;;   (add-to-list 'apheleia-formatters
+;;                '(terraform-mode . "terraform fmt -")))
 ;; (push '(buf . ("buf"
 ;;                "format"
 ;;                filepath
 ;;                "-w"
 ;;                ))
 ;;       apheleia-formatters)
-;; (push '(csharp-mode . csharpier)
-;;       apheleia-mode-alist)
 ;; (push '(protobuf-mode . buf)
 ;;       apheleia-mode-alist)
 
@@ -77,12 +65,6 @@
 ;;                                    :name "NetCoreDbg::Launch"
 ;;                                    :stopAtEntry f))
 
-;; (use-package fsharp-mode)
-
-;; (use-package sharper
-;;   :bind
-;;   ("C-c n" . sharper-main-transient))
-
 ;; .editorconfig files
 ;; (use-package editorconfig
 ;;   :config
@@ -98,6 +80,7 @@
 
 (use-package web-mode)
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
 
 ;; (use-package restclient)
 
@@ -116,12 +99,10 @@
              (bash "https://github.com/tree-sitter/tree-sitter-bash")
              (c "https://github.com/tree-sitter/tree-sitter-c")
              (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-             (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")
              (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
              (elisp "https://github.com/Wilfred/tree-sitter-elisp")
              (go "https://github.com/tree-sitter/tree-sitter-go" "v0.20.0")
              (hcl "https://github.com/mitchellh/tree-sitter-hcl")
-             (html "https://github.com/tree-sitter/tree-sitter-html")
              (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "src")
              (json "https://github.com/tree-sitter/tree-sitter-json")
              (make "https://github.com/alemuller/tree-sitter-make")
@@ -142,24 +123,24 @@
     (unless (treesit-language-available-p (car grammar))
       (treesit-install-language-grammar (car grammar)))))
 
-(dolist (mapping
-         '((python-mode . python-ts-mode)
-           (css-mode . css-ts-mode)
-           (typescript-mode . typescript-ts-mode)
-           (js-mode . typescript-ts-mode)
-           (js2-mode . typescript-ts-mode)
-           (c-mode . c-ts-mode)
-           (c++-mode . c++-ts-mode)
-           (c-or-c++-mode . c-or-c++-ts-mode)
-           (bash-mode . bash-ts-mode)
-           (css-mode . css-ts-mode)
-           (json-mode . json-ts-mode)
-           (js-json-mode . json-ts-mode)
-           (sh-mode . bash-ts-mode)
-           (sh-base-mode . bash-ts-mode)
-           (yaml-mode . yaml-ts-mode)
-           ))
-  (add-to-list 'major-mode-remap-alist mapping))
+;; (dolist (mapping
+;;          '((python-mode . python-ts-mode)
+;;            (css-mode . css-ts-mode)
+;;            (typescript-mode . typescript-ts-mode)
+;;            (js-mode . typescript-ts-mode)
+;;            (js2-mode . typescript-ts-mode)
+;;            (c-mode . c-ts-mode)
+;;            (c++-mode . c++-ts-mode)
+;;            (c-or-c++-mode . c-or-c++-ts-mode)
+;;            (bash-mode . bash-ts-mode)
+;;            (css-mode . css-ts-mode)
+;;            (json-mode . json-ts-mode)
+;;            (js-json-mode . json-ts-mode)
+;;            (sh-mode . bash-ts-mode)
+;;            (sh-base-mode . bash-ts-mode)
+;;            (yaml-mode . yaml-ts-mode)
+;;            ))
+;;   (add-to-list 'major-mode-remap-alist mapping))
 
 ;; (os/setup-install-grammars)
 (add-to-list 'auto-mode-alist '("\\.css\\'" . css-ts-mode))
@@ -174,15 +155,15 @@
 
 (use-package lsp-mode
   :diminish "LSP"
-  :ensure t
   :hook ((lsp-mode . lsp-diagnostics-mode)
          (lsp-mode . lsp-enable-which-key-integration)
-         ((csharp-mode
+         ((
            tsx-ts-mode
            typescript-ts-mode
            js-ts-mode
            web-mode
-           yaml-ts-mode) . lsp-deferred))
+           yaml-ts-mode
+           ) . lsp-deferred))
   :custom
   (lsp-keymap-prefix "C-c l")           ; Prefix for LSP actions
   (lsp-completion-provider :none)       ; Using Corfu as the provider
@@ -246,21 +227,6 @@
                 lsp-ui-doc-show-with-cursor nil      ; Don't show doc when cursor is over symbol - too distracting
                 lsp-ui-doc-include-signature t       ; Show signature
                 lsp-ui-doc-position 'at-point))
-
-;; (use-package lsp-tailwindcss
-;;   :straight '(lsp-tailwindcss :type git :host github :repo "merrickluo/lsp-tailwindcss")
-;;   :init (setq lsp-tailwindcss-add-on-mode t)
-;;   :config
-;;   (dolist (tw-major-mode
-;;            '(css-mode
-;;              css-ts-mode
-;;              typescript-mode
-;;              typescript-ts-mode
-;;              tsx-ts-mode
-;;              js2-mode
-;;              js-ts-mode
-;;              clojure-mode))
-;;     (add-to-list 'lsp-tailwindcss-major-modes tw-major-mode)))
 
 ;; (use-package lsp-treemacs
 ;;   :config
