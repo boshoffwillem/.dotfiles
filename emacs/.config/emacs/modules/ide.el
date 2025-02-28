@@ -19,27 +19,27 @@
               ("M-n" . flycheck-next-error) ; optional but recommended error navigation
               ("M-p" . flycheck-previous-error)))
 
-(use-package apheleia
-  :diminish ""
-  :config
-  (apheleia-global-mode +1))
-;; (with-eval-after-load 'apheleia
-;;   (add-to-list 'apheleia-formatters
-;;                '(terraform-mode . "terraform fmt -")))
-(push '(csharpier . ("dotnet"
-                     "csharpier"
-                     ))
-      apheleia-formatters)
-(push '(buf . ("buf"
-               "format"
-               filepath
-               "-w"
-               ))
-      apheleia-formatters)
-(push '(csharp-mode . csharpier)
-      apheleia-mode-alist)
-(push '(protobuf-mode . buf)
-      apheleia-mode-alist)
+;; (use-package apheleia
+;;   :diminish ""
+;;   :config
+;;   (apheleia-global-mode +1))
+;; ;; (with-eval-after-load 'apheleia
+;; ;;   (add-to-list 'apheleia-formatters
+;; ;;                '(terraform-mode . "terraform fmt -")))
+;; (push '(csharpier . ("dotnet"
+;;                      "csharpier"
+;;                      ))
+;;       apheleia-formatters)
+;; (push '(buf . ("buf"
+;;                "format"
+;;                filepath
+;;                "-w"
+;;                ))
+;;       apheleia-formatters)
+;; (push '(csharp-mode . csharpier)
+;;       apheleia-mode-alist)
+;; (push '(protobuf-mode . buf)
+;;       apheleia-mode-alist)
 
 ;; (use-package dap-mode
 ;;   :commands (dap-debug dap-breakpoints-add)
@@ -96,6 +96,9 @@
 (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode))
 (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
 
+(use-package web-mode)
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
 ;; (use-package restclient)
 
 ;; .xml files
@@ -129,7 +132,8 @@
              (toml "https://github.com/tree-sitter/tree-sitter-toml")
              (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
              (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-             (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+             (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+             ))
     (setq treesit-language-source-alist grammar)
 
     ;; Only install `grammar' if we don't already have it
@@ -153,10 +157,11 @@
            (js-json-mode . json-ts-mode)
            (sh-mode . bash-ts-mode)
            (sh-base-mode . bash-ts-mode)
-           (yaml-mode . yaml-ts-mode)))
+           (yaml-mode . yaml-ts-mode)
+           ))
   (add-to-list 'major-mode-remap-alist mapping))
 
-(os/setup-install-grammars)
+;; (os/setup-install-grammars)
 (add-to-list 'auto-mode-alist '("\\.css\\'" . css-ts-mode))
 (add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . dockerfile-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . typescript-ts-mode))
@@ -164,75 +169,8 @@
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . tsx-ts-mode))
-
-;; LSP
-;; (use-package lsp-mode
-;;   :bind
-;;   (:map lsp-mode-map
-;;         ("C-c l t r" . lsp-csharp-run-test-at-point)
-;;         ("C-c l r a" . lsp-csharp-run-all-tests-in-buffer)
-;;         )
-;;   :init
-;;   (setq lsp-keymap-prefix "C-c l")
-;;   :config
-;;   (setq lsp-lens-place-position 'above-line)
-;;   :custom
-;;   (setq lsp-idle-delay 0.5)
-;;   (setq lsp-log-io nil)
-;;   (setq lsp-auto-execute-action nil)
-;;   (setq lsp-enable-file-watchers nil)
-;;   (setq lsp-lens-enable t)
-;;   (setq lsp-inlay-hint-enable t)
-;;   (setq lsp-insert-final-newline nil)
-;;   (setq lsp-headerline-breadcrumb-enable nil)
-;;   (setq lsp-headerline-breadcrumb-enable-symbol-numbers nil)
-;;   (setq lsp-modeline-code-actions-enable t)
-;;   (setq lsp-modeline-diagnostics-enable t)
-;;   (setq lsp-modeline-diagnostics-scope :workspace)
-;;   (lsp-eldoc-render-all t)
-;;   (setq lsp-eldoc-hook nil)
-;;   ;; (setq lsp-enable-symbol-highlighting nil)
-;;   (setq lsp-signature-auto-activate nil)
-;;   (lsp-rust-analyzer-cargo-watch-command "clippy")
-;;   (lsp-rust-analyzer-server-display-inlay-hints t)
-;;   (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
-;;   (lsp-rust-analyzer-display-chaining-hints t)
-;;   (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
-;;   (lsp-rust-analyzer-display-closure-return-type-hints t)
-;;   (lsp-rust-analyzer-display-parameter-hints nil)
-;;   (lsp-rust-analyzer-display-reborrow-hints nil)
-;;   (lsp-csharp-omnisharp-enable-decompilation-support t)
-;;   :hook (
-;;          (lsp-mode . lsp-enable-which-key-integration)
-;;          (lsp-mode . lsp-ui-mode)
-;;          (bash-ts-mode . lsp-deferred)
-;;          (c++-ts-mode . lsp-deferred)
-;;          (c-ts-mode . lsp-deferred)
-;;          (css-ts-mode . lsp-deferred)
-;;          (csharp-mode . lsp-deferred)
-;;          (dockerfile-ts-mode . lsp-deferred)
-;;          (go-mod-ts-mode . lsp-deferred)
-;;          (go-ts-mode . lsp-deferred)
-;;          (mhtml-mode . lsp-deferred)
-;;          (js-ts-mode . lsp-deferred)
-;;          (json-ts-mode . lsp-deferred)
-;;          (python-ts-mode . lsp-deferred)
-;;          (rust-ts-mode . lsp-deferred)
-;;          (terraform-mode . lsp-deferred)
-;;          (toml-ts-mode . lsp-deferred)
-;;          (tsx-ts-mode . lsp-deferred)
-;;          (typescript-ts-mode . lsp-deferred)
-;;          (yaml-ts-mode . lsp-deferred)
-;;          )
-;;   :commands (lsp lsp-deferred))
-
-;; (use-package lsp-ui
-;;   :ensure
-;;   :commands lsp-ui-mode
-;;   :custom
-;;   (lsp-ui-peek-always-show t)
-;;   (lsp-ui-sideline-show-hover t)
-;;   (lsp-ui-doc-enable nil))
+(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-ts-mode))
 
 (use-package lsp-mode
   :diminish "LSP"
@@ -243,6 +181,7 @@
            tsx-ts-mode
            typescript-ts-mode
            js-ts-mode
+           web-mode
            yaml-ts-mode) . lsp-deferred))
   :custom
   (lsp-keymap-prefix "C-c l")           ; Prefix for LSP actions
@@ -308,32 +247,32 @@
                 lsp-ui-doc-include-signature t       ; Show signature
                 lsp-ui-doc-position 'at-point))
 
-(use-package lsp-tailwindcss
-  :straight '(lsp-tailwindcss :type git :host github :repo "merrickluo/lsp-tailwindcss")
-  :init (setq lsp-tailwindcss-add-on-mode t)
-  :config
-  (dolist (tw-major-mode
-           '(css-mode
-             css-ts-mode
-             typescript-mode
-             typescript-ts-mode
-             tsx-ts-mode
-             js2-mode
-             js-ts-mode
-             clojure-mode))
-    (add-to-list 'lsp-tailwindcss-major-modes tw-major-mode)))
+;; (use-package lsp-tailwindcss
+;;   :straight '(lsp-tailwindcss :type git :host github :repo "merrickluo/lsp-tailwindcss")
+;;   :init (setq lsp-tailwindcss-add-on-mode t)
+;;   :config
+;;   (dolist (tw-major-mode
+;;            '(css-mode
+;;              css-ts-mode
+;;              typescript-mode
+;;              typescript-ts-mode
+;;              tsx-ts-mode
+;;              js2-mode
+;;              js-ts-mode
+;;              clojure-mode))
+;;     (add-to-list 'lsp-tailwindcss-major-modes tw-major-mode)))
 
-(use-package lsp-treemacs
-  :config
-  (lsp-treemacs-sync-mode 1)
-  :commands lsp-treemacs-errors-list)
+;; (use-package lsp-treemacs
+;;   :config
+;;   (lsp-treemacs-sync-mode 1)
+;;   :commands lsp-treemacs-errors-list)
 
-(use-package consult-lsp
-  :config
-  ;; find symbol in project.
-  ;; (define-key lsp-mode-map (kbd "C-c p t") 'consult-lsp-symbols)
-  ;; (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
-  )
+;; (use-package consult-lsp
+;;   :config
+;;   ;; find symbol in project.
+;;   ;; (define-key lsp-mode-map (kbd "C-c p t") 'consult-lsp-symbols)
+;;   ;; (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
+;;   )
 
 (setq image-types '(svg png gif tiff jpeg xpm xbm pbm))
 (provide 'ide)
