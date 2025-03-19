@@ -100,6 +100,7 @@ local servers = {
     },
   },
   powershell_es = {},
+  omnisharp = {},
   rust_analyzer = {},
   terraformls = {},
   ts_ls = {},
