@@ -25,6 +25,7 @@ sudo apt install -y fira-code-fonts
 sudo apt install -y fonts-firacode
 sudo apt install -y texinfo
 sudo apt install -y libtree-sitter-dev
+sudo apt-get install -y ninja-build gettext cmake curl build-essential
 
 sudo apt install terraform -y
 wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
