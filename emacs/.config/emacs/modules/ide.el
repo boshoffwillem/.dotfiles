@@ -20,14 +20,20 @@
 ;; (with-eval-after-load 'apheleia
 ;;   (add-to-list 'apheleia-formatters
 ;;                '(terraform-mode . "terraform fmt -")))
-;; (push '(buf . ("buf"
-;;                "format"
-;;                filepath
-;;                "-w"
-;;                ))
-;;       apheleia-formatters)
-;; (push '(protobuf-mode . buf)
-;;       apheleia-mode-alist)
+(push '(csharpier . ("dotnet"
+                     "csharpier"
+                     ))
+      apheleia-formatters)
+(push '(buf . ("buf"
+               "format"
+               filepath
+               "-w"
+               ))
+      apheleia-formatters)
+(push '(csharp-mode . csharpier)
+      apheleia-mode-alist)
+(push '(protobuf-mode . buf)
+      apheleia-mode-alist)
 
 ;; (use-package dap-mode
 ;;   :commands (dap-debug dap-breakpoints-add)
@@ -158,6 +164,7 @@
   :hook ((lsp-mode . lsp-diagnostics-mode)
          (lsp-mode . lsp-enable-which-key-integration)
          ((
+           csharp-mode
            tsx-ts-mode
            typescript-ts-mode
            js-ts-mode
@@ -211,8 +218,9 @@
   ;; semantic
   (lsp-semantic-tokens-enable nil)      ; Related to highlighting, and we defer to treesitter
 
-  :init
-  (setq lsp-use-plists t))
+  ;; :init
+  ;; (setq lsp-use-plists t)
+  )
 
 (use-package lsp-ui
   :ensure t
