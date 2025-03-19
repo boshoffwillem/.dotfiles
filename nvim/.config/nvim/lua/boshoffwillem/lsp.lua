@@ -69,24 +69,6 @@ local lsp_flags = {
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 
-local omnisharp_cmd = {}
-
-local omnisharp_setup = function(cmd)
-  table.insert(cmd, "omnisharp")
-  table.insert(cmd, "-z") -- https://github.com/OmniSharp/omnisharp-vscode/pull/4300
-  vim.list_extend(cmd, { "--hostPID", tostring(vim.fn.getpid()) })
-  vim.list_extend(cmd, { "--encoding", "utf-8" })
-  table.insert(cmd, "--languageserver")
-  table.insert(cmd, "DotNet:EnablePackageRestore=true")
-  table.insert(cmd, "FormattingOptions:EnableEditorConfigSupport=true")
-  table.insert(cmd, "FormattingOptions:OrganizeImports=true")
-  table.insert(cmd, "RoslynExtensionsOptions:EnableAnalyzersSupport=true")
-  table.insert(cmd, "RoslynExtensionsOptions:EnableImportCompletion=true")
-  table.insert(cmd, "RoslynExtensionsOptions:EnableDecompilationSupport=true")
-  table.insert(cmd, "Sdk:IncludePrereleases=true")
-end
-omnisharp_setup(omnisharp_cmd)
-
 local servers = {
   angularls = {},
   azure_pipelines_ls = {
@@ -104,7 +86,6 @@ local servers = {
   -- fsautocomplete = {},
   dockerls = {},
   docker_compose_language_service = {},
-  fsautocomplete = {},
   html = {},
   jsonls = {
     json = {
@@ -118,7 +99,6 @@ local servers = {
       telemetry = { enable = false },
     },
   },
-  omnisharp = {},
   powershell_es = {},
   rust_analyzer = {},
   terraformls = {},

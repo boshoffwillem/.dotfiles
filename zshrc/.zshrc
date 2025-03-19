@@ -262,6 +262,10 @@ fi
 alias csharpier="dotnet csharpier"
 
 export PATH
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk
+export PATH=$JAVA_HOME/bin:$PATH
 
 eval "$(starship init zsh)"
 . "$HOME/.cargo/env"

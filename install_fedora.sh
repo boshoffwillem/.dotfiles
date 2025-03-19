@@ -1,15 +1,11 @@
 #!/usr/bin/env sh
 
 sudo dnf install -y git
-sudo dnf install -y go
+sudo dnf -y install ninja-build cmake gcc make gettext curl glibc-gconv-extra
 sudo dnf install -y htop
 sudo dnf install -y ripgrep
 sudo dnf install -y bat
 sudo dnf install -y exa
-sudo dnf install -y gcc
-sudo dnf install -y g++
-sudo dnf install -y make
-sudo dnf install -y cmake
 sudo dnf install -y autoconf
 sudo dnf install -y automake
 sudo dnf install -y fd-find
@@ -22,25 +18,17 @@ sudo dnf install -y stow
 sudo dnf install -y unzip
 sudo dnf install -y autoconf
 sudo dnf install -y fira-code-fonts
-sudo dnf install -y gtk3-devel
-sudo dnf install -y texinfo
-sudo dnf install -y libtiff-devel
-sudo dnf install -y giflib-devel
-sudo dnf install -y libgccjit-devel
-sudo dnf install -y libxml2-devel
-sudo dnf install -y libtree-sitter-devel
-sudo dnf install -y libotf-devel
-sudo dnf install -y gnutls-devel
-sudo dnf install -y jansson-devel
-sudo dnf install -y ncurses-devel
-sudo dnf install -y gnome-tweaks
 sudo dnf install -y wget
 sudo dnf install -y zig
 sudo dnf install -y hyperfine
-sudo dnf install -y dotnet-sdk-8.0
-dotnet tool install --global PowerShell
-dotnet new install Avalonia.Templates
-dotnet new install SpecFlow.Templates.DotNet
+sudo dnf install -y snapd
+sudo dnf install -y git-delta
+
+# Rust
+# =============================================================================
+# Install rustup
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# =============================================================================
 
 # linters and formatters
 sudo npm install -g @bufbuild/buf
@@ -55,44 +43,34 @@ sudo dnf install -y zsh
 chsh -s $(which zsh)
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 sudo lchsh $USER
-sudo lchsh $USER
-# =============================================================================
-
-# Rust
-# =============================================================================
-# Install rustup
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # =============================================================================
 
 # nvim
 # =============================================================================
-sudo dnf install -y neovim
-stow nvim
+# mkdir ~/code
+# mkdir ~/code/work
+# cd ~/code
+# git clone https://github.com/neovim/neovim.git
+# cd neovim
+# make CMAKE_BUILD_TYPE=Release
+# sudo make install
+# cd ~
 # =============================================================================
 
-# install emacs
-# =============================================================================
-# mkdir ~/code
-# cd ~/code
-# git clone git://git.sv.gnu.org/emacs.git -b emacs-29 --depth=1
-# cd emacs
-# ./autogen.sh
-# ./configure --with-native-compilation=aot --with-json --with-tree-sitter --with-pgtk --with-mailutils
-# make -j$(nproc)
-# # src/emacs -Q
-# sudo make -j$(nproc) install
-# cd ~/.dotfiles
-#
-# # doom emacs
-# git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs
-# ~/.config/emacs/bin/doom install
-# rm -rdf ~/.config/doom
-# stow doom.d
-# ~/.config/emacs/bin/doom sync
-# =============================================================================
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
+echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+dnf check-update
+sudo dnf install -y code # or code-insiders
+
+sudo dnf copr enable pgdev/ghostty
+sudo dnf install -y ghostty
+sudo snap install insomnia
 
 stow git
+rm ~/.bashrc
 stow bashrc
+rm ~/.zshrc
+stow zshrc
 stow ideavimrc
 stow nvim
 stow omnisharp

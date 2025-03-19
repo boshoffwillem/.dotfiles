@@ -11,7 +11,6 @@ sudo apt install -y exa
 sudo apt install -y gcc
 sudo apt install -y g++
 sudo apt install -y make
-sudo apt install -y cmake
 sudo apt install -y autoconf
 sudo apt install -y fd-find
 sudo apt install -y nodejs
@@ -40,63 +39,49 @@ sudo apt install golang -y
 sudo apt install net-tools -y
 sudo apt install zig -y
 sudo apt install hyperfine -y
-sudo apt install shfmt -y
-sudo apt install libsoup-3.0-dev -y
-sudo apt install -y libwebkit2gtk-4.1-dev -y
-sudo apt install libjavascriptcoregtk-4.1-dev -y
-python3 -m pip install --upgrade pip setuptools wheel
-
-wget https://packages.microsoft.com/config/debian/12/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-sudo dpkg -i packages-microsoft-prod.deb
-rm packages-microsoft-prod.deb
-sudo apt-get update -y
-sudo apt-get install -y dotnet-sdk-8.0
-sudo apt-get install -y dotnet-sdk-9.0
-sudo apt-get install -y azure-cli
-dotnet tool install -g dotnet-grpc
-dotnet tool install -g PowerShell
-dotnet tool install --global csharpier
-dotnet new install Avalonia.Templates
-dotnet new install SpecFlow.Templates.DotNet
+sudo apt install -y git-delta
 
 # linters and formatters
 sudo npm install -g @bufbuild/buf
 sudo npm install -g prettier
-sudo npm install -g yaml-language-server
-sudo npm install -g bash-language-server
-
-# use starship shell prompt
-# =============================================================================
-curl -sS https://starship.rs/install.sh | sh
-# =============================================================================
+sudo apt install shfmt -y
 
 # Rust
 # =============================================================================
 # Install rustup
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-cargo install --locked bat
+# =============================================================================
+
+# use starship shell prompt
+# =============================================================================
+curl -sS https://starship.rs/install.sh | sh
+stow starship
+sudo apt install -y zsh
+chsh -s $(which zsh)
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+sudo lchsh $USER
 # =============================================================================
 
 # nvim
-# ============================================================================
-sudo apt-get install -y neovim
+# =============================================================================
+mkdir ~/code
+mkdir ~/code/work
+cd ~/code
+git clone https://github.com/neovim/neovim.git
+cd neovim
+make CMAKE_BUILD_TYPE=Release
+sudo make install
+cd ~
 # =============================================================================
 
-# install emacs
-# =============================================================================
-sudo apt install build-essential libgtk-3-dev libgnutls28-dev libtiff5-dev libgif-dev libjpeg-dev libpng-dev libxpm-dev libncurses-dev texinfo
-sudo apt-get install -y libclang-dev libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxkbcommon-dev libssl-dev
-sudo apt install libgccjit0 -y
-sudo apt install libgccjit-14-dev -y
-sudo apt install libjsonparser-dev -y
-sudo apt install libjansson-dev -y
-# git clone https://github.com/emacs-mirror/emacs.git -b emacs-30 --depth=1 ~/code/emacs
-# ~/code/emacs/autogen.sh
-# ~/code/emacs/configure --with-native-compilation=aot --with-tree-sitter --with-pgtk --with-mailutils
-# make -j8
-# src/emacs -Q
-# sudo make install
-# =============================================================================
+sudo apt-get install wget gpg
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" |sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
+rm -f packages.microsoft.gpg
+sudo apt install -y apt-transport-https
+sudo apt update
+sudo apt install -y code # or code-insiders
 
 cd ~/.dotfiles
 rm ~/.bashrc
@@ -106,15 +91,7 @@ stow git
 stow ideavimrc
 stow kitty
 stow nvim
-stow emacs
 stow omnisharp
 stow starship
-
-# ZSH
-# =============================================================================
-sudo apt-get install -y zsh
-chsh -s $(which zsh)
-# =============================================================================
-
-#sudo apt-get install -y metasploit-framework
-#sudo apt install -y kali-win-kex
+rm ~/.zshrc
+stow zshrc
