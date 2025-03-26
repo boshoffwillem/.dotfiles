@@ -103,6 +103,43 @@ sudo make install
 cd ~
 # =============================================================================
 
+# emacs
+# =============================================================================
+# cd ~/code
+# git clone --depth=1 git://git.savannah.gnu.org/emacs.git
+# sudo apt install -y \
+#   build-essential \
+#   libgtk-3-dev \
+#   libgnutls28-dev \
+#   libtiff5-dev \
+#   libgif-dev \
+#   libjpeg-dev \
+#   libpng-dev \
+#   libxpm-dev \
+#   libncurses-dev \
+#   texinfo
+# sudo apt install -y libjansson4 libjansson-dev
+# sudo apt install -y \
+#   libgccjit0 \
+#   libgccjit-10-dev \
+#   gcc-10 \
+#   g++-10
+# sudo apt install -y libmagickcore-dev libmagick++-dev
+# sudo apt install -y libtree-sitter-dev
+# cd emacs
+# export CC=/usr/bin/gcc-10 CXX=/usr/bin/gcc-10
+# ./autogen.sh
+# ./configure \
+#     --with-native-compilation \
+#     --with-json \
+#     --with-tree-sitter \
+#     --with-imagemagick \
+#     --with-xwidgets
+# make --jobs=$(nproc)
+# sudo make install
+# cd ~/.dotfiles
+# =============================================================================
+
 sudo apt-get install wget gpg
 wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
 sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg

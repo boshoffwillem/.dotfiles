@@ -23,10 +23,24 @@ sudo dnf install -y zig
 sudo dnf install -y hyperfine
 sudo dnf install -y snapd
 sudo dnf install -y git-delta
+sudo dnf install -y go
 
 # Dotnet
 # =============================================================================
 sudo dnf install -y dotnet-sdk-9.0
+# =============================================================================
+
+# language servers
+# =============================================================================
+sudo npm install -g vscode-css-languageservice
+sudo npm install -g vscode-html-languageservice
+sudo npm install -g vscode-json-languageservice
+sudo npm install -g @angular/language-service@next typescript  @angular/language-server
+sudo npm install -g angular/vscode-ng-language-service
+sudo npm install -g json-language-server
+sudo npm install -g typescript-language-server
+sudo npm install -g yaml-language-server
+go install github.com/bufbuild/buf-language-server/cmd/bufls@latest
 # =============================================================================
 
 # Docker
@@ -66,15 +80,56 @@ sudo lchsh $USER
 # mkdir ~/code
 # mkdir ~/code/work
 # cd ~/code
-# git clone https://github.com/neovim/neovim.git
+# git clone --depth=1 https://github.com/neovim/neovim.git
 # cd neovim
 # make CMAKE_BUILD_TYPE=Release
 # sudo make install
-# cd ~
+# cd ~/.dotfiles
+# =============================================================================
+
+# emacs
+# =============================================================================
+# cd ~/code
+# git clone --depth=1 git://git.savannah.gnu.org/emacs.git
+# sudo dnf -y builddep emacs
+# sudo dnf -y install make autoconf automake gcc gcc-c++ kernel-devel \
+#   gtk+-devel \
+#   gtk3-devel \
+#   webkit2gtk4.0-devel \
+#   webkit2gtk4.1-devel \
+#   gnutls-devel \
+#   libtiff-devel \
+#   libcgif-devel \
+#   libjpeg-turbo-devel \
+#   libpng-devel \
+#   libXpm-devel \
+#   ncurses-devel \
+#   texinfo \
+#   jansson-devel \
+#   libgccjit-devel \
+#   gcc-c++
+# sudo dnf -y install ImageMagick-devel ImageMagick-c++-devel
+# sudo dnf -y install libtree-sitter-devel
+# cd emacs
+# ./autogen.sh
+# ./configure \
+#     --with-native-compilation \
+#     --with-json \
+#     --with-tree-sitter \
+#     --with-imagemagick \
+#     --with-xwidgets
+# make --jobs=$(nproc)
+# sudo make install
+# cd ~/code
+# git clone --depth=1 https://github.com/cask/cask
+# mkdir ~/.local/bin
+# make -C cask install
+# cd ~/.dotfiles
+# cask install elsa
 # =============================================================================
 
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
-echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo >/dev/null
 dnf check-update
 sudo dnf install -y code # or code-insiders
 

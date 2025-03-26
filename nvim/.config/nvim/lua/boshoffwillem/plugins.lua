@@ -38,6 +38,7 @@ require("packer").startup(function(use)
   })
   use({ "williamboman/mason.nvim" })
   use({ "williamboman/mason-lspconfig.nvim" })
+  use({ "hoffs/omnisharp-extended-lsp.nvim" })
   use({ "mhartington/formatter.nvim" })
   use({ "lewis6991/hover.nvim" })
 

@@ -16,19 +16,19 @@ local on_attach = function(client, bufnr)
     vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
   end
 
-  if client.name == "omnisharp" then
-    -- https://github.com/OmniSharp/omnisharp-roslyn/issues/2483#issuecomment-1492605642
-    local tokenModifiers = client.server_capabilities.semanticTokensProvider.legend.tokenModifiers
-    for i, v in ipairs(tokenModifiers) do
-      tmp = string.gsub(v, " ", "_")
-      tokenModifiers[i] = string.gsub(tmp, "-_", "")
-    end
-    local tokenTypes = client.server_capabilities.semanticTokensProvider.legend.tokenTypes
-    for i, v in ipairs(tokenTypes) do
-      tmp = string.gsub(v, " ", "_")
-      tokenTypes[i] = string.gsub(tmp, "-_", "")
-    end
-  end
+  -- if client.name == "omnisharp" then
+  --   -- https://github.com/OmniSharp/omnisharp-roslyn/issues/2483#issuecomment-1492605642
+  --   local tokenModifiers = client.server_capabilities.semanticTokensProvider.legend.tokenModifiers
+  --   for i, v in ipairs(tokenModifiers) do
+  --     tmp = string.gsub(v, " ", "_")
+  --     tokenModifiers[i] = string.gsub(tmp, "-_", "")
+  --   end
+  --   local tokenTypes = client.server_capabilities.semanticTokensProvider.legend.tokenTypes
+  --   for i, v in ipairs(tokenTypes) do
+  --     tmp = string.gsub(v, " ", "_")
+  --     tokenTypes[i] = string.gsub(tmp, "-_", "")
+  --   end
+  -- end
 
   nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
   nmap("gd", vim.lsp.buf.definition, "")
@@ -100,7 +100,18 @@ local servers = {
     },
   },
   powershell_es = {},
-  omnisharp = {},
+  omnisharp = {
+    settings = {
+      RoslynExtensionsOptions = {
+        EnableAnalyzersSupport = true,
+        EnableImportCompletion = true,
+        EnableDecompilationSupport = true,
+        InlayHintsOptions = {
+          EnableForParameters = true,
+        },
+      },
+    },
+  },
   rust_analyzer = {},
   terraformls = {},
   ts_ls = {},
@@ -135,12 +146,22 @@ mason_lspconfig.setup({
 
 mason_lspconfig.setup_handlers({
   function(server_name)
-    require("lspconfig")[server_name].setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      flags = lsp_flags,
-      settings = servers[server_name],
-    })
+    if server_name == "omnisharp" then
+      require("lspconfig")[server_name].setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        flags = lsp_flags,
+        settings = servers[server_name],
+        handlers = { ["textDcoument/definition"] = require("omnisharp_extended").handler },
+      })
+    else
+      require("lspconfig")[server_name].setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+        flags = lsp_flags,
+        settings = servers[server_name],
+      })
+    end
     -- if server_name == 'efm' then
     --   require('lspconfig')[server_name].setup {
     --     init_options = { documentFormatting = true }

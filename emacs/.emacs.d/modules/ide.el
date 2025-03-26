@@ -35,42 +35,6 @@
 (push '(protobuf-mode . buf)
       apheleia-mode-alist)
 
-;; (use-package dap-mode
-;;   :commands (dap-debug dap-breakpoints-add)
-;;   :init
-;;   (dap-mode 1)
-;;   (dap-ui-mode 1)
-;;   (dap-auto-configure-mode)
-;;   (require 'dap-netcore)
-;;   :custom
-;;   (dap-netcore-install-dir "~/.config/emacs/.cache/"))
-
-;; (use-package posframe)
-
-;; (defun dap-netcore--populate-default-args (conf)
-;;   "Populate CONF with the default arguments."
-;;   (dap--put-if-absent conf :cwd lsp-workspace-root)
-;;   (dap--put-if-absent conf :program (read-file-name "Select an executable:"))
-;;   (dap--put-if-absent conf :dap-server-path (list (dap-netcore--debugger-locate) "--interpreter=vscode")))
-
-;; (dap-register-debug-provider
-;;  ".NET"
-;;  'dap-netcore--populate-default-args)
-
-;; (dap-register-debug-template ".Net Core Launch (Psicle SERVER_DEBUG)"
-;;                              (list :type "coreclr"
-;;                                    :request "launch"
-;;                                    :name "NetCoreDbg::Launch"
-;;                                    :stopAtEntry t))
-
-;; (dap-register-debug-template ".Net Core Attach (Psicle SERVER_DEBUG)"
-;;                              (list :type "coreclr"
-;;                                    :request "attach"
-;;                                    :program ""
-;;                                    :processId "${command:pickProcess}"
-;;                                    :name "NetCoreDbg::Launch"
-;;                                    :stopAtEntry f))
-
 ;; .editorconfig files
 ;; (use-package editorconfig
 ;;   :config
@@ -106,14 +70,14 @@
              (c "https://github.com/tree-sitter/tree-sitter-c")
              (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
              (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
-             (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-             (go "https://github.com/tree-sitter/tree-sitter-go" "v0.20.0")
-             (hcl "https://github.com/mitchellh/tree-sitter-hcl")
-             (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "src")
+             (go "https://github.com/tree-sitter/tree-sitter-go")
+             ;; (hcl "https://github.com/mitchellh/tree-sitter-hcl")
+             (html "https://github.com/tree-sitter/tree-sitter-html")
+             (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
              (json "https://github.com/tree-sitter/tree-sitter-json")
-             (make "https://github.com/alemuller/tree-sitter-make")
-             (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-             (proto "https://github.com/mitchellh/tree-sitter-proto")
+             ;; (make "https://github.com/alemuller/tree-sitter-make")
+             ;; (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+             ;; (proto "https://github.com/mitchellh/tree-sitter-proto")
              (python "https://github.com/tree-sitter/tree-sitter-python")
              (rust "https://github.com/tree-sitter/tree-sitter-rust")
              (toml "https://github.com/tree-sitter/tree-sitter-toml")
@@ -129,33 +93,22 @@
     (unless (treesit-language-available-p (car grammar))
       (treesit-install-language-grammar (car grammar)))))
 
-;; (dolist (mapping
-;;          '((python-mode . python-ts-mode)
-;;            (css-mode . css-ts-mode)
-;;            (typescript-mode . typescript-ts-mode)
-;;            (js-mode . typescript-ts-mode)
-;;            (js2-mode . typescript-ts-mode)
-;;            (c-mode . c-ts-mode)
-;;            (c++-mode . c++-ts-mode)
-;;            (c-or-c++-mode . c-or-c++-ts-mode)
-;;            (bash-mode . bash-ts-mode)
-;;            (css-mode . css-ts-mode)
-;;            (json-mode . json-ts-mode)
-;;            (js-json-mode . json-ts-mode)
-;;            (sh-mode . bash-ts-mode)
-;;            (sh-base-mode . bash-ts-mode)
-;;            (yaml-mode . yaml-ts-mode)
-;;            ))
-;;   (add-to-list 'major-mode-remap-alist mapping))
-
 ;; (os/setup-install-grammars)
-(add-to-list 'auto-mode-alist '("\\.css\\'" . css-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.c\\'" . c-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.css\\'" . css-ts-mode))
 (add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . dockerfile-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.html\\'" . html-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . typescript-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . tsx-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . tsx-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.sh\\'" . bash-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-ts-mode))
 
@@ -164,12 +117,22 @@
   :hook ((lsp-mode . lsp-diagnostics-mode)
          (lsp-mode . lsp-enable-which-key-integration)
          ((
-           csharp-mode
-           tsx-ts-mode
-           typescript-ts-mode
-           js-ts-mode
-           web-mode
-           yaml-ts-mode
+           elisp-mode
+           prog-mode
+           ;; bash-ts-mode
+           ;; c-ts-mode
+           ;; cpp-ts-mode
+           ;; css-ts-mode
+           ;; dockerfile-ts-mode
+           ;; go-ts-mode
+           ;; html-ts-mode
+           ;; json-ts-mode
+           ;; python-ts-mode
+           ;; rust-ts-mode
+           ;; tsx-ts-mode
+           ;; typescript-ts-mode
+           ;; web-mode
+           ;; yaml-ts-mode
            ) . lsp-deferred))
   :custom
   (lsp-keymap-prefix "C-c l")           ; Prefix for LSP actions
@@ -217,24 +180,21 @@
   (lsp-lens-enable nil)                 ; Optional, I don't need it
   ;; semantic
   (lsp-semantic-tokens-enable nil)      ; Related to highlighting, and we defer to treesitter
-
-  ;; :init
-  ;; (setq lsp-use-plists t)
   )
 
-(use-package lsp-ui
-  :ensure t
-  :commands
-  (lsp-ui-doc-show
-   lsp-ui-doc-glance)
-  :bind (:map lsp-mode-map
-              ("C-c C-d" . 'lsp-ui-doc-glance))
-  :after (lsp-mode evil)
-  :config (setq lsp-ui-doc-enable t
-                evil-lookup-func #'lsp-ui-doc-glance ; Makes K in evil-mode toggle the doc for symbol at point
-                lsp-ui-doc-show-with-cursor nil      ; Don't show doc when cursor is over symbol - too distracting
-                lsp-ui-doc-include-signature t       ; Show signature
-                lsp-ui-doc-position 'at-point))
+;; (use-package lsp-ui
+;;   :ensure t
+;;   :commands
+;;   (lsp-ui-doc-show
+;;    lsp-ui-doc-glance)
+;;   :bind (:map lsp-mode-map
+;;               ("C-c C-d" . 'lsp-ui-doc-glance))
+;;   :after (lsp-mode evil)
+;;   :config (setq lsp-ui-doc-enable t
+;;                 evil-lookup-func #'lsp-ui-doc-glance ; Makes K in evil-mode toggle the doc for symbol at point
+;;                 lsp-ui-doc-show-with-cursor nil      ; Don't show doc when cursor is over symbol - too distracting
+;;                 lsp-ui-doc-include-signature t       ; Show signature
+;;                 lsp-ui-doc-position 'at-point))
 
 ;; (use-package lsp-treemacs
 ;;   :config
@@ -247,6 +207,42 @@
 ;;   ;; (define-key lsp-mode-map (kbd "C-c p t") 'consult-lsp-symbols)
 ;;   ;; (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
 ;;   )
+
+;; (use-package dap-mode
+;;   :commands (dap-debug dap-breakpoints-add)
+;;   :init
+;;   (dap-mode 1)
+;;   (dap-ui-mode 1)
+;;   (dap-auto-configure-mode)
+;;   (require 'dap-netcore)
+;;   :custom
+;;   (dap-netcore-install-dir "~/.config/emacs/.cache/"))
+
+;; (use-package posframe)
+
+;; (defun dap-netcore--populate-default-args (conf)
+;;   "Populate CONF with the default arguments."
+;;   (dap--put-if-absent conf :cwd lsp-workspace-root)
+;;   (dap--put-if-absent conf :program (read-file-name "Select an executable:"))
+;;   (dap--put-if-absent conf :dap-server-path (list (dap-netcore--debugger-locate) "--interpreter=vscode")))
+
+;; (dap-register-debug-provider
+;;  ".NET"
+;;  'dap-netcore--populate-default-args)
+
+;; (dap-register-debug-template ".Net Core Launch (Psicle SERVER_DEBUG)"
+;;                              (list :type "coreclr"
+;;                                    :request "launch"
+;;                                    :name "NetCoreDbg::Launch"
+;;                                    :stopAtEntry t))
+
+;; (dap-register-debug-template ".Net Core Attach (Psicle SERVER_DEBUG)"
+;;                              (list :type "coreclr"
+;;                                    :request "attach"
+;;                                    :program ""
+;;                                    :processId "${command:pickProcess}"
+;;                                    :name "NetCoreDbg::Launch"
+;;                                    :stopAtEntry f))
 
 (setq image-types '(svg png gif tiff jpeg xpm xbm pbm))
 (provide 'ide)
