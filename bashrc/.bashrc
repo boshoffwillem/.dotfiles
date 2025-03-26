@@ -20,3 +20,6 @@ export ARM_TENANT_ID='900993f4-cd20-41e9-b024-a200ed7ba3ec'
 
 eval "$(starship init bash)"
 . "$HOME/.cargo/env"
+
+export DOTNET_ROOT=$HOME/.dotnet
+export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
