@@ -12,13 +12,23 @@
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 (use-package doom-themes
   :config
-  (load-theme 'doom-dark+)
+  ;; (load-theme 'doom-dark+)
+  (load-theme 'doom-one)
   ;; (load-theme 'modus-vivendi)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
   (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
+
+(use-package autothemer)
+
+(straight-use-package
+ '(rose-pine-emacs
+   :host github
+   :repo "thongpv87/rose-pine-emacs"
+   :branch "master"))
+;; (load-theme 'rose-pine-moon t)
 
 ;; (use-package doom-modeline
 ;;   :init

@@ -76,6 +76,8 @@ require("packer").startup(function(use)
     --   use({ "tzachar/cmp-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-cmp" })
   end
 
+  -- use("github/copilot.vim")
+
   use("nvim-treesitter/playground")
 
   -- Highlight, edit, and navigate code

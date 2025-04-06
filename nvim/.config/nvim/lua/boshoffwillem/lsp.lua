@@ -31,7 +31,8 @@ local on_attach = function(client, bufnr)
   -- end
 
   nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-  nmap("gd", vim.lsp.buf.definition, "")
+  nmap("<leader>D", vim.lsp.buf.type_definition, "[G]oto [T]ype [D]efinition")
+  nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
   nmap("gr", vim.lsp.buf.references, "")
   nmap("gi", vim.lsp.buf.implementation, "")
   nmap("K", vim.lsp.buf.hover, "")
@@ -147,26 +148,18 @@ mason_lspconfig.setup({
 mason_lspconfig.setup_handlers({
   function(server_name)
     if server_name == "omnisharp" then
-      require("lspconfig")[server_name].setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-        flags = lsp_flags,
-        settings = servers[server_name],
-        handlers = { ["textDcoument/definition"] = require("omnisharp_extended").handler },
-      })
-    else
-      require("lspconfig")[server_name].setup({
-        capabilities = capabilities,
-        on_attach = on_attach,
-        flags = lsp_flags,
-        settings = servers[server_name],
-      })
+      vim.keymap.set("n", "gd", require("omnisharp_extended").lsp_definition)
+      vim.keymap.set("n", "gi", require("omnisharp_extended").lsp_implementation)
+      vim.keymap.set("n", "gr", require("omnisharp_extended").lsp_references)
+      vim.keymap.set("n", "<leader>D", require("omnisharp_extended").lsp_type_definition)
     end
-    -- if server_name == 'efm' then
-    --   require('lspconfig')[server_name].setup {
-    --     init_options = { documentFormatting = true }
-    --   }
-    -- end
+
+    require("lspconfig")[server_name].setup({
+      capabilities = capabilities,
+      on_attach = on_attach,
+      flags = lsp_flags,
+      settings = servers[server_name],
+    })
   end,
 })
 

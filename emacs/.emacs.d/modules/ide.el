@@ -6,6 +6,31 @@
 ;; ==================================== Search and replace with regular expressions
 (use-package visual-regexp)
 
+(use-package copilot)
+(add-hook 'prog-mode-hook 'copilot-mode)
+(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+
+;; (use-package tabnine)
+;; (with-eval-after-load 'company
+;;   ;; disable inline previews
+;;   (delq 'company-preview-if-just-one-frontend company-frontends))
+
+;; (with-eval-after-load 'tabnine
+;;   ;; (kbd "TAB") is literal ctrl-I, (kbd "<tab>) is the actual tab key
+;;   (define-key tabnine-completion-map (kbd "TAB") #'tabnine-accept-completion)
+;;   (define-key tabnine-completion-map (kbd "<tab>") #'tabnine-accept-completion)
+
+;;   (define-key tabnine-completion-map (kbd "M-f") #'tabnine-accept-completion-by-word)
+;;   (define-key tabnine-completion-map (kbd "M-<return>") #'tabnine-accept-completion-by-line)
+
+;;   (define-key tabnine-completion-map (kbd "C-g") #'tabnine-clear-overlay)
+;;   (define-key tabnine-completion-map (kbd "M-[") #'tabnine-next-completion)
+;;   (define-key tabnine-completion-map (kbd "M-]") #'tabnine-previous-completion))
+
+;; (add-hook 'prog-mode-hook #'tabnine-mode)
+;; (add-hook 'kill-emacs-hook #'tabnine-kill-process)
+
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode)
@@ -49,8 +74,8 @@
 (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
 
 (use-package web-mode)
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
 
 ;; (use-package restclient)
 
@@ -117,24 +142,26 @@
   :hook ((lsp-mode . lsp-diagnostics-mode)
          (lsp-mode . lsp-enable-which-key-integration)
          ((
-           elisp-mode
-           prog-mode
-           ;; bash-ts-mode
+           ;; elisp-mode
+           ;; prog-mode
+           bash-ts-mode
+           csharp-mode
            ;; c-ts-mode
            ;; cpp-ts-mode
            ;; css-ts-mode
-           ;; dockerfile-ts-mode
+           dockerfile-ts-mode
            ;; go-ts-mode
            ;; html-ts-mode
-           ;; json-ts-mode
+           json-ts-mode
            ;; python-ts-mode
            ;; rust-ts-mode
            ;; tsx-ts-mode
-           ;; typescript-ts-mode
-           ;; web-mode
-           ;; yaml-ts-mode
+           typescript-ts-mode
+           web-mode
+           yaml-ts-mode
            ) . lsp-deferred))
   :custom
+  (lsp-csharp-omnisharp-enable-decompilation-support t)
   (lsp-keymap-prefix "C-c l")           ; Prefix for LSP actions
   (lsp-completion-provider :none)       ; Using Corfu as the provider
   (lsp-diagnostics-provider :flycheck)
