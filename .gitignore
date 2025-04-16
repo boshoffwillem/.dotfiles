@@ -2,17 +2,17 @@
 .luarc.json
 
 # emacs
-emacs/.config/emacs/straight/
-emacs/.config/emacs/elpa/
-emacs/.config/emacs/eln-cache/
-emacs/.config/emacs/transient/
-emacs/.config/emacs/history
-emacs/.config/emacs/recentf
-emacs/.config/emacs/.cache/
-emacs/.config/emacs/.dap-breakpoints
-emacs/.config/emacs/.lsp-session-v1
-emacs/.config/emacs/eshell/
-emacs/.config/emacs/projects
-emacs/.config/emacs/url/
-emacs/.config/emacs/tree-sitter/
-emacs/.config/emacs/auto-save-list/
+emacs/.emacs.d/straight/
+emacs/.emacs.d/elpa/
+emacs/.emacs.d/eln-cache/
+emacs/.emacs.d/transient/
+emacs/.emacs.d/history
+emacs/.emacs.d/recentf*
+emacs/.emacs.d/.cache/
+emacs/.emacs.d/.dap-breakpoints
+emacs/.emacs.d/.lsp-session-v1
+emacs/.emacs.d/eshell/
+emacs/.emacs.d/projects
+emacs/.emacs.d/url/
+emacs/.emacs.d/tree-sitter/
+emacs/.emacs.d/auto-save-list/

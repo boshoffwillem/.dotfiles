@@ -28,6 +28,16 @@ sudo apt install -y texinfo
 sudo apt install -y libtree-sitter-dev
 sudo apt-get install -y ninja-build gettext cmake build-essential
 sudo apt install -y \
+  libfuse2 \
+  libxi6 \
+  libxrender1 \
+  libxtst6 \
+  mesa-utils \
+  libfontconfig \
+  libgtk-3-bin \
+  tar \
+  dbus-user-session
+sudo apt install -y \
   libgtk-3-dev \
   libgnutls28-dev \
   libtiff5-dev \
@@ -35,8 +45,7 @@ sudo apt install -y \
   libjpeg-dev \
   libpng-dev \
   libxpm-dev \
-  libncurses-dev \
-  texinfo
+  libncurses-dev
 sudo apt install -y libjansson4 libjansson-dev
 sudo apt install -y \
   libgccjit0 \
@@ -128,7 +137,6 @@ cd ~
 # cd ~/code
 # git clone --depth=1 git://git.savannah.gnu.org/emacs.git
 # cd emacs
-# export CC=/usr/bin/gcc-10 CXX=/usr/bin/gcc-10
 # ./autogen.sh
 # ./configure \
 #     --with-native-compilation \
