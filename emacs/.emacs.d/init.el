@@ -48,6 +48,7 @@
 (setq read-process-output-max (* 10 1024 1024)) ;; 10mb
 (setq gc-cons-threshold 200000000)
 
+(require 'project-management)
 (require 'appearance)
 (require 'completion)
 ;; (require 'completion-company)

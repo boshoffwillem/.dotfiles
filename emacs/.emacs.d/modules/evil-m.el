@@ -80,7 +80,7 @@
 ;; magit
 
 ;; file specific actions
-(evil-define-key 'normal 'global (kbd "/") 'isearch-forward) ;; search in current buffer
+;; (evil-define-key 'normal 'global (kbd "/") 'isearch-forward) ;; search in current buffer
 (evil-define-key 'normal 'global (kbd "<leader><SPC>") 'switch-to-buffer)
 (evil-define-key 'normal 'global (kbd "<leader>br") 'revert-buffer)
 (evil-define-key 'normal 'global (kbd "<leader>fd") 'dired) ;; open directory
@@ -88,9 +88,9 @@
 (evil-define-key 'normal 'global (kbd "<leader>fr") 'consult-recent-file)
 
 ;; project specific actions
-(evil-define-key 'normal 'global (kbd "<leader>pb") 'project-switch-to-buffer) ;; switch to different project buffer
-(evil-define-key 'normal 'global (kbd "<leader>pp") 'project-switch-project) ;; switch to different project
-(evil-define-key 'normal 'global (kbd "<leader>pf") 'project-find-file) ;; find file in project
+(evil-define-key 'normal 'global (kbd "<leader>pb") 'projectile-switch-to-buffer) ;; switch to different project buffer
+(evil-define-key 'normal 'global (kbd "<leader>pp") 'projectile-switch-project) ;; switch to different project
+(evil-define-key 'normal 'global (kbd "<leader>pf") 'projectile-find-file) ;; find file in project
 (evil-define-key 'normal 'global (kbd "<leader>pg") 'magit)
 (evil-define-key 'normal 'global (kbd "<leader>ps") 'deadgrep) ;; project-wide search
 (evil-define-key 'normal 'global (kbd "<leader>pS") 'consult-ripgrep) ;; project-wide interactive search

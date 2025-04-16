@@ -13,7 +13,7 @@
 (use-package doom-themes
   :config
   ;; (load-theme 'doom-dark+)
-  (load-theme 'doom-one)
+  ;; (load-theme 'doom-one)
   ;; (load-theme 'modus-vivendi)
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -22,6 +22,15 @@
   (doom-themes-org-config))
 
 (use-package autothemer)
+
+(use-package color-theme-sanityinc-tomorrow)
+(load-theme 'sanityinc-tomorrow-night)
+
+(use-package ample-theme)
+
+(use-package afternoon-theme)
+
+(use-package gruber-darker-theme)
 
 (straight-use-package
  '(rose-pine-emacs

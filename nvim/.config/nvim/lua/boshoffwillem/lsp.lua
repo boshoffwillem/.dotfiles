@@ -207,5 +207,6 @@ cmp.setup({
     { name = "path" },
     { name = "nvim_lsp", keyword_length = 1 },
     { name = "nvim_lua", keyword_length = 1 },
+    { name = "supermaven" },
   },
 })

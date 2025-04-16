@@ -6,15 +6,15 @@
 
 ;;; Code:
 
-(define-key global-map (kbd "C-c p f") 'project-find-file)
-(define-key global-map (kbd "C-c p p") 'project-switch-project)
+;; (define-key global-map (kbd "C-c p f") 'project-find-file)
+;; (define-key global-map (kbd "C-c p p") 'project-switch-project)
 
-;; find text in project.
-(define-key global-map (kbd "C-c p s") 'consult-ripgrep)
-(define-key global-map (kbd "C-c p S") 'deadgrep)
+;; ;; find text in project.
+;; (define-key global-map (kbd "C-c p s") 'consult-ripgrep)
+;; (define-key global-map (kbd "C-c p S") 'deadgrep)
 
-;; show recent files.
-(define-key global-map (kbd "C-c p r") 'consult-recent-file)
+;; ;; show recent files.
+;; (define-key global-map (kbd "C-c p r") 'consult-recent-file)
 
 (provide 'keybindings)
 

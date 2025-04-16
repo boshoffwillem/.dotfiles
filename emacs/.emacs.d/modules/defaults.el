@@ -15,6 +15,8 @@
 (setq large-file-warning-threshold 100000000) ;; change to ~100 MB
 (setq org-src-preserve-indentation t)
 
+;; (global-whitespace-mode)
+
 (setq make-backup-files nil
       auto-save-default nil
       create-lockfiles nil)
@@ -42,7 +44,7 @@
 (defun open-init-file ()
   "Open this very file."
   (interactive)
-  (find-file "~/.config/emacs/init.el"))
+  (find-file "~/.emacs.d/init.el"))
 (define-key global-map (kbd "C-c e") 'open-init-file)
 (define-key global-map (kbd "RET") 'newline-and-indent)
 

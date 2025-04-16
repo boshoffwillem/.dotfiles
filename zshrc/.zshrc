@@ -223,7 +223,10 @@ export ZSH="$HOME/.oh-my-zsh"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+    git
+    zsh-autosuggestions
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -282,3 +285,10 @@ source <(ng completion script)
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# fnm
+FNM_PATH="/home/willemboshoff/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="/home/willemboshoff/.local/share/fnm:$PATH"
+  eval "`fnm env`"
+fi

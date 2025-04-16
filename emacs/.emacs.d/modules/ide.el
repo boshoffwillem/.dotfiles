@@ -1,4 +1,9 @@
+;;; ide.el --- IDE setup for emacs -*- lexical-binding: t -*-
+;; Author: Willem Boshoff <boshoffwillem@protonmail.com>
+;; URL: https://github.com/boshoffwillem/.emacs.d
+
 ;;; Commentary:
+;; This file contains project management configuration
 
 ;; ==================================== Project wide searching using ripgrep
 (use-package deadgrep)
@@ -6,10 +11,10 @@
 ;; ==================================== Search and replace with regular expressions
 (use-package visual-regexp)
 
-(use-package copilot)
-(add-hook 'prog-mode-hook 'copilot-mode)
-(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
+;; (use-package copilot)
+;; (add-hook 'prog-mode-hook 'copilot-mode)
+;; (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+;; (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
 
 ;; (use-package tabnine)
 ;; (with-eval-after-load 'company
@@ -42,9 +47,6 @@
   :diminish ""
   :config
   (apheleia-global-mode +1))
-;; (with-eval-after-load 'apheleia
-;;   (add-to-list 'apheleia-formatters
-;;                '(terraform-mode . "terraform fmt -")))
 (push '(csharpier . ("dotnet"
                      "csharpier"
                      ))
@@ -96,7 +98,6 @@
              (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
              (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
              (go "https://github.com/tree-sitter/tree-sitter-go")
-             ;; (hcl "https://github.com/mitchellh/tree-sitter-hcl")
              (html "https://github.com/tree-sitter/tree-sitter-html")
              (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
              (json "https://github.com/tree-sitter/tree-sitter-json")
@@ -142,23 +143,8 @@
   :hook ((lsp-mode . lsp-diagnostics-mode)
          (lsp-mode . lsp-enable-which-key-integration)
          ((
-           ;; elisp-mode
-           ;; prog-mode
-           bash-ts-mode
-           csharp-mode
-           ;; c-ts-mode
-           ;; cpp-ts-mode
-           ;; css-ts-mode
-           dockerfile-ts-mode
-           ;; go-ts-mode
-           ;; html-ts-mode
-           json-ts-mode
-           ;; python-ts-mode
-           ;; rust-ts-mode
-           ;; tsx-ts-mode
            typescript-ts-mode
            web-mode
-           yaml-ts-mode
            ) . lsp-deferred))
   :custom
   (lsp-csharp-omnisharp-enable-decompilation-support t)

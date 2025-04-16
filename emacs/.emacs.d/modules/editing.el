@@ -14,9 +14,9 @@
   (drag-stuff-global-mode 1))
 
 ;; Automatically clean whitespace
-(use-package ws-butler
-  :config
-  (ws-butler-mode 1))
+;; (use-package ws-butler
+;;   :config
+;;   (ws-butler-mode 1))
 
 (use-package origami
   :config (global-origami-mode))
@@ -57,6 +57,7 @@
 
 (use-package multiple-cursors)
 
+(use-package ace-window)
 (global-set-key (kbd "M-o") 'ace-window)
 
 ;; ============================== Navigation

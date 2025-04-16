@@ -13,7 +13,9 @@ sudo apt install -y g++
 sudo apt install -y make
 sudo apt install -y autoconf
 sudo apt install -y fd-find
-sudo apt install -y nodejs
+# sudo apt install -y nodejs
+curl -o- https://fnm.vercel.app/install | bash
+fnm install 22
 sudo apt install -y npm
 sudo apt install -y fontconfig
 sudo apt install -y fzf
@@ -24,7 +26,24 @@ sudo apt install -y fira-code-fonts
 sudo apt install -y fonts-firacode
 sudo apt install -y texinfo
 sudo apt install -y libtree-sitter-dev
-sudo apt-get install -y ninja-build gettext cmake curl build-essential
+sudo apt-get install -y ninja-build gettext cmake build-essential
+sudo apt install -y \
+  libgtk-3-dev \
+  libgnutls28-dev \
+  libtiff5-dev \
+  libgif-dev \
+  libjpeg-dev \
+  libpng-dev \
+  libxpm-dev \
+  libncurses-dev \
+  texinfo
+sudo apt install -y libjansson4 libjansson-dev
+sudo apt install -y \
+  libgccjit0 \
+  libgccjit-10-dev \
+  gcc-10 \
+  g++-10
+sudo apt install -y libmagickcore-dev libmagick++-dev
 
 sudo apt install terraform -y
 wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
@@ -89,6 +108,7 @@ sudo apt install -y zsh
 chsh -s $(which zsh)
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 sudo lchsh $USER
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 # =============================================================================
 
 # nvim
@@ -107,25 +127,6 @@ cd ~
 # =============================================================================
 # cd ~/code
 # git clone --depth=1 git://git.savannah.gnu.org/emacs.git
-# sudo apt install -y \
-#   build-essential \
-#   libgtk-3-dev \
-#   libgnutls28-dev \
-#   libtiff5-dev \
-#   libgif-dev \
-#   libjpeg-dev \
-#   libpng-dev \
-#   libxpm-dev \
-#   libncurses-dev \
-#   texinfo
-# sudo apt install -y libjansson4 libjansson-dev
-# sudo apt install -y \
-#   libgccjit0 \
-#   libgccjit-10-dev \
-#   gcc-10 \
-#   g++-10
-# sudo apt install -y libmagickcore-dev libmagick++-dev
-# sudo apt install -y libtree-sitter-dev
 # cd emacs
 # export CC=/usr/bin/gcc-10 CXX=/usr/bin/gcc-10
 # ./autogen.sh
