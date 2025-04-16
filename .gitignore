@@ -16,3 +16,6 @@ emacs/.emacs.d/projects
 emacs/.emacs.d/url/
 emacs/.emacs.d/tree-sitter/
 emacs/.emacs.d/auto-save-list/
+emacs/.emacs.d/.lsp*
+emacs/.emacs.d/tramp*
+emacs/.emacs.d/**/*.eld
