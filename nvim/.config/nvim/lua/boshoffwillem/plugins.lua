@@ -77,7 +77,7 @@ require("packer").startup(function(use)
   end
 
   -- use("supermaven-inc/supermaven-nvim")
-  use("augmentcode/augment.vim")
+  -- use("augmentcode/augment.vim")
 
   -- use("github/copilot.vim")
 

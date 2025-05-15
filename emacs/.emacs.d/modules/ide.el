@@ -143,6 +143,8 @@
   :hook ((lsp-mode . lsp-diagnostics-mode)
          (lsp-mode . lsp-enable-which-key-integration)
          ((
+           csharp-mode
+           terraform-mode
            typescript-ts-mode
            web-mode
            ) . lsp-deferred))

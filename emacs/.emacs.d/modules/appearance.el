@@ -30,8 +30,6 @@
 
 (use-package afternoon-theme)
 
-(use-package gruber-darker-theme)
-
 (straight-use-package
  '(rose-pine-emacs
    :host github
