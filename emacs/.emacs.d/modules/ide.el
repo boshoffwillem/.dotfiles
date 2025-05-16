@@ -36,6 +36,10 @@
 ;; (add-hook 'prog-mode-hook #'tabnine-mode)
 ;; (add-hook 'kill-emacs-hook #'tabnine-kill-process)
 
+(use-package yasnippet)
+(use-package yasnippet-snippets)
+(yas-global-mode 1)
+
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode)
@@ -127,6 +131,7 @@
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.html\\'" . html-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . typescript-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . tsx-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . tsx-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
@@ -145,6 +150,7 @@
          ((
            csharp-mode
            terraform-mode
+           tsx-ts-mode
            typescript-ts-mode
            web-mode
            ) . lsp-deferred))
