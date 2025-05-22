@@ -76,9 +76,7 @@ require("packer").startup(function(use)
     --   use({ "tzachar/cmp-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-cmp" })
   end
 
-  -- use("supermaven-inc/supermaven-nvim")
-  -- use("augmentcode/augment.vim")
-
+  use("supermaven-inc/supermaven-nvim")
   -- use("github/copilot.vim")
 
   use("nvim-treesitter/playground")
@@ -103,7 +101,6 @@ require("packer").startup(function(use)
   use("lewis6991/gitsigns.nvim")
 
   use("Mofiqul/vscode.nvim")
-  use("rose-pine/neovim")
   use("ishan9299/modus-theme-vim")
   use("kyazdani42/nvim-web-devicons")
   use("nvim-lualine/lualine.nvim") -- Fancier statusline

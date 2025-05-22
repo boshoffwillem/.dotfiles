@@ -11,10 +11,6 @@
 ;; ==================================== Search and replace with regular expressions
 (use-package visual-regexp)
 
-(use-package yasnippet)
-(use-package yasnippet-snippets)
-(yas-global-mode 1)
-
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode)
@@ -49,27 +45,17 @@
 
 (use-package feature-mode)
 
-;; (use-package kotlin-mode
-;;   :after (lsp-mode dap-mode)
-;;   :config
-;;   (require 'dap-kotlin)
-;;   (setq lsp-kotlin-debug-adapter-path (or (executable-find "kotlin-debug-adapter") ""))
-;;   :hook
-;;   (kotlin-mode . lsp)
-;;   )
-
 (use-package protobuf-mode)
 
 (use-package powershell)
 
-;; (use-package terraform-mode
-;;   :after (lsp-mode)
-;;   :config
-;;   (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode))
-;;   :hook
-;;   (terraform-mode . lsp)
-;;   (terraform-mode . terraform-format-on-save-mode)
-;;   )
+(use-package terraform-mode
+  :config
+  :mode "\\.tf\\'"
+  :hook
+  (terraform-mode . lsp)
+  (terraform-mode . terraform-format-on-save-mode)
+  )
 
 (use-package kotlin-ts-mode
   :straight (:host gitlab :repo "bricka/emacs-kotlin-ts-mode")
@@ -104,6 +90,7 @@
              (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
              (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
              (go "https://github.com/tree-sitter/tree-sitter-go")
+             (hcl "https://github.com/tree-sitter-grammars/tree-sitter-hcl")
              (html "https://github.com/tree-sitter/tree-sitter-html")
              (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
              (json "https://github.com/tree-sitter/tree-sitter-json")
@@ -269,7 +256,7 @@
 ;;                                    :name "NetCoreDbg::Launch"
 ;;                                    :stopAtEntry f))
 
-(setq image-types '(svg png gif tiff jpeg xpm xbm pbm))
+(setq image-types '(svg png gif tiff jpeg xpm xbm pbm imagemagick))
 (provide 'ide)
 
 ;;; ide.el ends here

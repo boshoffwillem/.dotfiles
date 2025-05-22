@@ -6,6 +6,8 @@
 
 ;;; Code:
 
+(use-package goto-last-change)
+
 (use-package drag-stuff
   :bind
   (("M-p" . drag-stuff-up)

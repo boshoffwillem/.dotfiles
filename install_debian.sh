@@ -49,9 +49,9 @@ sudo apt install -y \
 sudo apt install -y libjansson4 libjansson-dev
 sudo apt install -y \
   libgccjit0 \
-  libgccjit-10-dev \
-  gcc-10 \
-  g++-10
+  libgccjit-13-dev \
+  gcc-13 \
+  g++-13
 sudo apt install -y libmagickcore-dev libmagick++-dev
 
 sudo apt install terraform -y
