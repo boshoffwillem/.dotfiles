@@ -7,15 +7,16 @@
 ;;; Code:
 
 (use-package company
-  :config
+  :init
   (global-company-mode)
   :hook
   ((emacs-lisp-mode . (lambda ()
                         (setq-local company-backends '(company-elisp))))
    )
-  :config
+  :custom
   (setq company-show-quick-access t
         company-idle-delay 0
+        company-echo-delay 0
         company-tooltip-limit 20
         company-tooltip-idle-delay 0.4
         company-show-numbers t

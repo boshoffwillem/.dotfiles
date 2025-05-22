@@ -51,7 +51,7 @@
 (require 'project-management)
 (require 'appearance)
 (require 'completion)
-;; (require 'completion-company)
+(require 'completion-company)
 (require 'completion-native)
 (require 'git)
 (require 'keybindings)
