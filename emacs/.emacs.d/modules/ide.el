@@ -16,26 +16,6 @@
 ;; (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
 ;; (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
 
-;; (use-package tabnine)
-;; (with-eval-after-load 'company
-;;   ;; disable inline previews
-;;   (delq 'company-preview-if-just-one-frontend company-frontends))
-
-;; (with-eval-after-load 'tabnine
-;;   ;; (kbd "TAB") is literal ctrl-I, (kbd "<tab>) is the actual tab key
-;;   (define-key tabnine-completion-map (kbd "TAB") #'tabnine-accept-completion)
-;;   (define-key tabnine-completion-map (kbd "<tab>") #'tabnine-accept-completion)
-
-;;   (define-key tabnine-completion-map (kbd "M-f") #'tabnine-accept-completion-by-word)
-;;   (define-key tabnine-completion-map (kbd "M-<return>") #'tabnine-accept-completion-by-line)
-
-;;   (define-key tabnine-completion-map (kbd "C-g") #'tabnine-clear-overlay)
-;;   (define-key tabnine-completion-map (kbd "M-[") #'tabnine-next-completion)
-;;   (define-key tabnine-completion-map (kbd "M-]") #'tabnine-previous-completion))
-
-;; (add-hook 'prog-mode-hook #'tabnine-mode)
-;; (add-hook 'kill-emacs-hook #'tabnine-kill-process)
-
 (use-package yasnippet)
 (use-package yasnippet-snippets)
 (yas-global-mode 1)
@@ -73,11 +53,38 @@
 ;;   )
 
 (use-package feature-mode)
+
+;; (use-package kotlin-mode
+;;   :after (lsp-mode dap-mode)
+;;   :config
+;;   (require 'dap-kotlin)
+;;   (setq lsp-kotlin-debug-adapter-path (or (executable-find "kotlin-debug-adapter") ""))
+;;   :hook
+;;   (kotlin-mode . lsp)
+;;   )
+
 (use-package protobuf-mode)
+
 (use-package powershell)
-(use-package terraform-mode)
-(add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode))
-(add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
+
+;; (use-package terraform-mode
+;;   :after (lsp-mode)
+;;   :config
+;;   (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode))
+;;   :hook
+;;   (terraform-mode . lsp)
+;;   (terraform-mode . terraform-format-on-save-mode)
+;;   )
+
+(use-package kotlin-ts-mode
+  :straight (:host gitlab :repo "bricka/emacs-kotlin-ts-mode")
+  :mode "\\.kt\\'" ; if you want this mode to be auto-enabled
+  :config
+  (require 'dap-kotlin)
+  (setq lsp-kotlin-debug-adapter-path (or (executable-find "kotlin-debug-adapter") ""))
+  :hook
+  (kotlin-ts-mode . lsp)
+  )
 
 (use-package web-mode)
 (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
@@ -105,6 +112,7 @@
              (html "https://github.com/tree-sitter/tree-sitter-html")
              (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
              (json "https://github.com/tree-sitter/tree-sitter-json")
+             (kotlin "https://github.com/fwcd/tree-sitter-kotlin")
              ;; (make "https://github.com/alemuller/tree-sitter-make")
              ;; (markdown "https://github.com/ikatyang/tree-sitter-markdown")
              ;; (proto "https://github.com/mitchellh/tree-sitter-proto")
@@ -134,6 +142,7 @@
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . tsx-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx\\'" . tsx-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.kt\\'" . kotlin-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-ts-mode))
@@ -149,7 +158,6 @@
          (lsp-mode . lsp-enable-which-key-integration)
          ((
            csharp-mode
-           terraform-mode
            tsx-ts-mode
            typescript-ts-mode
            web-mode
@@ -203,41 +211,42 @@
   (lsp-semantic-tokens-enable nil)      ; Related to highlighting, and we defer to treesitter
   )
 
-;; (use-package lsp-ui
-;;   :ensure t
-;;   :commands
-;;   (lsp-ui-doc-show
-;;    lsp-ui-doc-glance)
-;;   :bind (:map lsp-mode-map
-;;               ("C-c C-d" . 'lsp-ui-doc-glance))
-;;   :after (lsp-mode evil)
-;;   :config (setq lsp-ui-doc-enable t
-;;                 evil-lookup-func #'lsp-ui-doc-glance ; Makes K in evil-mode toggle the doc for symbol at point
-;;                 lsp-ui-doc-show-with-cursor nil      ; Don't show doc when cursor is over symbol - too distracting
-;;                 lsp-ui-doc-include-signature t       ; Show signature
-;;                 lsp-ui-doc-position 'at-point))
+(use-package lsp-ui
+  :commands
+  (lsp-ui-doc-show
+   lsp-ui-doc-glance)
+  :after (lsp-mode evil)
+  :config (setq lsp-ui-doc-enable t
+                evil-lookup-func #'lsp-ui-doc-glance ; Makes K in evil-mode toggle the doc for symbol at point
+                lsp-ui-doc-show-with-cursor nil      ; Don't show doc when cursor is over symbol - too distracting
+                lsp-ui-doc-include-signature t       ; Show signature
+                lsp-ui-doc-position 'at-point))
 
-;; (use-package lsp-treemacs
-;;   :config
-;;   (lsp-treemacs-sync-mode 1)
-;;   :commands lsp-treemacs-errors-list)
+(use-package lsp-treemacs
+  :after lsp-mode
+  :config
+  (lsp-treemacs-sync-mode 1)
+  )
 
-;; (use-package consult-lsp
-;;   :config
-;;   ;; find symbol in project.
-;;   ;; (define-key lsp-mode-map (kbd "C-c p t") 'consult-lsp-symbols)
-;;   ;; (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
-;;   )
+(use-package consult-lsp
+  :after lsp-mode
+  :config
+  ;; find symbol in project.
+  ;; (define-key lsp-mode-map (kbd "C-c p t") 'consult-lsp-symbols)
+  ;; (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
+  )
 
-;; (use-package dap-mode
-;;   :commands (dap-debug dap-breakpoints-add)
-;;   :init
-;;   (dap-mode 1)
-;;   (dap-ui-mode 1)
-;;   (dap-auto-configure-mode)
-;;   (require 'dap-netcore)
-;;   :custom
-;;   (dap-netcore-install-dir "~/.config/emacs/.cache/"))
+(use-package dap-mode
+  :after lsp-mode
+  ;; :commands (dap-debug dap-breakpoints-add)
+  :init
+  ;; (dap-mode 1)
+  ;; (dap-ui-mode 1)
+  (dap-auto-configure-mode)
+  ;; (require 'dap-netcore)
+  ;; :custom
+  ;; (dap-netcore-install-dir "~/.config/emacs/.cache/")
+  )
 
 ;; (use-package posframe)
 
