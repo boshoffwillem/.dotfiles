@@ -11,11 +11,6 @@
 ;; ==================================== Search and replace with regular expressions
 (use-package visual-regexp)
 
-;; (use-package copilot)
-;; (add-hook 'prog-mode-hook 'copilot-mode)
-;; (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
-;; (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
-
 (use-package yasnippet)
 (use-package yasnippet-snippets)
 (yas-global-mode 1)
