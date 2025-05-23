@@ -79,6 +79,12 @@ sudo apt install shfmt -y
 sudo add-apt-repository ppa:dotnet/backports
 sudo apt-get update && \
   sudo apt-get install -y dotnet-sdk-9.0
+
+# Powershell
+sudo apt-get update -y
+sudo apt-get install -y powershell
+wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb && sudo dpkg -i packages-microsoft-prod.deb && rm packages-microsoft-prod.deb
+chsh -s /usr/bin/pwsh
 # =============================================================================
 
 # Docker
