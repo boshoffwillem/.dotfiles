@@ -292,3 +292,8 @@ if [ -d "$FNM_PATH" ]; then
   export PATH="/home/willemboshoff/.local/share/fnm:$PATH"
   eval "`fnm env`"
 fi
+
+for conf in "$HOME/.config/zsh/"*.zsh; do
+  source "${conf}"
+done
+unset conf
