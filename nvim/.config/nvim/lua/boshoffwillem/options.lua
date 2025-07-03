@@ -48,7 +48,7 @@ vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
 
 vim.o.termguicolors = true
-vim.opt.guifont = "Fira Code:h11"
+vim.opt.guifont = "FiraCode Nerd Font:h11"
 
 vim.o.completeopt = 'menuone,noselect'
 
