@@ -1,6 +1,7 @@
 require("boshoffwillem.plugins")
 require("boshoffwillem.appearance")
 require("boshoffwillem.comment")
+require("boshoffwillem.copilot")
 require("boshoffwillem.filetype")
 require("boshoffwillem.format")
 require("boshoffwillem.info")

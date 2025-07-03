@@ -101,7 +101,9 @@ local servers = {
     },
   },
   powershell_es = {},
+  pylsp = {},
   omnisharp = {
+    cmd = { "OmniSharp.cmd" },
     settings = {
       RoslynExtensionsOptions = {
         EnableAnalyzersSupport = true,
@@ -116,7 +118,6 @@ local servers = {
   rust_analyzer = {},
   terraformls = {},
   ts_ls = {},
-  volar = {},
   yamlls = {
     yaml = {
       format = true,
@@ -143,25 +144,48 @@ local mason_lspconfig = require("mason-lspconfig")
 
 mason_lspconfig.setup({
   ensure_installed = vim.tbl_keys(servers),
+  automatic_enable = true,
 })
 
-mason_lspconfig.setup_handlers({
-  function(server_name)
-    if server_name == "omnisharp" then
-      vim.keymap.set("n", "gd", require("omnisharp_extended").lsp_definition)
-      vim.keymap.set("n", "gi", require("omnisharp_extended").lsp_implementation)
-      vim.keymap.set("n", "gr", require("omnisharp_extended").lsp_references)
-      vim.keymap.set("n", "<leader>D", require("omnisharp_extended").lsp_type_definition)
-    end
+for server, config in pairs(servers) do
+  config.on_attach = on_attach
+  config.capabilities = capabilities
+  config.flags = lsp_flags
 
-    require("lspconfig")[server_name].setup({
-      capabilities = capabilities,
-      on_attach = on_attach,
-      flags = lsp_flags,
-      settings = servers[server_name],
-    })
-  end,
-})
+  -- This is a workaround for the omnisharp-roslyn issue with semantic tokens
+  -- if server == "omnisharp" then
+  --   config.capabilities.textDocument.semanticTokens.dynamicRegistration = false
+  --   config.capabilities.textDocument.semanticTokens.tokenModifiers = {
+  --     "static",
+  --     "readonly",
+  --     "deprecated",
+  --     "abstract",
+  --     "async",
+  --     "modification",
+  --   }
+  --   config.capabilities.textDocument.semanticTokens.tokenTypes = {
+  --     "comment",
+  --     "keyword",
+  --     "string",
+  --     "number",
+  --     "regexp",
+  --     "operator",
+  --     "namespace",
+  --     "type",
+  --     "struct",
+  --     "class",
+  --     "interface",
+  --     "enum",
+  --     "typeParameter",
+  --     "function",
+  --     "method",
+  --     "macro",
+  --     "property",
+  --   }
+  -- end
+
+  require("lspconfig")[server].setup(config)
+end
 
 -- Turn on lsp status information
 require("fidget").setup()
