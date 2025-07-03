@@ -38,9 +38,17 @@
       apheleia-mode-alist)
 
 ;; .editorconfig files
-;; (use-package editorconfig
+(use-package editorconfig
+  :config
+  (editorconfig-mode)
+  )
+
+;; (use-package csharp-mode
 ;;   :config
-;;   (editorconfig-mode)
+;;   (require 'dap-netcore)
+;;   :mode "\\.cs\\'"
+;;   :hook
+;;   (csharp-mode . lsp)
 ;;   )
 
 (use-package feature-mode)
@@ -50,7 +58,6 @@
 (use-package powershell)
 
 (use-package terraform-mode
-  :config
   :mode "\\.tf\\'"
   :hook
   (terraform-mode . lsp)
@@ -145,7 +152,6 @@
            web-mode
            ) . lsp-deferred))
   :custom
-  (lsp-csharp-omnisharp-enable-decompilation-support t)
   (lsp-keymap-prefix "C-c l")           ; Prefix for LSP actions
   (lsp-completion-provider :none)       ; Using Corfu as the provider
   (lsp-diagnostics-provider :flycheck)
@@ -225,7 +231,6 @@
   ;; (dap-mode 1)
   ;; (dap-ui-mode 1)
   (dap-auto-configure-mode)
-  ;; (require 'dap-netcore)
   ;; :custom
   ;; (dap-netcore-install-dir "~/.config/emacs/.cache/")
   )

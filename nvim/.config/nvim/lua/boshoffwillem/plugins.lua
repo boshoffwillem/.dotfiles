@@ -63,21 +63,7 @@ require("packer").startup(function(use)
   -- Additional lua configuration makes nvim stuff amazing
   use("folke/neodev.nvim")
 
-  if vim.loop.os_uname().sysname == "Windows_NT" then
-    use({ "codota/tabnine-nvim", run = "pwsh.exe -file .\\dl_binaries.ps1" })
-  --   use({
-  --     "tzachar/cmp-tabnine",
-  --     after = "nvim-cmp",
-  --     run = "powershell ./install.ps1",
-  --     requires = "hrsh7th/nvim-cmp",
-  --   })
-  else
-    use({ "codota/tabnine-nvim", run = "./dl_binaries.sh" })
-    --   use({ "tzachar/cmp-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-cmp" })
-  end
-
-  -- use("supermaven-inc/supermaven-nvim")
-  -- use("github/copilot.vim")
+  use("github/copilot.vim")
 
   use("nvim-treesitter/playground")
 
