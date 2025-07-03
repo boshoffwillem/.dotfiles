@@ -34,8 +34,6 @@ nnoremap <leader>/ :vsc Edit.Find<cr>
 nnoremap <leader>% :vsc Edit.Replace<cr>
 
 " project actions
-nnoremap <leader>p/ :vsc Edit.FindInFiles<cr>
-nnoremap <leader>pt :vsc Edit.GoToAll<CR>
 nnoremap <leader><leader> :vsc Window.Windows<CR>
 
 " LSP actions
