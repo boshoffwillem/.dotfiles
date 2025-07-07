@@ -22,7 +22,19 @@
           "layout": "Grid"
         },
         {
-          "name": "Comms",
+          "name": "Web",
+          "layout": "Grid"
+        },
+        {
+          "name": "Slack",
+          "layout": "Grid"
+        },
+        {
+          "name": "Outlook",
+          "layout": "Grid"
+        },
+        {
+          "name": "Teams",
           "layout": "Grid"
         }
       ]
