@@ -1,8 +1,57 @@
 #!/usr/bin/env sh
 
+Help()
+{
+   # Display Help
+   echo "Please choose what to install"
+   echo
+   echo "Syntax: scriptTemplate [-all|terra|emacs|code|docker]"
+   echo "options:"
+   echo "all       All sections."
+   echo "terra     Terraform."
+   echo "emacs     Emacs."
+   echo "code      Visual Studio Code."
+   echo "docker    Docker."
+   echo "pwsh      PowerShell."
+   echo
+}
+
+all=''
+terra=''
+emacs=''
+code=''
+docker=''
+pwsh=''
+
+# Get the options
+while getopts ":hn:" option; do
+   case $option in
+      h) # display Help
+         Help
+         exit;;
+      all) # Install all
+         all=1;;
+      terra) # Install Terraform
+         terra=1;;
+      emacs) # Install Emacs
+         emacs=1;;
+      code) # Install Visual Studio Code
+          code=1;;
+      docker) # Install Docker
+          docker=1;;
+      pwsh) # Install PowerShell
+          pwsh=1;;
+     \?) # Invalid option
+         echo "Error: Invalid option"
+         exit;;
+   esac
+done
+
 sudo apt-get update -y
-sudo apt install gpg -y
 sudo apt-get dist-upgrade -y
+sudo apt install gpg -y
+sudo apt install wget -y
+sudo apt install -y apt-transport-https
 sudo apt install -y git
 sudo apt install -y ripgrep
 sudo apt install -y bat
@@ -54,11 +103,16 @@ sudo apt install -y \
   g++-13
 sudo apt install -y libmagickcore-dev libmagick++-dev
 
-sudo apt install terraform -y
-wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com jammy main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-sudo apt install terraform-ls -y
+if [ -n "$code" ] || [ -n "$all" ]; then
+    echo "Installing terraform..."
+    sudo apt install terraform -y
+    wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+    gpg --no-default-keyring --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg --fingerprint
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com jammy main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+    sudo apt install terraform-ls -y
+else
+    echo "Skipping terraform installation."
+fi
 
 sudo apt update -y
 grep ^Package: /var/lib/apt/lists/apt.releases.hashicorp.com*Packages | sort -u
@@ -74,40 +128,43 @@ sudo npm install -g @bufbuild/buf
 sudo npm install -g prettier
 sudo apt install shfmt -y
 
-# Dotnet
-# =============================================================================
-sudo add-apt-repository ppa:dotnet/backports
-sudo apt-get update && \
-  sudo apt-get install -y dotnet-sdk-9.0
+if [ -n "$docker" ] || [ -n "$all" ]; then
+    echo "Installing pwsh..."
+    # Powershell
+    sudo apt-get update -y
+    sudo apt-get install -y powershell
+    wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb && sudo dpkg -i packages-microsoft-prod.deb && rm packages-microsoft-prod.deb
+    chsh -s /usr/bin/pwsh
+    # =============================================================================
+else
+    echo "Skipping pwsh installation."
+fi
 
-# Powershell
-sudo apt-get update -y
-sudo apt-get install -y powershell
-wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb && sudo dpkg -i packages-microsoft-prod.deb && rm packages-microsoft-prod.deb
-chsh -s /usr/bin/pwsh
-# =============================================================================
-
-# Docker
-# =============================================================================
-# Add Docker's official GPG key:
-sudo apt-get install -y ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
-
-# Add the repository to Apt sources:
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-sudo apt install -y gnome-terminal
-wget https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb
-sudo apt-get install ./docker-desktop-amd64.deb
-sudo groupadd docker
-sudo usermod -aG docker $USER
-# =============================================================================
+if [ -n "$docker" ] || [ -n "$all" ]; then
+    echo "Installing Docker..."
+    # Docker
+    # =============================================================================
+    # Add Docker's official GPG key:
+    sudo apt-get install -y ca-certificates curl
+    sudo install -m 0755 -d /etc/apt/keyrings
+    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+    sudo chmod a+r /etc/apt/keyrings/docker.asc
+    # Add the repository to Apt sources:
+    echo \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+      $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    sudo apt-get update
+    sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+    sudo apt install -y gnome-terminal
+    wget https://desktop.docker.com/linux/main/amd64/docker-desktop-amd64.deb
+    sudo apt-get install ./docker-desktop-amd64.deb
+    sudo groupadd docker
+    sudo usermod -aG docker $USER
+    # =============================================================================
+else
+    echo "Skipping Docker installation."
+fi
 
 # Rust
 # =============================================================================
@@ -138,31 +195,39 @@ sudo make install
 cd ~
 # =============================================================================
 
-# emacs
-# =============================================================================
-# cd ~/code
-# git clone --depth=1 git://git.savannah.gnu.org/emacs.git
-# cd emacs
-# ./autogen.sh
-# ./configure \
-#     --with-native-compilation \
-#     --with-json \
-#     --with-tree-sitter \
-#     --with-imagemagick \
-#     --with-xwidgets
-# make --jobs=$(nproc)
-# sudo make install
-# cd ~/.dotfiles
-# =============================================================================
+if [ -n "$emacs" ] || [ -n "$all" ]; then
+    echo "Installing emacs..."
+    # emacs
+    # =============================================================================
+    # cd ~/code
+    # git clone --depth=1 git://git.savannah.gnu.org/emacs.git
+    # cd emacs
+    # ./autogen.sh
+    # ./configure \
+    #     --with-native-compilation \
+    #     --with-json \
+    #     --with-tree-sitter \
+    #     --with-imagemagick \
+    #     --with-xwidgets
+    # make --jobs=$(nproc)
+    # sudo make install
+    # cd ~/.dotfiles
+    # =============================================================================
+else
+    echo "Skipping emacs installation."
+fi
 
-sudo apt-get install wget gpg
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" |sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
-rm -f packages.microsoft.gpg
-sudo apt install -y apt-transport-https
-sudo apt update
-sudo apt install -y code # or code-insiders
+if [ -n "$code" ] || [ -n "$all" ]; then
+    echo "Installing code..."
+    wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+    sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+    echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" |sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
+    rm -f packages.microsoft.gpg
+    sudo apt update
+    sudo apt install -y code # or code-insiders
+else
+    echo "Skipping code installation."
+fi
 
 cd ~/.dotfiles
 rm ~/.bashrc
