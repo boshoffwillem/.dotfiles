@@ -19,23 +19,23 @@
       "workspaces": [
         {
           "name": "Work",
-          "layout": "Grid"
+          "layout": "VerticalStack"
         },
         {
           "name": "Web",
-          "layout": "Grid"
+          "layout": "VerticalStack"
         },
         {
           "name": "Slack",
-          "layout": "Grid"
+          "layout": "VerticalStack"
         },
         {
           "name": "Outlook",
-          "layout": "Grid"
+          "layout": "VerticalStack"
         },
         {
           "name": "Teams",
-          "layout": "Grid"
+          "layout": "VerticalStack"
         }
       ]
     }
