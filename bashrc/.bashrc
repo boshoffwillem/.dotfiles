@@ -21,3 +21,6 @@ export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 
 eval "$(starship init bash)"
 . "$HOME/.cargo/env"
+
+# Turso
+export PATH="$PATH:/home/boshoffwillem/.turso"

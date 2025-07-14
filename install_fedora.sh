@@ -45,6 +45,7 @@ done
 
 sudo dnf update -y
 sudo dnf upgrade -y
+sudo dnf install -y inxi
 sudo dnf install -y stow
 
 git config --global user.email "boshoffwillem@protonmail.com"
@@ -103,6 +104,11 @@ else
 fi
 
 sudo npm install -g @anthropic-ai/claude-code
+sudo npm install -g @google/gemini-cli
+curl -sSfL https://get.tur.so/install.sh | bash
+dotnet tool install --ignore-failed-sources --add-source https://api.nuget.org/v3/index.json --global dotnet-ef
+sudo dnf install -y gimp
+sudo dnf install -y inkscape
 
 sudo dnf install -y neovim
 stow nvim
