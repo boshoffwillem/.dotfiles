@@ -45,6 +45,7 @@ done
 
 sudo dnf update -y
 sudo dnf upgrade -y
+sudo dnf install -y clang cmake ninja-build gtk3-devel
 sudo dnf install -y inxi
 sudo dnf install -y stow
 
@@ -57,11 +58,24 @@ sudo dnf install -y nodejs
 sudo dnf install -y java
 sudo dnf install -y java-devel
 
+# Flutter
+# =============================================================================
 echo "Installing VS Code..."
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
 dnf check-update
 sudo dnf install -y code # or code-insiders
+# =============================================================================
+
+# Flutter
+# =============================================================================
+# Install rustup
+echo "Installing Flutter..."
+wget "https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.32.7-stable.tar.xz"
+mkdir ~/development
+tar -xf flutter_linux_3.32.7-stable.tar.xz -C ~/development/
+rm flutter_linux_3.32.7-stable.tar.xz
+# =============================================================================
 
 # Rust
 # =============================================================================
@@ -109,9 +123,14 @@ curl -sSfL https://get.tur.so/install.sh | bash
 dotnet tool install --ignore-failed-sources --add-source https://api.nuget.org/v3/index.json --global dotnet-ef
 sudo dnf install -y gimp
 sudo dnf install -y inkscape
+# sudo dnf install -y hyprland
 
 sudo dnf install -y neovim
 stow nvim
+
+sudo dnf install -y emacs
+stow emacs
+
 mkdir ~/code
 mkdir ~/code/work
 
