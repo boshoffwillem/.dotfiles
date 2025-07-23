@@ -7,7 +7,7 @@
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets. It is optional.
 (setq user-full-name "Willem Boshoff"
-      user-mail-address "willem.boshoff@dyna-mo.com")
+      user-mail-address "boshoffwillem@protonmail.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom:
 ;;
@@ -21,7 +21,7 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "Fira Code" :size 14 :weight 'regular)
+(setq doom-font (font-spec :family "Noto Sans Mono" :size 14 :weight 'regular)
       doom-variable-pitch-font (font-spec :family "Cantarell" :size 14))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
@@ -76,53 +76,53 @@
 ;; they are implemented.
 
 ;; Improve garbage collection performance.
-(setq gc-cons-threshold (* 100 1024 1024))
+;; (setq gc-cons-threshold (* 100 1024 1024))
 
 ;; Improve processing of sub-processes that generates large chunk.
-(setq read-process-output-max (* 1024 1024))
+;; (setq read-process-output-max (* 1024 1024))
 
 ;; Set default coding system (especially for Windows)
-(prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-language-environment 'utf-8)
-(set-selection-coding-system 'utf-8)
-(setq visible-bell 1)  ; turn off beeps, make them flash!
-(setq large-file-warning-threshold 100000000) ;; change to ~100 MB
-(setq org-src-preserve-indentation t)
-
-(setq make-backup-files nil
-      auto-save-default nil
-      create-lockfiles nil)
-
-(setq custom-safe-themes t)
-
-(setq ring-bell-function 'ignore)
+;; (prefer-coding-system 'utf-8)
+;; (set-default-coding-systems 'utf-8)
+;; (set-language-environment 'utf-8)
+;; (set-selection-coding-system 'utf-8)
+;; (setq visible-bell 1)  ; turn off beeps, make them flash!
+;; (setq large-file-warning-threshold 100000000) ;; change to ~100 MB
+;; (setq org-src-preserve-indentation t)
+;;
+;; (setq make-backup-files nil
+;;       auto-save-default nil
+;;       create-lockfiles nil)
+;;
+;; (setq custom-safe-themes t)
+;;
+;; (setq ring-bell-function 'ignore)
 
 ;; Always scroll.
-(setq compilation-scroll-output t)
+;; (setq compilation-scroll-output t)
 ;; Keyboard scroll one line at a time.
-(setq scroll-step 8)
-(setq auto-window-vscroll nil)
-(setq fast-but-imprecise-scrolling t)
-(setq scroll-conservatively 101)
-(setq scroll-margin 0)
-(setq scroll-preserve-screen-position t)
+;; (setq scroll-step 8)
+;; (setq auto-window-vscroll nil)
+;; (setq fast-but-imprecise-scrolling t)
+;; (setq scroll-conservatively 101)
+;; (setq scroll-margin 0)
+;; (setq scroll-preserve-screen-position t)
 
 ;; Mouse scrolling
-(setq mouse-wheel-scroll-amount '(4 ((shift) . 4))) ;; one line at a time
-(setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
-(setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
-(pixel-scroll-precision-mode)
-
-(defun dired-up-directory-same-buffer ()
-  "Go up in the same buffer."
-  (find-alternate-file ".."))
-(defun my-dired-mode-hook ()
-  (put 'dired-find-alternate-file 'disabled nil) ; Disables the warning.
-  (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
-  (define-key dired-mode-map (kbd "^") 'dired-up-directory-same-buffer))
-(add-hook 'dired-mode-hook #'my-dired-mode-hook)
-(setq dired-use-ls-dired nil)
+;; (setq mouse-wheel-scroll-amount '(4 ((shift) . 4))) ;; one line at a time
+;; (setq mouse-wheel-progressive-speed nil) ;; don't accelerate scrolling
+;; (setq mouse-wheel-follow-mouse 't) ;; scroll window under mouse
+;; (pixel-scroll-precision-mode)
+;;
+;; (defun dired-up-directory-same-buffer ()
+;;   "Go up in the same buffer."
+;;   (find-alternate-file ".."))
+;; (defun my-dired-mode-hook ()
+;;   (put 'dired-find-alternate-file 'disabled nil) ; Disables the warning.
+;;   (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
+;;   (define-key dired-mode-map (kbd "^") 'dired-up-directory-same-buffer))
+;; (add-hook 'dired-mode-hook #'my-dired-mode-hook)
+;; (setq dired-use-ls-dired nil)
 
 ;; (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 ;; (column-number-mode)
@@ -131,22 +131,22 @@
 ;; (setq-default truncate-lines t)
 
 ;; Use space to indent by default.
-(setq-default indent-tabs-mode nil)
+;; (setq-default indent-tabs-mode nil)
 ;; Set appearance of a tab that is represented by 4 spaces.
-(setq-default tab-width 2)
-(setq-default standard-indent 2)
+;; (setq-default tab-width 2)
+;; (setq-default standard-indent 2)
+;;
+;; (show-paren-mode t)
+;; (setq show-paren-delay 0)
+;; (setq show-paren-style 'parenthesis)
+;; (electric-pair-mode nil)
 
-(show-paren-mode t)
-(setq show-paren-delay 0)
-(setq show-paren-style 'parenthesis)
-(electric-pair-mode nil)
-
-(setq default-directory "~/code/")
-(setq large-file-warning-threshold nil)
+;; (setq default-directory "~/code/")
+;; (setq large-file-warning-threshold nil)
 ;; Set default bookmarks directory.
-(setq bookmark-default-file "~/emacs-files/bookmarks")
+;; (setq bookmark-default-file "~/emacs-files/bookmarks")
 ;; Delete selected text instead of inserting.
-(delete-selection-mode 1)
+;; (delete-selection-mode 1)
 ;; Emacs has problems with very long lines. so-long detects them and takes appropriate action.
 ;; Good for minified code and whatnot.
 ;; (global-so-long-mode)
@@ -154,12 +154,12 @@
 ;; (require 'recentf)
 ;; (recentf-mode)
 
-(global-auto-revert-mode t)
-(setq auto-revert-interval 2)
-(setq auto-revert-check-vc-info t)
-(setq global-auto-revert-non-file-buffers t)
-(setq auto-revert-verbose t)
-
+;; (global-auto-revert-mode t)
+;; (setq auto-revert-interval 2)
+;; (setq auto-revert-check-vc-info t)
+;; (setq global-auto-revert-non-file-buffers t)
+;; (setq auto-revert-verbose t)
+;;
 (global-unset-key (kbd "<left>"))
 (global-unset-key (kbd "<right>"))
 (global-unset-key (kbd "<up>"))
@@ -169,11 +169,11 @@
 (evil-define-key '(normal visual) 'global (kbd "l") 'evil-previous-line)
 (evil-define-key '(normal visual) 'global (kbd ";") 'evil-forward-char)
 (evil-define-key '(normal) 'global (kbd "<leader><SPC>") 'switch-to-buffer)
-
-(unless (display-graphic-p)
-  (require 'evil-terminal-cursor-changer)
-  (evil-terminal-cursor-changer-activate) ; or (etcc-on)
-  )
+;;
+;; (unless (display-graphic-p)
+;;   (require 'evil-terminal-cursor-changer)
+;;   (evil-terminal-cursor-changer-activate) ; or (etcc-on)
+;;   )
 
 ;; (use-package! lsp-mode
 ;;   :bind
@@ -204,34 +204,34 @@
 ;;   :commands (lsp lsp-deferred)
 ;;   )
 
-(use-package! xclip
-  :config
-  (xclip-mode))
-
-(use-package! company
-  :config
-  ;; Trigger completion immediately.
-  (setq company-idle-delay 0)
-  ;; Number the candidates (use M-1, M-2 etc to select completions).
-  (setq company-show-quick-access t))
+;; (use-package! xclip
+;;   :config
+;;   (xclip-mode))
+;;
+;; (use-package! company
+;;   :config
+;;   ;; Trigger completion immediately.
+;;   (setq company-idle-delay 0)
+;;   ;; Number the candidates (use M-1, M-2 etc to select completions).
+;;   (setq company-show-quick-access t))
 
 ;; (after! company
 ;;   (setq +lsp-company-backends '(company-tabnine :separate company-capf company-yasnippet))
 ;;   )
-(use-package! tabnine
-  :config
-  (tabnine-mode))
-
-(use-package! drag-stuff
-  :bind
-  (("M-l" . drag-stuff-up)
-   ("M-k" . drag-stuff-down))
-  :config
-  (drag-stuff-global-mode 1))
+;; (use-package! tabnine
+;;   :config
+;;   (tabnine-mode))
+;;
+;; (use-package! drag-stuff
+;;   :bind
+;;   (("M-l" . drag-stuff-up)
+;;    ("M-k" . drag-stuff-down))
+;;   :config
+;;   (drag-stuff-global-mode 1))
 
 ;; Automatically clean whitespace
-(use-package! ws-butler
-  :config
-  (ws-butler-mode 1))
-
-(global-set-key (kbd "M-o") 'ace-window)
+;; (use-package! ws-butler
+;;   :config
+;;   (ws-butler-mode 1))
+;;
+;; (global-set-key (kbd "M-o") 'ace-window)

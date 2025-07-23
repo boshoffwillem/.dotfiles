@@ -7,11 +7,10 @@
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
                                         ;(package! some-package)
-(package! protobuf-mode)
-(package! tabnine)
-(package! modus-themes)
-(package! evil-terminal-cursor-changer)
-(package! xclip)
+;; (package! protobuf-mode)
+;; (package! tabnine)
+;; (package! evil-terminal-cursor-changer)
+;; (package! xclip)
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:

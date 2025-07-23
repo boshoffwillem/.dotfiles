@@ -46,6 +46,8 @@ done
 sudo dnf update -y
 sudo dnf upgrade -y
 sudo dnf install -y clang cmake ninja-build gtk3-devel
+sudo dnf install -y fd
+sudo dnf install -y shellcheck
 sudo dnf install -y inxi
 sudo dnf install -y stow
 
