@@ -58,13 +58,21 @@ sudo dnf install -y nodejs
 sudo dnf install -y java
 sudo dnf install -y java-devel
 
-# Flutter
+# VS Code
 # =============================================================================
 echo "Installing VS Code..."
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
 echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
 dnf check-update
 sudo dnf install -y code # or code-insiders
+# =============================================================================
+
+# quickemu
+# =============================================================================
+sudo dnf install -y quickemu
+wget https://github.com/quickemu-project/quickgui/releases/download/1.2.10/quickgui-1.2.10+1-linux.rpm
+sudo dnf install -y quickgui-1.2.10+1-linux.rpm
+rm quickgui-1.2.10+1-linux.rpm
 # =============================================================================
 
 # Flutter
