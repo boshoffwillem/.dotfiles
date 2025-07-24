@@ -30,20 +30,6 @@
   :hook
   (company-mode . company-box-mode))
 
-(use-package f
-  :vc (:url "https://github.com/rejeep/f.el"
-            :rev :newest
-            :branch "main")
-  )
-
-(use-package copilot
-  :vc (:url "https://github.com/copilot-emacs/copilot.el"
-            :rev :newest
-            :branch "main")
-  )
-
-(add-hook 'prog-mode-hook 'copilot-mode)
-
 ;; (use-package company-tabnine
 ;;   :config
 ;;   (add-to-list 'company-backends #'company-tabnine))

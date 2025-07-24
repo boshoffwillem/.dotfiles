@@ -168,8 +168,7 @@
 (evil-define-key '(normal visual) 'global (kbd "k") 'evil-next-line)
 (evil-define-key '(normal visual) 'global (kbd "l") 'evil-previous-line)
 (evil-define-key '(normal visual) 'global (kbd ";") 'evil-forward-char)
-(evil-define-key '(normal) 'global (kbd "<leader><SPC>") 'switch-to-buffer)
-;;
+
 ;; (unless (display-graphic-p)
 ;;   (require 'evil-terminal-cursor-changer)
 ;;   (evil-terminal-cursor-changer-activate) ; or (etcc-on)
@@ -228,10 +227,3 @@
 ;;    ("M-k" . drag-stuff-down))
 ;;   :config
 ;;   (drag-stuff-global-mode 1))
-
-;; Automatically clean whitespace
-;; (use-package! ws-butler
-;;   :config
-;;   (ws-butler-mode 1))
-;;
-;; (global-set-key (kbd "M-o") 'ace-window)
