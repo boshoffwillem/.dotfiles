@@ -20,6 +20,15 @@ require("packer").startup(function(use)
     end,
   })
 
+  use {
+    'nvim-flutter/flutter-tools.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'stevearc/dressing.nvim', -- optional for vim.ui.select
+    },
+    config = true
+  }
+
   -- LSP Support
   use({ "neovim/nvim-lspconfig" })
   use({ "mfussenegger/nvim-dap" })
@@ -100,8 +109,8 @@ require("packer").startup(function(use)
   use("kyazdani42/nvim-web-devicons")
   use("nvim-lualine/lualine.nvim") -- Fancier statusline
   -- use({ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} }) -- Add indentation guides even on blank lines
-  use("numToStr/Comment.nvim") -- "gc" to comment visual regions/lines
-  use("tpope/vim-sleuth") -- Detect tabstop and shiftwidth automatically
+  use("numToStr/Comment.nvim")     -- "gc" to comment visual regions/lines
+  use("tpope/vim-sleuth")          -- Detect tabstop and shiftwidth automatically
   use("mbbill/undotree")
 
   -- Fuzzy Finder (files, lsp, etc)

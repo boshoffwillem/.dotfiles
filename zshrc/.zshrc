@@ -266,13 +266,16 @@ alias csharpier="dotnet csharpier"
 alias ktfmt="java -jar ~/ktfmt-0.54-jar-with-dependencies.jar"
 
 export PATH
-export ANDROID_HOME=$HOME/Android/Sdk
+export ANDROID_HOME=$HOME/Library/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator
 export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
 # export JAVA_HOME=/usr/bin/java
 export PATH=$JAVA_HOME/bin:$PATH
 export DOTNET_ROOT=$HOME/.dotnet
 export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
+export PATH=$HOME/development/flutter/bin:$PATH
+export GEM_HOME=$HOME/.gem
+export PATH=$GEM_HOME/bin:$PATH
 
 eval "$(starship init zsh)"
 . "$HOME/.cargo/env"
@@ -302,3 +305,6 @@ unset conf
 
 # Turso
 export PATH="$PATH:/home/boshoffwillem/.turso"
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+export PATH="/opt/homebrew/lib/ruby/gems/3.4.0/bin:$PATH"
+export PATH="/Users/boshoffwillem/.gem/ruby/3.4.0/bin:$PATH"

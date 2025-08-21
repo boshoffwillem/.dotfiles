@@ -21,8 +21,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "Noto Sans Mono" :size 14 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "Cantarell" :size 14))
+(setq doom-font (font-spec :family "Noto Sans Mono" :size 12 :weight 'regular)
+      doom-variable-pitch-font (font-spec :family "Cantarell" :size 12))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -168,6 +168,9 @@
 (evil-define-key '(normal visual) 'global (kbd "k") 'evil-next-line)
 (evil-define-key '(normal visual) 'global (kbd "l") 'evil-previous-line)
 (evil-define-key '(normal visual) 'global (kbd ";") 'evil-forward-char)
+(evil-define-key '(normal visual) 'global (kbd "gd") 'lsp-find-definition)
+(evil-define-key '(normal visual) 'global (kbd "gi") 'lsp-find-implementation)
+(evil-define-key '(normal visual) 'global (kbd "gr") 'lsp-find-references)
 
 ;; (unless (display-graphic-p)
 ;;   (require 'evil-terminal-cursor-changer)
