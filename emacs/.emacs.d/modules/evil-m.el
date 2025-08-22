@@ -53,6 +53,7 @@
 
 
 (evil-define-key 'normal 'global (kbd "<leader>x") 'eval-last-sexp)
+(evil-define-key 'normal 'global (kbd "<leader>:") 'execute-extended-command)
 
 ;; editing
 (evil-define-key '(normal visual) 'global (kbd "j") 'evil-backward-char)

@@ -197,6 +197,10 @@
   (lsp-lens-enable nil)                 ; Optional, I don't need it
   ;; semantic
   (lsp-semantic-tokens-enable nil)      ; Related to highlighting, and we defer to treesitter
+
+  (lsp-csharp-omnisharp-roslyn-binary-path "~/tools/omnisharp/latest/omnisharp/OmniSharp.exe")
+  (lsp-csharp-omnisharp-roslyn-download-url "https://github.com/omnisharp/omnisharp-roslyn/releases/latest/download/omnisharp-linux-x64.tar.gz")
+  (lsp-csharp-server-install-dir "~/tools/omnisharp")
   )
 
 (use-package lsp-ui

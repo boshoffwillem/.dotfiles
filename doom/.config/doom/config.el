@@ -158,6 +158,11 @@
 ;;   (evil-terminal-cursor-changer-activate) ; or (etcc-on)
 ;;   )
 
+(use-package! lsp-mode
+  :custom
+  (setq lsp-enable-file-watchers nil)
+  )
+
 ;; (use-package! lsp-mode
 ;;   :bind
 ;;   (:map lsp-mode-map
@@ -172,7 +177,6 @@
 ;;   (setq lsp-idle-delay 0.5)
 ;;   (setq lsp-log-io nil)
 ;;   (setq lsp-auto-execute-action nil)
-;;   (setq lsp-enable-file-watchers nil)
 ;;   (setq lsp-lens-enable t)
 ;;   (setq lsp-headerline-breadcrumb-enable nil)
 ;;   (setq lsp-headerline-breadcrumb-enable-symbol-numbers nil)
