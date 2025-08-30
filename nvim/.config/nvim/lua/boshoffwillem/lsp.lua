@@ -59,6 +59,10 @@ end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+capabilities.textDocument.foldingRange = {
+  dynamicRegistration = false,
+  lineFoldingOnly = true
+}
 local lsp_flags = {
   -- This is the default in Nvim 0.7+
   debounce_text_changes = 150,
@@ -82,6 +86,23 @@ local servers = {
         url = "",
       },
       schemas = require("schemastore").yaml.schemas(),
+    },
+  },
+  dartls = {
+    cmd = { "/Users/boshoffwillem/development/flutter/bin/dart", "language-server", "--protocol=lsp" },
+    filetypes = { "dart" },
+    init_options = {
+      onlyAnalyzeProjectsWithOpenFiles = false,
+      suggestFromUnimportedLibraries = true,
+      closingLabels = true,
+      outline = true,
+      flutterOutline = true,
+    },
+    settings = {
+      dart = {
+        completeFunctionCalls = true,
+        showTodos = true,
+      }
     },
   },
   -- fsautocomplete = {},
@@ -143,48 +164,52 @@ require("mason").setup()
 local mason_lspconfig = require("mason-lspconfig")
 
 mason_lspconfig.setup({
-  ensure_installed = vim.tbl_keys(servers),
+  ensure_installed = vim.tbl_filter(function(name)
+    return name ~= "dartls"  -- dartls is managed by flutter-tools, not mason
+  end, vim.tbl_keys(servers)),
   automatic_enable = true,
 })
 
 for server, config in pairs(servers) do
-  config.on_attach = on_attach
-  config.capabilities = capabilities
-  config.flags = lsp_flags
+  if server ~= "dartls" then  -- dartls is handled by flutter-tools
+    config.on_attach = on_attach
+    config.capabilities = capabilities
+    config.flags = lsp_flags
 
-  -- This is a workaround for the omnisharp-roslyn issue with semantic tokens
-  -- if server == "omnisharp" then
-  --   config.capabilities.textDocument.semanticTokens.dynamicRegistration = false
-  --   config.capabilities.textDocument.semanticTokens.tokenModifiers = {
-  --     "static",
-  --     "readonly",
-  --     "deprecated",
-  --     "abstract",
-  --     "async",
-  --     "modification",
-  --   }
-  --   config.capabilities.textDocument.semanticTokens.tokenTypes = {
-  --     "comment",
-  --     "keyword",
-  --     "string",
-  --     "number",
-  --     "regexp",
-  --     "operator",
-  --     "namespace",
-  --     "type",
-  --     "struct",
-  --     "class",
-  --     "interface",
-  --     "enum",
-  --     "typeParameter",
-  --     "function",
-  --     "method",
-  --     "macro",
-  --     "property",
-  --   }
-  -- end
+    -- This is a workaround for the omnisharp-roslyn issue with semantic tokens
+    -- if server == "omnisharp" then
+    --   config.capabilities.textDocument.semanticTokens.dynamicRegistration = false
+    --   config.capabilities.textDocument.semanticTokens.tokenModifiers = {
+    --     "static",
+    --     "readonly",
+    --     "deprecated",
+    --     "abstract",
+    --     "async",
+    --     "modification",
+    --   }
+    --   config.capabilities.textDocument.semanticTokens.tokenTypes = {
+    --     "comment",
+    --     "keyword",
+    --     "string",
+    --     "number",
+    --     "regexp",
+    --     "operator",
+    --     "namespace",
+    --     "type",
+    --     "struct",
+    --     "class",
+    --     "interface",
+    --     "enum",
+    --     "typeParameter",
+    --     "function",
+    --     "method",
+    --     "macro",
+    --     "property",
+    --   }
+    -- end
 
-  require("lspconfig")[server].setup(config)
+    require("lspconfig")[server].setup(config)
+  end
 end
 
 -- Turn on lsp status information

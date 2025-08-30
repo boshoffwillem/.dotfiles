@@ -44,6 +44,21 @@ keymap("n", "<A-l>", ":m .-2<CR>==", opts)
 keymap("n", "<C-d>", "<C-d>zz", opts)
 keymap("n", "<C-u>", "<C-u>zz", opts)
 
+-- Folding keymaps
+keymap("n", "za", "za", opts) -- toggle fold under cursor
+keymap("n", "zA", "zA", opts) -- toggle all folds under cursor recursively
+keymap("n", "zo", "zo", opts) -- open fold under cursor
+keymap("n", "zO", "zO", opts) -- open all folds under cursor recursively
+keymap("n", "zc", "zc", opts) -- close fold under cursor
+keymap("n", "zC", "zC", opts) -- close all folds under cursor recursively
+keymap("n", "zr", "zr", opts) -- open one level of folds
+keymap("n", "zR", "zR", opts) -- open all folds
+keymap("n", "zm", "zm", opts) -- close one level of folds
+keymap("n", "zM", "zM", opts) -- close all folds
+keymap("n", "zv", "zv", opts) -- expand folds to reveal cursor
+keymap("n", "<leader>zf", ":foldclose<CR>", opts) -- close all folds
+keymap("n", "<leader>zo", ":foldopen<CR>", opts) -- open all folds
+
 -- Insert Mode
 -- =========================================================================================================
 -- Move text up and down
