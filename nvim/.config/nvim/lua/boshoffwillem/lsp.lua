@@ -8,6 +8,9 @@ vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist)
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
+  -- Set up universal LSP keybindings first
+  require("boshoffwillem.universal-keybinds").setup_lsp_keybinds(client, bufnr)
+  
   local nmap = function(keys, func, desc)
     if desc then
       desc = "LSP: " .. desc
@@ -16,45 +19,59 @@ local on_attach = function(client, bufnr)
     vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
   end
 
-  -- if client.name == "omnisharp" then
-  --   -- https://github.com/OmniSharp/omnisharp-roslyn/issues/2483#issuecomment-1492605642
-  --   local tokenModifiers = client.server_capabilities.semanticTokensProvider.legend.tokenModifiers
-  --   for i, v in ipairs(tokenModifiers) do
-  --     tmp = string.gsub(v, " ", "_")
-  --     tokenModifiers[i] = string.gsub(tmp, "-_", "")
-  --   end
-  --   local tokenTypes = client.server_capabilities.semanticTokensProvider.legend.tokenTypes
-  --   for i, v in ipairs(tokenTypes) do
-  --     tmp = string.gsub(v, " ", "_")
-  --     tokenTypes[i] = string.gsub(tmp, "-_", "")
-  --   end
-  -- end
+  if client.name == "omnisharp" or client.name == "roslyn" then
+    -- https://github.com/OmniSharp/omnisharp-roslyn/issues/2483#issuecomment-1492605642
+    if client.server_capabilities.semanticTokensProvider and client.server_capabilities.semanticTokensProvider.legend then
+      local tokenModifiers = client.server_capabilities.semanticTokensProvider.legend.tokenModifiers
+      for i, v in ipairs(tokenModifiers) do
+        local tmp = string.gsub(v, " ", "_")
+        tokenModifiers[i] = string.gsub(tmp, "-_", "")
+      end
+      local tokenTypes = client.server_capabilities.semanticTokensProvider.legend.tokenTypes
+      for i, v in ipairs(tokenTypes) do
+        local tmp = string.gsub(v, " ", "_")
+        tokenTypes[i] = string.gsub(tmp, "-_", "")
+      end
+    end
+    
+    -- C# specific keymaps
+    nmap("<leader>cc", function()
+      vim.lsp.buf.code_action({
+        filter = function(action)
+          return action.isPreferred
+        end,
+        apply = true,
+      })
+    end, "Apply preferred code action")
+    
+    nmap("<leader>cf", function()
+      vim.lsp.buf.code_action({
+        filter = function(action)
+          return action.title:match("Fix all occurrences")
+        end,
+        apply = true,
+      })
+    end, "Fix all occurrences")
+    
+    nmap("<leader>cg", function()
+      vim.lsp.buf.code_action({
+        filter = function(action)
+          return action.title:match("Generate")
+        end,
+      })
+    end, "Generate code")
+    
+    nmap("<leader>cr", function()
+      vim.lsp.buf.code_action({
+        filter = function(action)
+          return action.title:match("Refactor")
+        end,
+      })
+    end, "Refactor")
+  end
 
-  nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-  nmap("<leader>D", vim.lsp.buf.type_definition, "[G]oto [T]ype [D]efinition")
-  nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
-  nmap("gr", vim.lsp.buf.references, "")
-  nmap("gi", vim.lsp.buf.implementation, "")
-  nmap("K", vim.lsp.buf.hover, "")
-  nmap("<C-k>", vim.lsp.buf.signature_help, "")
-  nmap("<space>wa", vim.lsp.buf.add_workspace_folder, "")
-  nmap("<space>wr", vim.lsp.buf.remove_workspace_folder, "")
-  nmap("<space>wl", function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, "")
-  nmap("<space>D", vim.lsp.buf.type_definition, "")
-  nmap("<space>lr", vim.lsp.buf.rename, "")
-  nmap("<space>la", vim.lsp.buf.code_action, "")
-  nmap("<space>l=", function()
-    vim.lsp.buf.format({ async = true })
-  end, "")
-  -- nmap('<leader>pt', require('telescope.builtin').lsp_document_symbols, '')
-  nmap("<leader>pt", require("telescope.builtin").lsp_dynamic_workspace_symbols, "")
-
-  -- Create a command `:Format` local to the LSP buffer
-  vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-    vim.lsp.buf.format()
-  end, { desc = "Format current buffer with LSP" })
+  -- Universal keybindings are handled by universal-keybinds.lua
+  -- Only language-specific keybindings should be added here
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -124,15 +141,38 @@ local servers = {
   powershell_es = {},
   pylsp = {},
   omnisharp = {
-    -- cmd = { "OmniSharp.cmd" },
+    cmd = { "omnisharp" },
+    enable_roslyn_analyzers = true,
+    organize_imports_on_format = true,
+    enable_import_completion = true,
+    enable_ms_build_load_projects_on_demand = false,
     settings = {
+      FormattingOptions = {
+        EnableEditorConfigSupport = true,
+        OrganizeImports = true,
+      },
       RoslynExtensionsOptions = {
         EnableAnalyzersSupport = true,
         EnableImportCompletion = true,
         EnableDecompilationSupport = true,
+        AnalyzeOpenDocumentsOnly = false,
         InlayHintsOptions = {
           EnableForParameters = true,
+          ForLiteralParameters = true,
+          ForIndexerParameters = true,
+          ForObjectCreationParameters = true,
+          ForOtherParameters = true,
+          SuppressForParametersThatDifferOnlyBySuffix = false,
+          SuppressForParametersThatMatchMethodIntent = false,
+          SuppressForParametersThatMatchArgumentName = false,
+          EnableForTypes = true,
+          ForImplicitVariableTypes = true,
+          ForLambdaParameterTypes = true,
+          ForImplicitObjectCreation = true,
         },
+      },
+      MsBuild = {
+        LoadProjectsOnDemand = false,
       },
     },
   },
@@ -150,6 +190,14 @@ local servers = {
       },
       validate = true,
     },
+  },
+  roslyn = {
+    config = {
+      on_attach = function(client, bufnr)
+        client.server_capabilities.semanticTokensProvider = nil
+        on_attach(client, bufnr)
+      end,
+    }
   },
   zls = {},
 }

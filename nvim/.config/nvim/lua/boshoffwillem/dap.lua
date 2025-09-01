@@ -10,7 +10,7 @@ vim.keymap.set("n", "<leader>lB", function()
 end, { desc = "[C]onditional [B]reakpoint" })
 vim.keymap.set("n", "<leader>ll", function()
   require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
-end, { desc = "[C]onditional [B]reakpoint" })
+end, { desc = "[L]og [P]oint" })
 vim.keymap.set("n", "<leader>x", function()
   require("dap").repl.open()
 end, { desc = "[R]epl" })
@@ -28,19 +28,72 @@ vim.keymap.set("n", "<F12>", function()
 end, { desc = "[S]tep [O]ut" })
 
 -- .NET setup
-require("dap").adapters.coreclr = {
+local dap = require("dap")
+
+dap.adapters.coreclr = {
   type = "executable",
   command = install_dir .. "/packages/netcoredbg/netcoredbg",
   args = { "--interpreter=vscode" },
 }
 
-require("dap").configurations.cs = {
+-- Function to find .NET executable
+local function get_dotnet_executable()
+  local cwd = vim.fn.getcwd()
+  local possible_paths = {
+    cwd .. "/bin/Debug/net8.0/",
+    cwd .. "/bin/Debug/net7.0/",
+    cwd .. "/bin/Debug/net6.0/",
+    cwd .. "/bin/Debug/netcoreapp3.1/",
+  }
+  
+  for _, path in ipairs(possible_paths) do
+    local files = vim.fn.glob(path .. "*.dll", false, true)
+    if #files > 0 then
+      -- Return the first .dll found that matches the project name
+      local project_name = vim.fn.fnamemodify(cwd, ":t")
+      for _, file in ipairs(files) do
+        if file:match(project_name) then
+          return file
+        end
+      end
+      -- If no match found, return the first dll
+      return files[1]
+    end
+  end
+  
+  return vim.fn.input("Path to dll: ", vim.fn.getcwd() .. "/bin/Debug/", "file")
+end
+
+dap.configurations.cs = {
   {
     type = "coreclr",
-    name = "launch - netcoredbg",
+    name = "Launch .NET Core",
     request = "launch",
-    program = function()
-      return vim.fn.input("Path to dll? ", vim.fn.getcwd(), "file")
+    program = get_dotnet_executable,
+    args = {},
+    cwd = "${workspaceFolder}",
+    console = "integratedTerminal",
+    stopAtEntry = false,
+  },
+  {
+    type = "coreclr",
+    name = "Launch with args",
+    request = "launch",
+    program = get_dotnet_executable,
+    args = function()
+      local args = vim.fn.input("Program arguments: ")
+      return vim.split(args, " ")
+    end,
+    cwd = "${workspaceFolder}",
+    console = "integratedTerminal",
+    stopAtEntry = false,
+  },
+  {
+    type = "coreclr",
+    name = "Attach to process",
+    request = "attach",
+    processId = function()
+      return require("dap.utils").pick_process()
     end,
   },
 }

@@ -11,6 +11,23 @@ require("packer").startup(function(use)
   -- Package manager
   use("wbthomason/packer.nvim")
 
+  -- C#/.NET specific plugins
+  use({ "Issafalcon/lsp-overloads.nvim" }) -- Show method overloads
+  use({ "Hoffs/omnisharp-extended-lsp.nvim" }) -- Extended omnisharp features
+  use({ "jmederosalvarado/roslyn.nvim" }) -- Microsoft Roslyn LSP
+  use({ "iabdelkareem/csharp.nvim",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "Tastyep/structlog.nvim",
+    },
+  })
+  use({ "GustavEikaas/easy-dotnet.nvim", 
+    requires = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+    config = function()
+      require("easy-dotnet").setup()
+    end
+  })
+
   -- floating terminal
   use({
     "akinsho/toggleterm.nvim",
