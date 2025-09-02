@@ -29,6 +29,8 @@ This Neovim configuration follows a **modular, domain-specific organization** un
 - **`telescope.lua`**: Project-aware fuzzy finding with predefined work directories (`~/code`, `~/code/work`)
 - **`format.lua`**: Conform.nvim primary formatter with language-specific configurations
 - **`appearance.lua`**: VSCode theme with transparency and Lualine integration
+- **`neo-tree.lua`**: Modern file explorer with git integration, buffer explorer, and project navigation
+- **`toggle_term.lua`**: VS Code-style terminal with horizontal bottom layout and multiple keybinding options
 
 ## Development Commands
 
@@ -97,6 +99,17 @@ F10/F11/F12         " Step over/into/out
 <leader>fp           " Find projects (telescope-project integration)
 <leader>ff           " Find files
 <leader>fg           " Live grep
+
+" File Explorer (Neo-tree)
+<leader>o            " Toggle file explorer sidebar
+<leader>O            " Reveal current file in explorer
+<leader>ge           " Git status explorer
+<leader>be           " Buffer explorer
+
+" Terminal (ToggleTerm)
+<C-`>                " Toggle terminal (VS Code style)
+<C-\>                " Toggle terminal (alternative)
+<Esc>                " Exit terminal mode (when in terminal)
 ```
 
 ## Code Architecture Patterns
@@ -179,12 +192,13 @@ The configuration uses a sophisticated LSP setup:
 ## Special Configuration Features
 
 ### Unique Customizations
-- **Home row movement**: `j/k/l/;` instead of `h/j/k/l`
+- **Home row movement**: `j/k/l/;` instead of `h/j/k/l` (also applied in Neo-tree file explorer)
 - **Universal keybinding system**: Consistent keybindings across all languages
 - **Intelligent test runner**: Automatically uses best available test framework
 - **Dual LSP approach**: OmniSharp for stability, Roslyn for performance
 - **Project-aware debugging**: Automatic .NET executable discovery
 - **Comprehensive test integration**: Full neotest workflow with debugging support
+- **VS Code-style terminal**: Bottom horizontal terminal with `Ctrl+`` toggle (exactly like VS Code)
 
 ### Advanced Integrations
 - **Telescope project management**: Custom work directory integration

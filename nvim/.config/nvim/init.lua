@@ -1,3 +1,7 @@
+-- Set leader key early before any keymaps are defined
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 require("boshoffwillem.plugins")
 require("boshoffwillem.appearance")
 require("boshoffwillem.comment")
@@ -7,6 +11,8 @@ require("boshoffwillem.format")
 require("boshoffwillem.info")
 -- require("boshoffwillem.indent_blank_line")
 require("boshoffwillem.keymaps")
+require("boshoffwillem.neo-tree").setup()
+require("boshoffwillem.neo-tree").setup_keymaps()
 require("boshoffwillem.lint")
 require("boshoffwillem.lsp")
 require("boshoffwillem.options")

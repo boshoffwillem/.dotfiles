@@ -129,6 +129,17 @@ require("packer").startup(function(use)
   use("numToStr/Comment.nvim")     -- "gc" to comment visual regions/lines
   use("tpope/vim-sleuth")          -- Detect tabstop and shiftwidth automatically
   use("mbbill/undotree")
+  
+  -- File explorer
+  use({
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "kyazdani42/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+  })
 
   -- Fuzzy Finder (files, lsp, etc)
   use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
