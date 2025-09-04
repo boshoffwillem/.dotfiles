@@ -98,6 +98,94 @@ dap.configurations.cs = {
   },
 }
 
+-- Android/Kotlin debugging configuration
+dap.adapters.kotlin = {
+  type = "executable",
+  command = "kotlin-debug-adapter",
+  options = {
+    auto_continue_if_many_stopped = false,
+  },
+}
+
+dap.configurations.kotlin = {
+  {
+    type = "kotlin",
+    request = "launch",
+    name = "Launch Kotlin Program",
+    projectRoot = "${workspaceFolder}",
+    mainClass = function()
+      -- Prompt for main class if not obvious
+      return vim.fn.input("Main class (e.g., com.example.MainKt): ")
+    end,
+  },
+  {
+    type = "kotlin",
+    request = "attach",
+    name = "Attach to Android App",
+    projectRoot = "${workspaceFolder}",
+    port = 5005,
+    hostName = "localhost",
+    timeout = 2000,
+  },
+}
+
+-- Java debugging (for Android)
+dap.configurations.java = {
+  {
+    type = "java",
+    request = "attach",
+    name = "Attach to Android App (Java)",
+    hostName = "localhost",
+    port = 5005,
+  },
+}
+
+-- Swift/iOS debugging configuration
+dap.adapters.codelldb = {
+  type = "server",
+  port = "${port}",
+  executable = {
+    command = install_dir .. "/packages/codelldb/codelldb",
+    args = {"--port", "${port}"},
+  }
+}
+
+dap.configurations.swift = {
+  {
+    name = "Launch iOS App",
+    type = "codelldb",
+    request = "launch",
+    program = function()
+      -- Try to find the built app in DerivedData
+      local app_path = vim.fn.system("find ~/Library/Developer/Xcode/DerivedData -name '*.app' -type d | head -1")
+      if app_path and app_path ~= "" then
+        return app_path:gsub("%s+$", "") -- trim whitespace
+      end
+      return vim.fn.input("Path to app bundle: ", vim.fn.getcwd() .. "/", "file")
+    end,
+    cwd = "${workspaceFolder}",
+    stopOnEntry = false,
+    args = {},
+  },
+  {
+    name = "Attach to iOS Simulator",
+    type = "codelldb",
+    request = "attach",
+    program = function()
+      return vim.fn.input("Path to app bundle: ", vim.fn.getcwd() .. "/", "file")
+    end,
+    pid = function()
+      local output = vim.fn.system("xcrun simctl list | grep Booted")
+      if output ~= "" then
+        return require("dap.utils").pick_process()
+      else
+        vim.notify("No booted iOS simulator found", vim.log.levels.ERROR)
+        return nil
+      end
+    end,
+  },
+}
+
 require("dapui").setup({
   icons = { expanded = "", collapsed = "", current_frame = "" },
   mappings = {

@@ -92,6 +92,45 @@ function M.run_current_test()
     -- Rust - use cargo test
     vim.cmd('TermExec cmd="cargo test"')
     return
+  elseif filetype == "kotlin" then
+    -- Kotlin - use gradle test
+    local gradlew = vim.fn.getcwd() .. "/gradlew"
+    if vim.fn.executable(gradlew) == 1 then
+      vim.cmd('TermExec cmd="./gradlew test"')
+    else
+      vim.cmd('TermExec cmd="gradle test"')
+    end
+    return
+  elseif filetype == "java" then
+    -- Java - use gradle/maven test
+    local gradlew = vim.fn.getcwd() .. "/gradlew"
+    local mvnw = vim.fn.getcwd() .. "/mvnw"
+    if vim.fn.executable(gradlew) == 1 then
+      vim.cmd('TermExec cmd="./gradlew test"')
+    elseif vim.fn.executable(mvnw) == 1 then
+      vim.cmd('TermExec cmd="./mvnw test"')
+    elseif vim.fn.filereadable(vim.fn.getcwd() .. "/pom.xml") == 1 then
+      vim.cmd('TermExec cmd="mvn test"')
+    else
+      vim.cmd('TermExec cmd="gradle test"')
+    end
+    return
+  elseif filetype == "swift" then
+    -- Swift - use xcodebuild or swift test
+    if vim.fn.filereadable("Package.swift") == 1 then
+      vim.cmd('TermExec cmd="swift test"')
+    else
+      local project = vim.fn.glob(vim.fn.getcwd() .. "/*.xcworkspace")
+      if project == "" then
+        project = vim.fn.glob(vim.fn.getcwd() .. "/*.xcodeproj")
+      end
+      if project ~= "" then
+        vim.cmd('TermExec cmd="xcodebuild test -project ' .. project .. '"')
+      else
+        vim.cmd('TermExec cmd="swift test"')
+      end
+    end
+    return
   end
   
   vim.notify("No test runner found for filetype: " .. filetype, vim.log.levels.WARN)
@@ -131,6 +170,45 @@ function M.run_all_tests()
   elseif filetype == "rust" then
     -- Rust - use cargo test
     vim.cmd('TermExec cmd="cargo test"')
+    return
+  elseif filetype == "kotlin" then
+    -- Kotlin - use gradle test
+    local gradlew = vim.fn.getcwd() .. "/gradlew"
+    if vim.fn.executable(gradlew) == 1 then
+      vim.cmd('TermExec cmd="./gradlew test"')
+    else
+      vim.cmd('TermExec cmd="gradle test"')
+    end
+    return
+  elseif filetype == "java" then
+    -- Java - use gradle/maven test
+    local gradlew = vim.fn.getcwd() .. "/gradlew"
+    local mvnw = vim.fn.getcwd() .. "/mvnw"
+    if vim.fn.executable(gradlew) == 1 then
+      vim.cmd('TermExec cmd="./gradlew test"')
+    elseif vim.fn.executable(mvnw) == 1 then
+      vim.cmd('TermExec cmd="./mvnw test"')
+    elseif vim.fn.filereadable(vim.fn.getcwd() .. "/pom.xml") == 1 then
+      vim.cmd('TermExec cmd="mvn test"')
+    else
+      vim.cmd('TermExec cmd="gradle test"')
+    end
+    return
+  elseif filetype == "swift" then
+    -- Swift - use xcodebuild or swift test
+    if vim.fn.filereadable("Package.swift") == 1 then
+      vim.cmd('TermExec cmd="swift test"')
+    else
+      local project = vim.fn.glob(vim.fn.getcwd() .. "/*.xcworkspace")
+      if project == "" then
+        project = vim.fn.glob(vim.fn.getcwd() .. "/*.xcodeproj")
+      end
+      if project ~= "" then
+        vim.cmd('TermExec cmd="xcodebuild test -project ' .. project .. '"')
+      else
+        vim.cmd('TermExec cmd="swift test"')
+      end
+    end
     return
   end
   

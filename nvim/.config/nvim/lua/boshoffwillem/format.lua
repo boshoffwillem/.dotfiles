@@ -1,13 +1,17 @@
 require("conform").setup({
   formatters_by_ft = {
     cs = { "csharpier" },
+    java = { "google-java-format" },
     javascript = { "prettierd", "prettier", stop_after_first = true },
     json = { "prettierd", "prettier", stop_after_first = true },
+    kotlin = { "ktlint" },
     lua = { "stylua" },
     python = { "isort", "black" },
     rust = { "rustfmt", lsp_format = "fallback" },
+    swift = { "swiftformat", lsp_format = "fallback" },
     terraform = { "terraformfmt" },
     typescript = { "prettierd", "prettier", stop_after_first = true },
+    xml = { "xmlformat" },
   },
   format_on_save = {
     -- These options will be passed to conform.format()

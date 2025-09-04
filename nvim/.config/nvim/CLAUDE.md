@@ -17,11 +17,13 @@ This Neovim configuration follows a **modular, domain-specific organization** un
 ## Key Configuration Modules
 
 ### Essential Core Modules
-- **`plugins.lua`**: Packer-based plugin ecosystem with extensive C# tooling
-- **`lsp.lua`**: Dual LSP setup (OmniSharp + Roslyn) with enhanced semantic tokens and C#-specific code actions
-- **`universal-keybinds.lua`**: Universal keybindings that work consistently across all languages
-- **`dap.lua`**: Debug configuration with smart .NET executable discovery
+- **`plugins.lua`**: Packer-based plugin ecosystem with extensive C#, Kotlin/Android, and Flutter tooling
+- **`lsp.lua`**: Multi-language LSP setup (OmniSharp + Roslyn for C#, kotlin-language-server, jdtls for Java)
+- **`universal-keybinds.lua`**: Universal keybindings that work consistently across all languages including Kotlin/Java
+- **`dap.lua`**: Debug configuration with smart .NET executable discovery and Android debugging support
 - **`csharp.lua`**: Comprehensive C# utilities, keymaps, and IDE-like features
+- **`kotlin.lua`**: Android Kotlin development with Gradle integration, ADB commands, and emulator management
+- **`swift.lua`**: iOS Swift development with Xcode integration, simulator management, and Swift Package Manager
 - **`neotest.lua`**: Testing framework with dotnet adapter integration
 - **`options.lua`**: Modern Vim defaults with treesitter folding and cross-platform shell support
 
@@ -62,6 +64,59 @@ gD                   " Goto declaration
 K                    " Hover documentation
 <C-k>                " Signature help
 <leader>D            " Type definition
+```
+
+### Swift/iOS Development Workflow
+```vim
+" Xcode Build Commands
+<leader>sb           " Build project
+<leader>sc           " Clean project  
+<leader>sr           " Run app on simulator
+<leader>sa           " Archive project
+
+" Testing
+<leader>st           " Run all tests
+<leader>sT           " Run current test
+<leader>ctt          " Universal test runner (works for Swift too)
+
+" iOS Commands
+<leader>si           " Install app on simulator/device
+<leader>sl           " Show device logs
+<leader>sd           " List simulators/devices
+<leader>se           " Launch iOS simulator
+
+" Swift Package Manager
+<leader>sp           " Package resolve
+<leader>su           " Package update
+<leader>sP           " Add package dependency
+<leader>sv           " Toggle SwiftUI preview (placeholder)
+```
+
+### Kotlin/Android Development Workflow
+```vim
+" Gradle Commands
+<leader>kb           " Build project
+<leader>kc           " Clean project
+<leader>kr           " Run app on device/emulator
+<leader>ks           " Sync gradle dependencies
+
+" Testing
+<leader>kt           " Run all tests
+<leader>kT           " Run current test
+<leader>ctt          " Universal test runner (works for Kotlin too)
+
+" Android Commands
+<leader>ki           " Install APK on device
+<leader>kl           " Show logcat output
+<leader>kd           " List connected devices
+<leader>ke           " Launch emulator
+<leader>ka           " Add dependency to build.gradle
+
+" Java-specific (in .java files)
+<leader>jo           " Organize imports
+<leader>jv           " Extract variable
+<leader>jc           " Extract constant
+<leader>jm           " Extract method
 ```
 
 ### C# Development Workflow
@@ -154,14 +209,21 @@ The configuration uses a sophisticated LSP setup:
 
 ### Essential External Tools
 - **.NET SDK 6.0+**: Required for C# development features
-- **Mason-managed tools**: omnisharp, roslyn, netcoredbg (installed via `:Mason`)
+- **JDK 11 or 17**: Required for Android/Kotlin development
+- **Android SDK**: Required for Android development (set `ANDROID_HOME` environment variable)
+- **Gradle**: Build tool for Android projects (gradlew preferred)
+- **Xcode**: Required for iOS/Swift development (including Command Line Tools)
+- **Mason-managed tools**: omnisharp, roslyn, netcoredbg, kotlin-language-server, jdtls, ktlint, google-java-format, codelldb (installed via `:Mason`)
+- **Swift tools**: sourcekit-lsp (included with Xcode), swiftformat, swiftlint
 - **Git**: Required for Packer plugin management
 
 ### Architecture-Specific Notes
-- **Cross-platform support**: Windows PowerShell integration in options.lua
-- **Project detection**: Smart solution/project file discovery in dotnet-utils.lua
-- **Executable discovery**: Automatic .NET build output detection for debugging
-- **Test framework support**: xUnit, NUnit, MSTest detection and execution
+- **Cross-platform support**: Windows PowerShell integration in options.lua, Android SDK path detection
+- **Project detection**: Smart solution/project file discovery for .NET and Gradle/Maven for Java/Kotlin
+- **Executable discovery**: Automatic .NET build output detection and Android APK installation
+- **Test framework support**: xUnit, NUnit, MSTest for C#; JUnit, Espresso for Android/Kotlin; XCTest for iOS/Swift
+- **Android environment**: Automatic ANDROID_HOME detection and PATH configuration
+- **Build tool integration**: Automatic gradlew/mvnw detection for Java/Kotlin; xcodebuild and Swift Package Manager for iOS/Swift
 
 ## Modification Guidelines
 
@@ -184,6 +246,20 @@ The configuration uses a sophisticated LSP setup:
 - Extend `neotest.lua` for testing modifications
 - **NEVER override universal keybindings** - only add C#-specific ones
 
+### Extending Android/Kotlin Features
+- Modify `kotlin.lua` for Kotlin/Android-specific utilities
+- Java files are handled via ftplugin/java.lua for enhanced jdtls control
+- Update `lsp.lua` for Kotlin/Java LSP server changes
+- Android debugging configured in `dap.lua`
+- **NEVER override universal keybindings** - only add Kotlin/Java-specific ones
+
+### Extending iOS/Swift Features
+- Modify `swift.lua` for Swift/iOS-specific utilities
+- Update `lsp.lua` for sourcekit-lsp configuration changes
+- iOS debugging configured in `dap.lua` using CodeLLDB
+- Xcode project detection and simulator management in `swift.lua`
+- **NEVER override universal keybindings** - only add Swift-specific ones
+
 ### LSP Server Management
 - Use Mason for server installation: `:MasonInstall <server>`
 - Configure servers in the `servers` table in `lsp.lua`
@@ -194,11 +270,14 @@ The configuration uses a sophisticated LSP setup:
 ### Unique Customizations
 - **Home row movement**: `j/k/l/;` instead of `h/j/k/l` (also applied in Neo-tree file explorer)
 - **Universal keybinding system**: Consistent keybindings across all languages
-- **Intelligent test runner**: Automatically uses best available test framework
-- **Dual LSP approach**: OmniSharp for stability, Roslyn for performance
-- **Project-aware debugging**: Automatic .NET executable discovery
-- **Comprehensive test integration**: Full neotest workflow with debugging support
+- **Intelligent test runner**: Automatically uses best available test framework (Gradle/Maven for Java/Kotlin)
+- **Multi-language LSP**: OmniSharp/Roslyn for C#, kotlin-language-server for Kotlin, jdtls for Java, sourcekit-lsp for Swift
+- **Project-aware debugging**: Automatic .NET executable discovery, Android app attachment, and iOS simulator debugging
+- **Comprehensive test integration**: Full neotest workflow with debugging support for multiple languages
 - **VS Code-style terminal**: Bottom horizontal terminal with `Ctrl+`` toggle (exactly like VS Code)
+- **Android development**: Integrated ADB commands, emulator management, and Gradle integration
+- **iOS development**: Integrated Xcode commands, simulator management, and Swift Package Manager
+- **Flutter support**: Full Flutter development with hot reload and widget inspection for both Android and iOS
 
 ### Advanced Integrations
 - **Telescope project management**: Custom work directory integration

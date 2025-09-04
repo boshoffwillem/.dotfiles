@@ -94,32 +94,23 @@ local lsp_flags = {
 local servers = {
   angularls = {},
   azure_pipelines_ls = {
-    yaml = {
-      schemaStore = {
-        -- You must disable built-in schemaStore support if you want to use
-        -- this plugin and its advanced options like `ignore`.
-        enable = false,
-        -- Avoid TypeError: Cannot read properties of undefined (reading 'length')
-        url = "",
-      },
-      schemas = require("schemastore").yaml.schemas(),
-    },
-  },
-  dartls = {
-    cmd = { "/Users/boshoffwillem/development/flutter/bin/dart", "language-server", "--protocol=lsp" },
-    filetypes = { "dart" },
-    init_options = {
-      onlyAnalyzeProjectsWithOpenFiles = false,
-      suggestFromUnimportedLibraries = true,
-      closingLabels = true,
-      outline = true,
-      flutterOutline = true,
-    },
+    filetypes = { "yaml.azure", "yaml.azurepipelines" },
+    root_patterns = { ".azure-pipelines", "azure-pipelines.yml", "azure-pipelines.yaml" },
     settings = {
-      dart = {
-        completeFunctionCalls = true,
-        showTodos = true,
-      }
+      yaml = {
+        schemaStore = {
+          enable = false,
+          url = "",
+        },
+        schemas = {
+          ["https://raw.githubusercontent.com/microsoft/azure-pipelines-vscode/master/service-schema.json"] = {
+            "azure-pipelines*.yml",
+            "azure-pipelines*.yaml",
+            ".azure-pipelines/**/*.yml",
+            ".azure-pipelines/**/*.yaml",
+          },
+        },
+      },
     },
   },
   -- fsautocomplete = {},
@@ -181,26 +172,88 @@ local servers = {
   terraformls = {},
   ts_ls = {},
   yamlls = {
-    yaml = {
-      format = true,
-      schemaDownload = {
-        enable = true,
+    settings = {
+      yaml = {
+        format = {
+          enable = true,
+        },
+        validate = true,
+        schemaDownload = {
+          enable = false,
+        },
+        schemas = {},
       },
-      schemas = {
-        ["https://raw.githubusercontent.com/instrumenta/kubernetes-json-schema/master/v1.18.0-standalone-strict/all.json"] = "/*.k8s.yaml",
+      redhat = {
+        telemetry = {
+          enabled = false,
+        },
       },
-      validate = true,
     },
   },
-  roslyn = {
-    config = {
-      on_attach = function(client, bufnr)
-        client.server_capabilities.semanticTokensProvider = nil
-        on_attach(client, bufnr)
-      end,
+  -- roslyn is handled by roslyn.nvim plugin, not lspconfig
+  zls = {},
+  kotlin_language_server = {
+    settings = {
+      kotlin = {
+        compiler = {
+          jvm = {
+            target = "17" -- Android typically uses Java 11 or 17
+          }
+        },
+        completion = {
+          snippets = {
+            enabled = true
+          }
+        },
+        linting = {
+          debounceTime = 250
+        },
+        formatting = {
+          formatter = "ktlint"
+        },
+        indexing = {
+          enabled = true
+        },
+        externalSources = {
+          useKlsScheme = true,
+          autoConvertToKotlin = true
+        }
+      }
+    },
+    root_dir = require("lspconfig.util").root_pattern("settings.gradle", "settings.gradle.kts", "build.gradle", "build.gradle.kts", ".git"),
+    single_file_support = true,
+    init_options = {
+      storagePath = vim.fn.stdpath("data") .. "/kotlin"
     }
   },
-  zls = {},
+  jdtls = {
+    -- jdtls is handled separately in ftplugin/java.lua for better control
+    -- This is here to ensure Mason installs it
+  },
+  sourcekit = {
+    cmd = {
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp"
+    },
+    filetypes = { "swift", "objc", "objcpp" },
+    root_dir = require("lspconfig.util").root_pattern("Package.swift", ".git", "project.yml", ".xcodeproj", ".xcworkspace"),
+    settings = {
+      sourcekit = {
+        serverArguments = {
+          "-Xswiftc", "-sdk",
+          "-Xswiftc", "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk",
+          "-Xswiftc", "-target",
+          "-Xswiftc", "arm64-apple-ios-simulator",
+        }
+      }
+    },
+    capabilities = {
+      workspace = {
+        didChangeWatchedFiles = {
+          dynamicRegistration = true,
+        },
+      },
+    },
+  },
 }
 
 -- Setup neovim lua configuration
@@ -213,19 +266,16 @@ require("mason").setup()
 local mason_lspconfig = require("mason-lspconfig")
 
 mason_lspconfig.setup({
-  ensure_installed = vim.tbl_filter(function(name)
-    return name ~= "dartls"  -- dartls is managed by flutter-tools, not mason
-  end, vim.tbl_keys(servers)),
+  ensure_installed = vim.tbl_keys(servers),
   automatic_enable = true,
 })
 
 for server, config in pairs(servers) do
-  if server ~= "dartls" then  -- dartls is handled by flutter-tools
-    config.on_attach = on_attach
-    config.capabilities = capabilities
-    config.flags = lsp_flags
+  config.on_attach = on_attach
+  config.capabilities = capabilities
+  config.flags = lsp_flags
 
-    -- This is a workaround for the omnisharp-roslyn issue with semantic tokens
+  -- This is a workaround for the omnisharp-roslyn issue with semantic tokens
     -- if server == "omnisharp" then
     --   config.capabilities.textDocument.semanticTokens.dynamicRegistration = false
     --   config.capabilities.textDocument.semanticTokens.tokenModifiers = {
@@ -257,8 +307,7 @@ for server, config in pairs(servers) do
     --   }
     -- end
 
-    require("lspconfig")[server].setup(config)
-  end
+  require("lspconfig")[server].setup(config)
 end
 
 -- Turn on lsp status information

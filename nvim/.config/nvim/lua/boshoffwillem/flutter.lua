@@ -58,6 +58,13 @@ require("flutter-tools").setup {
       virtual_text = true,
       virtual_text_str = "■",
     },
+    init_options = {
+      onlyAnalyzeProjectsWithOpenFiles = true,
+      suggestFromUnimportedLibraries = true,
+      closingLabels = true,
+      outline = true,
+      flutterOutline = true,
+    },
     on_attach = function(client, bufnr)
       local on_attach = function(client, bufnr)
         local nmap = function(keys, func, desc)

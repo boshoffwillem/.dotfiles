@@ -1,8 +1,11 @@
 require("lint").linters_by_ft = {
   dockerfile = { "hadolint" },
   editorconfig = { "editorconfig-checker" },
+  java = { "checkstyle" },
   json = { "jsonlint" },
+  kotlin = { "ktlint" },
   proto = { "buf_lint" },
+  swift = { "swiftlint" },
   yaml = { "yamllint" },
 }
 
