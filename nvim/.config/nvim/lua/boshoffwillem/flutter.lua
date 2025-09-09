@@ -66,27 +66,17 @@ require("flutter-tools").setup {
       flutterOutline = true,
     },
     on_attach = function(client, bufnr)
-      local on_attach = function(client, bufnr)
-        local nmap = function(keys, func, desc)
-          if desc then
-            desc = "LSP: " .. desc
-          end
-          vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+      -- Set up universal LSP keybindings first
+      require("boshoffwillem.universal-keybinds").setup_lsp_keybinds(client, bufnr)
+      
+      local nmap = function(keys, func, desc)
+        if desc then
+          desc = "LSP: " .. desc
         end
+        vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+      end
 
-        nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-        nmap("<leader>D", vim.lsp.buf.type_definition, "[G]oto [T]ype [D]efinition")
-        nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
-        nmap("gr", vim.lsp.buf.references, "")
-        nmap("gi", vim.lsp.buf.implementation, "")
-        nmap("K", vim.lsp.buf.hover, "")
-        nmap("<C-k>", vim.lsp.buf.signature_help, "")
-        nmap("<space>wa", vim.lsp.buf.add_workspace_folder, "")
-        nmap("<space>wr", vim.lsp.buf.remove_workspace_folder, "")
-        nmap("<space>wl", function()
-          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end, "")
-        nmap("<space>D", vim.lsp.buf.type_definition, "")
+      -- Only Flutter/Dart-specific keybindings should be added here
         nmap("<space>lr", vim.lsp.buf.rename, "")
         nmap("<space>la", vim.lsp.buf.code_action, "")
         nmap("<space>l=", function()
@@ -94,11 +84,9 @@ require("flutter-tools").setup {
         end, "")
         nmap("<leader>pt", require("telescope.builtin").lsp_dynamic_workspace_symbols, "")
 
-        vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-          vim.lsp.buf.format()
-        end, { desc = "Format current buffer with LSP" })
-      end
-      on_attach(client, bufnr)
+      vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
+        vim.lsp.buf.format()
+      end, { desc = "Format current buffer with LSP" })
     end,
     capabilities = require("cmp_nvim_lsp").default_capabilities(),
     settings = {

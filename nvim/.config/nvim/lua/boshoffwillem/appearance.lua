@@ -1,5 +1,31 @@
 vim.o.background = "dark"
--- vim.cmd('colorscheme modus-vivendi')
+
+require("gruvbox").setup({
+  terminal_colors = true, -- add neovim terminal colors
+  undercurl = true,
+  underline = true,
+  bold = true,
+  italic = {
+    strings = true,
+    emphasis = true,
+    comments = true,
+    operators = false,
+    folds = true,
+  },
+  strikethrough = true,
+  invert_selection = false,
+  invert_signs = false,
+  invert_tabline = false,
+  inverse = true, -- invert background for search, diffs, statuslines and errors
+  contrast = "",  -- can be "hard", "soft" or empty string
+  palette_overrides = {},
+  overrides = {},
+  dim_inactive = false,
+  transparent_mode = false,
+})
+
+vim.cmd("colorscheme gruvbox")
+
 local c = require("vscode.colors").get_colors()
 require("vscode").setup({
   -- Alternatively set style in setup
@@ -29,18 +55,16 @@ require("vscode").setup({
     Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
   },
 })
-require("vscode").load()
-
+-- require("vscode").load()
 -- load the theme without affecting devicon colors.
-vim.cmd.colorscheme("vscode")
+-- vim.cmd.colorscheme("vscode")
 
 -- Set lualine as statusline
 -- See `:help lualine.txt`
 require("lualine").setup({
   options = {
     icons_enabled = false,
-    -- theme = 'modus-vivendi',
-    theme = "vscode",
+    theme = "gruvbox",
     component_separators = "|",
     section_separators = "",
   },

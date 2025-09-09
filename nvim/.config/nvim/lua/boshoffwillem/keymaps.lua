@@ -4,6 +4,30 @@ local term_opts = { silent = true }
 -- Shorten function name
 local keymap = vim.api.nvim_set_keymap
 
+-- Smart buffer delete function that preserves splits
+local function smart_buffer_delete()
+  local current_buf = vim.api.nvim_get_current_buf()
+  
+  -- Get all buffers that are listed (normal buffers, not special ones)
+  local buffers = {}
+  for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].buflisted and buf ~= current_buf then
+      table.insert(buffers, buf)
+    end
+  end
+  
+  -- If there are other buffers, switch to the next one
+  if #buffers > 0 then
+    vim.api.nvim_set_current_buf(buffers[1])
+  else
+    -- No other buffers exist, create a new empty one
+    vim.cmd('enew')
+  end
+  
+  -- Now delete the original buffer
+  vim.cmd('bdelete ' .. current_buf)
+end
+
 --Remap space as leader key (already set in init.lua)
 keymap("", "<Space>", "<Nop>", opts)
 
@@ -23,7 +47,9 @@ keymap("n", "j", "h", opts)
 keymap("n", "k", "j", opts)
 keymap("n", "l", "k", opts)
 keymap("n", ";", "l", opts)
-keymap("n", "<leader>bk", ":bdelete<CR>", opts)
+-- Buffer management
+vim.keymap.set("n", "<leader>bk", smart_buffer_delete, vim.tbl_extend("force", opts, { desc = "Delete buffer (smart)" }))
+vim.keymap.set("n", "<leader>k", smart_buffer_delete, vim.tbl_extend("force", opts, { desc = "Delete buffer (smart)" }))
 keymap("n", "<A-n>", ":cnext<CR>", opts)
 keymap("n", "<A-p>", ":cprevious<CR>", opts)
 

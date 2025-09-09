@@ -11,32 +11,20 @@ require("packer").startup(function(use)
   -- Package manager
   use("wbthomason/packer.nvim")
 
+  use { "ellisonleao/gruvbox.nvim" }
+
   -- C#/.NET specific plugins
-  use({ "Issafalcon/lsp-overloads.nvim" }) -- Show method overloads
+  use({ "Issafalcon/lsp-overloads.nvim" })     -- Show method overloads
   use({ "Hoffs/omnisharp-extended-lsp.nvim" }) -- Extended omnisharp features
-  use({ "jmederosalvarado/roslyn.nvim",
-    config = function()
-      require("roslyn").setup({
-        dotnet_cmd = "dotnet",
-        roslyn_version = "4.8.0-3.23475.7",
-        on_attach = function(client, bufnr)
-          -- Set up universal LSP keybindings
-          require("boshoffwillem.universal-keybinds").setup_lsp_keybinds(client, bufnr)
-          -- Disable semantic tokens as they can conflict with treesitter
-          client.server_capabilities.semanticTokensProvider = nil
-        end,
-        capabilities = require("cmp_nvim_lsp").default_capabilities(),
-      })
-    end,
-    requires = { "nvim-lua/plenary.nvim" }
-  }) -- Microsoft Roslyn LSP
-  use({ "iabdelkareem/csharp.nvim",
+  use({
+    "iabdelkareem/csharp.nvim",
     requires = {
       "nvim-lua/plenary.nvim",
       "Tastyep/structlog.nvim",
     },
   })
-  use({ "GustavEikaas/easy-dotnet.nvim", 
+  use({
+    "GustavEikaas/easy-dotnet.nvim",
     requires = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
     config = function()
       require("easy-dotnet").setup()
@@ -63,10 +51,11 @@ require("packer").startup(function(use)
 
   -- Java/Kotlin/Android development
   use({ 'mfussenegger/nvim-jdtls' }) -- Enhanced Java LSP support for Android
-  
+
   -- Swift/iOS development
   use({ 'keith/swift.vim' }) -- Swift syntax and indentation
-  use({ 'wojciech-kulik/xcodebuild.nvim',
+  use({
+    'wojciech-kulik/xcodebuild.nvim',
     requires = {
       'nvim-telescope/telescope.nvim',
       'MunifTanjim/nui.nvim',
@@ -161,7 +150,7 @@ require("packer").startup(function(use)
   use("numToStr/Comment.nvim")     -- "gc" to comment visual regions/lines
   use("tpope/vim-sleuth")          -- Detect tabstop and shiftwidth automatically
   use("mbbill/undotree")
-  
+
   -- File explorer
   use({
     "nvim-neo-tree/neo-tree.nvim",
