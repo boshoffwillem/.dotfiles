@@ -76,10 +76,10 @@
 ;; they are implemented.
 
 ;; Improve garbage collection performance.
-;; (setq gc-cons-threshold (* 100 1024 1024))
+(setq gc-cons-threshold (* 100 1024 1024))
 
 ;; Improve processing of sub-processes that generates large chunk.
-;; (setq read-process-output-max (* 1024 1024))
+(setq read-process-output-max (* 1024 1024))
 
 ;; Set default coding system (especially for Windows)
 ;; (prefer-coding-system 'utf-8)
@@ -160,8 +160,18 @@
 
 (use-package! lsp-mode
   :custom
-  (setq lsp-enable-file-watchers nil)
+  (setq lsp-enable-file-watchers nil
+        lsp-response-timeout 60
+        lsp-idle-delay 0.6
+        lsp-enable-folding t
+        lsp-enable-snippet t
+        lsp-enable-symbol-highlighting t)
   )
+
+(after! csharp-mode
+  (setq lsp-csharp-omnisharp-enable-decompilation-support t)
+  ;; Fix OmniSharp .NET runtime path issue
+  (setenv "DOTNET_ROOT" "/usr/local/share/dotnet"))
 
 ;; (use-package! lsp-mode
 ;;   :bind
