@@ -25,6 +25,35 @@ function M.setup()
           "--logger=console;verbosity=detailed",
         },
       }),
+      -- JavaScript/TypeScript testing (Jest, Vitest)
+      require("neotest-jest")({
+        jestCommand = "npm test --",
+        jestConfigFile = "jest.config.js",
+        env = { CI = true },
+        cwd = function(path)
+          return vim.fn.getcwd()
+        end,
+      }),
+      require("neotest-vitest")({
+        vitestCommand = "npm run test --",
+        vitestConfigFile = "vitest.config.js",
+        env = { CI = true },
+        cwd = function(path)
+          return vim.fn.getcwd()
+        end,
+      }),
+      -- Go testing
+      require("neotest-go")({
+        experimental = {
+          test_table = true,
+        },
+        args = { "-count=1", "-timeout=60s" }
+      }),
+      -- Rust testing
+      require("neotest-rust")({
+        args = { "--no-capture" },
+        dap_adapter = "rust",
+      }),
     },
     discovery = {
       enabled = true,

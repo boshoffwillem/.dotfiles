@@ -76,29 +76,29 @@ function M.run_current_test()
       dotnet_utils.run_current_test()
       return
     end
-  elseif filetype == "javascript" or filetype == "typescript" then
-    -- JavaScript/TypeScript - try common test commands
-    vim.cmd('TermExec cmd="npm test"')
+  elseif filetype == "javascript" or filetype == "typescript" or filetype == "vue" then
+    -- JavaScript/TypeScript/Vue - try common test commands
+    vim.cmd('ToggleTerm cmd="npm test"')
     return
   elseif filetype == "python" then
     -- Python - try pytest
-    vim.cmd('TermExec cmd="pytest -v"')
+    vim.cmd('ToggleTerm cmd="pytest -v"')
     return
   elseif filetype == "go" then
     -- Go - use go test
-    vim.cmd('TermExec cmd="go test -v ./..."')
+    vim.cmd('ToggleTerm cmd="go test -v ./..."')
     return
   elseif filetype == "rust" then
     -- Rust - use cargo test
-    vim.cmd('TermExec cmd="cargo test"')
+    vim.cmd('ToggleTerm cmd="cargo test"')
     return
   elseif filetype == "kotlin" then
     -- Kotlin - use gradle test
     local gradlew = vim.fn.getcwd() .. "/gradlew"
     if vim.fn.executable(gradlew) == 1 then
-      vim.cmd('TermExec cmd="./gradlew test"')
+      vim.cmd('ToggleTerm cmd="./gradlew test"')
     else
-      vim.cmd('TermExec cmd="gradle test"')
+      vim.cmd('ToggleTerm cmd="gradle test"')
     end
     return
   elseif filetype == "java" then
@@ -106,28 +106,28 @@ function M.run_current_test()
     local gradlew = vim.fn.getcwd() .. "/gradlew"
     local mvnw = vim.fn.getcwd() .. "/mvnw"
     if vim.fn.executable(gradlew) == 1 then
-      vim.cmd('TermExec cmd="./gradlew test"')
+      vim.cmd('ToggleTerm cmd="./gradlew test"')
     elseif vim.fn.executable(mvnw) == 1 then
-      vim.cmd('TermExec cmd="./mvnw test"')
+      vim.cmd('ToggleTerm cmd="./mvnw test"')
     elseif vim.fn.filereadable(vim.fn.getcwd() .. "/pom.xml") == 1 then
-      vim.cmd('TermExec cmd="mvn test"')
+      vim.cmd('ToggleTerm cmd="mvn test"')
     else
-      vim.cmd('TermExec cmd="gradle test"')
+      vim.cmd('ToggleTerm cmd="gradle test"')
     end
     return
   elseif filetype == "swift" then
     -- Swift - use xcodebuild or swift test
     if vim.fn.filereadable("Package.swift") == 1 then
-      vim.cmd('TermExec cmd="swift test"')
+      vim.cmd('ToggleTerm cmd="swift test"')
     else
       local project = vim.fn.glob(vim.fn.getcwd() .. "/*.xcworkspace")
       if project == "" then
         project = vim.fn.glob(vim.fn.getcwd() .. "/*.xcodeproj")
       end
       if project ~= "" then
-        vim.cmd('TermExec cmd="xcodebuild test -project ' .. project .. '"')
+        vim.cmd('ToggleTerm cmd="xcodebuild test -project ' .. project .. '"')
       else
-        vim.cmd('TermExec cmd="swift test"')
+        vim.cmd('ToggleTerm cmd="swift test"')
       end
     end
     return
@@ -155,29 +155,29 @@ function M.run_all_tests()
       dotnet_utils.run_tests()
       return
     end
-  elseif filetype == "javascript" or filetype == "typescript" then
-    -- JavaScript/TypeScript - try common test commands
-    vim.cmd('TermExec cmd="npm test"')
+  elseif filetype == "javascript" or filetype == "typescript" or filetype == "vue" then
+    -- JavaScript/TypeScript/Vue - try common test commands
+    vim.cmd('ToggleTerm cmd="npm test"')
     return
   elseif filetype == "python" then
     -- Python - try pytest
-    vim.cmd('TermExec cmd="pytest"')
+    vim.cmd('ToggleTerm cmd="pytest"')
     return
   elseif filetype == "go" then
     -- Go - use go test
-    vim.cmd('TermExec cmd="go test ./..."')
+    vim.cmd('ToggleTerm cmd="go test ./..."')
     return
   elseif filetype == "rust" then
     -- Rust - use cargo test
-    vim.cmd('TermExec cmd="cargo test"')
+    vim.cmd('ToggleTerm cmd="cargo test"')
     return
   elseif filetype == "kotlin" then
     -- Kotlin - use gradle test
     local gradlew = vim.fn.getcwd() .. "/gradlew"
     if vim.fn.executable(gradlew) == 1 then
-      vim.cmd('TermExec cmd="./gradlew test"')
+      vim.cmd('ToggleTerm cmd="./gradlew test"')
     else
-      vim.cmd('TermExec cmd="gradle test"')
+      vim.cmd('ToggleTerm cmd="gradle test"')
     end
     return
   elseif filetype == "java" then
@@ -185,28 +185,28 @@ function M.run_all_tests()
     local gradlew = vim.fn.getcwd() .. "/gradlew"
     local mvnw = vim.fn.getcwd() .. "/mvnw"
     if vim.fn.executable(gradlew) == 1 then
-      vim.cmd('TermExec cmd="./gradlew test"')
+      vim.cmd('ToggleTerm cmd="./gradlew test"')
     elseif vim.fn.executable(mvnw) == 1 then
-      vim.cmd('TermExec cmd="./mvnw test"')
+      vim.cmd('ToggleTerm cmd="./mvnw test"')
     elseif vim.fn.filereadable(vim.fn.getcwd() .. "/pom.xml") == 1 then
-      vim.cmd('TermExec cmd="mvn test"')
+      vim.cmd('ToggleTerm cmd="mvn test"')
     else
-      vim.cmd('TermExec cmd="gradle test"')
+      vim.cmd('ToggleTerm cmd="gradle test"')
     end
     return
   elseif filetype == "swift" then
     -- Swift - use xcodebuild or swift test
     if vim.fn.filereadable("Package.swift") == 1 then
-      vim.cmd('TermExec cmd="swift test"')
+      vim.cmd('ToggleTerm cmd="swift test"')
     else
       local project = vim.fn.glob(vim.fn.getcwd() .. "/*.xcworkspace")
       if project == "" then
         project = vim.fn.glob(vim.fn.getcwd() .. "/*.xcodeproj")
       end
       if project ~= "" then
-        vim.cmd('TermExec cmd="xcodebuild test -project ' .. project .. '"')
+        vim.cmd('ToggleTerm cmd="xcodebuild test -project ' .. project .. '"')
       else
-        vim.cmd('TermExec cmd="swift test"')
+        vim.cmd('ToggleTerm cmd="swift test"')
       end
     end
     return

@@ -92,7 +92,12 @@ local lsp_flags = {
 --  the `settings` field of the server config. You must look up that documentation yourself.
 
 local servers = {
-  angularls = {},
+  angularls = {
+    cmd = { "ngserver", "--stdio", "--tsProbeLocations", ".", "--ngProbeLocations", "." },
+    on_new_config = function(new_config, new_root_dir)
+      new_config.cmd = { "ngserver", "--stdio", "--tsProbeLocations", new_root_dir, "--ngProbeLocations", new_root_dir }
+    end,
+  },
   azure_pipelines_ls = {
     filetypes = { "yaml.azure", "yaml.azurepipelines" },
     root_patterns = { ".azure-pipelines", "azure-pipelines.yml", "azure-pipelines.yaml" },
@@ -116,8 +121,50 @@ local servers = {
   -- fsautocomplete = {},
   dockerls = {},
   docker_compose_language_service = {},
-  gopls = {},
+  gopls = {
+    cmd = { "gopls" },
+    filetypes = { "go", "gomod", "gowork", "gotmpl" },
+    root_dir = require("lspconfig.util").root_pattern("go.work", "go.mod", ".git"),
+    settings = {
+      gopls = {
+        completeUnimported = true,
+        usePlaceholders = true,
+        analyses = {
+          unusedparams = true,
+        },
+        codelenses = {
+          gc_details = false,
+          generate = true,
+          regenerate_cgo = true,
+          run_govulncheck = true,
+          test = true,
+          tidy = true,
+          upgrade_dependency = true,
+          vendor = true,
+        },
+        hints = {
+          assignVariableTypes = true,
+          compositeLiteralFields = true,
+          compositeLiteralTypes = true,
+          constantValues = true,
+          functionTypeParameters = true,
+          parameterNames = true,
+          rangeVariableTypes = true,
+        },
+        buildFlags = { "-tags", "integration" },
+      },
+    },
+  },
   html = {},
+  vue_ls = {
+    -- Vue LSP (Volar/Vue Language Server)
+    filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "json" },
+    init_options = {
+      vue = {
+        hybridMode = false,
+      },
+    },
+  },
   jsonls = {
     json = {
       schemas = require("schemastore").json.schemas(),
@@ -168,7 +215,36 @@ local servers = {
       },
     },
   },
-  rust_analyzer = {},
+  rust_analyzer = {
+    -- Note: rustaceanvim handles rust-analyzer configuration
+    -- This entry ensures Mason installs rust-analyzer
+    cmd = { "rust-analyzer" },
+    filetypes = { "rust" },
+    root_dir = require("lspconfig.util").root_pattern("Cargo.toml", "rust-project.json"),
+    settings = {
+      ["rust-analyzer"] = {
+        cargo = {
+          allFeatures = true,
+          loadOutDirsFromCheck = true,
+          runBuildScripts = true,
+        },
+        -- Add clippy lints for Rust
+        checkOnSave = {
+          allFeatures = true,
+          command = "clippy",
+          extraArgs = { "--no-deps" },
+        },
+        procMacro = {
+          enable = true,
+          ignored = {
+            ["async-trait"] = { "async_trait" },
+            ["napi-derive"] = { "napi" },
+            ["async-recursion"] = { "async_recursion" },
+          },
+        },
+      },
+    },
+  },
   terraformls = {},
   ts_ls = {},
   yamlls = {
@@ -266,11 +342,19 @@ require("mason").setup()
 local mason_lspconfig = require("mason-lspconfig")
 
 mason_lspconfig.setup({
-  ensure_installed = vim.tbl_keys(servers),
+  ensure_installed = vim.tbl_filter(function(name)
+    -- Exclude sourcekit as it's provided by Xcode, not Mason
+    return name ~= "sourcekit"
+  end, vim.tbl_keys(servers)),
   automatic_enable = true,
 })
 
 for server, config in pairs(servers) do
+  -- Skip rust-analyzer as it's handled by rustaceanvim
+  if server == "rust_analyzer" then
+    goto continue
+  end
+  
   config.on_attach = on_attach
   config.capabilities = capabilities
   config.flags = lsp_flags
@@ -308,6 +392,8 @@ for server, config in pairs(servers) do
     -- end
 
   require("lspconfig")[server].setup(config)
+  
+  ::continue::
 end
 
 -- Turn on lsp status information

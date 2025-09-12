@@ -140,6 +140,133 @@ dap.configurations.java = {
   },
 }
 
+-- Go debugging configuration
+dap.adapters.delve = {
+  type = "server",
+  port = "${port}",
+  executable = {
+    command = "dlv",
+    args = { "dap", "-l", "127.0.0.1:${port}" },
+  }
+}
+
+dap.configurations.go = {
+  {
+    type = "delve",
+    name = "Debug",
+    request = "launch",
+    program = "${file}",
+  },
+  {
+    type = "delve",
+    name = "Debug test", -- configuration for debugging test files
+    request = "launch",
+    mode = "test",
+    program = "${file}",
+  },
+  -- works with go.mod packages and sub packages
+  {
+    type = "delve",
+    name = "Debug test (go.mod)",
+    request = "launch",
+    mode = "test",
+    program = "./${relativeFileDirname}",
+  },
+}
+
+-- Node.js debugging configuration (for Angular/Vue)
+dap.adapters.node2 = {
+  type = "executable",
+  command = "node",
+  args = { install_dir .. "/packages/node-debug2-adapter/out/src/nodeDebug.js" },
+}
+
+dap.configurations.javascript = {
+  {
+    name = "Launch",
+    type = "node2",
+    request = "launch",
+    program = "${file}",
+    cwd = vim.fn.getcwd(),
+    sourceMaps = true,
+    protocol = "inspector",
+    console = "integratedTerminal",
+  },
+  {
+    name = "Attach to process",
+    type = "node2",
+    request = "attach",
+    processId = function()
+      return require("dap.utils").pick_process()
+    end,
+  },
+}
+
+dap.configurations.typescript = {
+  {
+    name = "ts-node (Node2 with ts-node)",
+    type = "node2",
+    request = "launch",
+    cwd = vim.fn.getcwd(),
+    runtimeArgs = { "-r", "ts-node/register" },
+    runtimeExecutable = "node",
+    args = { "--inspect", "${file}" },
+    sourceMaps = true,
+    skipFiles = { "<node_internals>/**", "node_modules/**" },
+  },
+  {
+    name = "Jest Debug",
+    type = "node2",
+    request = "launch",
+    cwd = vim.fn.getcwd(),
+    runtimeArgs = { "--inspect-brk", "${workspaceFolder}/node_modules/.bin/jest", "--runInBand", "--no-cache", "--no-coverage", "${file}" },
+    runtimeExecutable = "node",
+    sourceMaps = true,
+    console = "integratedTerminal",
+    skipFiles = { "<node_internals>/**", "node_modules/**" },
+  },
+}
+
+-- Rust debugging configuration (enhanced)
+dap.adapters.rust = {
+  type = "executable",
+  command = install_dir .. "/packages/codelldb/codelldb",
+  name = "codelldb",
+  options = {
+    detached = false,
+  },
+}
+
+dap.configurations.rust = {
+  {
+    name = "Launch file",
+    type = "rust",
+    request = "launch",
+    program = function()
+      return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+    end,
+    cwd = "${workspaceFolder}",
+    stopOnEntry = false,
+    args = {},
+    runInTerminal = false,
+  },
+  {
+    name = "Launch (with args)",
+    type = "rust",
+    request = "launch",
+    program = function()
+      return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+    end,
+    cwd = "${workspaceFolder}",
+    stopOnEntry = false,
+    args = function()
+      local args = vim.fn.input("Arguments: ")
+      return vim.split(args, " ")
+    end,
+    runInTerminal = false,
+  },
+}
+
 -- Swift/iOS debugging configuration
 dap.adapters.codelldb = {
   type = "server",

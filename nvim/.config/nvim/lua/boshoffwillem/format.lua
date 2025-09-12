@@ -1,8 +1,10 @@
 require("conform").setup({
   formatters_by_ft = {
     cs = { "csharpier" },
+    go = { "goimports", "gofmt" },
     java = { "google-java-format" },
     javascript = { "prettierd", "prettier", stop_after_first = true },
+    javascriptreact = { "prettierd", "prettier", stop_after_first = true },
     json = { "prettierd", "prettier", stop_after_first = true },
     kotlin = { "ktlint" },
     lua = { "stylua" },
@@ -11,7 +13,14 @@ require("conform").setup({
     swift = { "swiftformat", lsp_format = "fallback" },
     terraform = { "terraformfmt" },
     typescript = { "prettierd", "prettier", stop_after_first = true },
+    typescriptreact = { "prettierd", "prettier", stop_after_first = true },
+    vue = { "prettierd", "prettier", stop_after_first = true },
+    html = { "prettierd", "prettier", stop_after_first = true },
+    css = { "prettierd", "prettier", stop_after_first = true },
+    scss = { "prettierd", "prettier", stop_after_first = true },
     xml = { "xmlformat" },
+    yaml = { "prettierd", "prettier", stop_after_first = true },
+    toml = { "taplo" },
   },
   format_on_save = {
     -- These options will be passed to conform.format()

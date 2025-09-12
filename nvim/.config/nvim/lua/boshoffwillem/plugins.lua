@@ -67,6 +67,51 @@ require("packer").startup(function(use)
     end
   })
 
+  -- Angular development
+  use({ 'joeveiga/ng.nvim' }) -- Angular CLI integration
+
+  -- Vue.js development
+  use({ 'posva/vim-vue' }) -- Vue syntax highlighting
+  use({ 'leafOfTree/vim-vue-plugin' }) -- Enhanced Vue support
+
+  -- TypeScript/JavaScript enhanced tools (for Angular/Vue)
+  use({
+    'pmizio/typescript-tools.nvim',
+    requires = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    config = function()
+      require('typescript-tools').setup {}
+    end,
+  })
+
+  -- Go development
+  use({
+    'ray-x/go.nvim',
+    requires = {
+      'ray-x/guihua.lua', -- Go.nvim dependency
+      'neovim/nvim-lspconfig',
+      'nvim-treesitter/nvim-treesitter',
+    },
+    config = function()
+      require('go').setup()
+    end,
+    run = ':GoUpdateBinaries', -- if you need to install/update all binaries
+  })
+
+  -- Rust development
+  use({
+    'mrcjkb/rustaceanvim',
+    version = '^4', -- Recommended
+    ft = { 'rust' },
+  })
+  use({
+    'saecki/crates.nvim',
+    tag = 'stable',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      require('crates').setup()
+    end,
+  })
+
   -- LSP Support
   use({ "neovim/nvim-lspconfig" })
   use({ "mfussenegger/nvim-dap" })
@@ -81,6 +126,10 @@ require("packer").startup(function(use)
       "antoinemadec/FixCursorHold.nvim",
       "nvim-treesitter/nvim-treesitter",
       "Issafalcon/neotest-dotnet",
+      "nvim-neotest/neotest-jest",
+      "marilari88/neotest-vitest",
+      "nvim-neotest/neotest-go",
+      "rouge8/neotest-rust",
     },
   })
   use({ "williamboman/mason.nvim" })
