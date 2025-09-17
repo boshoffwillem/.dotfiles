@@ -16,6 +16,8 @@ vim.opt.listchars:append({ tab = "» " })
 vim.opt.listchars:append({ trail = "." })
 vim.opt.list = true
 
+vim.opt.cursorline = true
+
 -- enabled folding
 vim.o.foldenable = true
 vim.o.foldmethod = 'expr'
@@ -52,7 +54,7 @@ vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
 
 vim.o.termguicolors = true
-vim.opt.guifont = "FiraCode Nerd Font:h11"
+vim.opt.guifont = "Noto Sans Mono:h11"
 
 vim.o.completeopt = 'menuone,noselect'
 
@@ -81,7 +83,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGai
 })
 
 if vim.loop.os_uname().sysname == "Windows_NT" then
-  vim.o.shell= "pwsh"
+  vim.o.shell = "pwsh"
   vim.o.shellcmdflag = "-command"
   vim.o.shellquote = "\""
   vim.o.shellxquote = ""

@@ -80,16 +80,6 @@ capabilities.textDocument.foldingRange = {
   dynamicRegistration = false,
   lineFoldingOnly = true
 }
-local lsp_flags = {
-  -- This is the default in Nvim 0.7+
-  debounce_text_changes = 150,
-}
-
--- Enable the following language servers
---  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
---
---  Add any additional override configuration in the following tables. They will be passed to
---  the `settings` field of the server config. You must look up that documentation yourself.
 
 local servers = {
   angularls = {
@@ -118,9 +108,9 @@ local servers = {
       },
     },
   },
-  -- fsautocomplete = {},
   dockerls = {},
   docker_compose_language_service = {},
+  -- fsautocomplete = {},
   gopls = {
     cmd = { "gopls" },
     filetypes = { "go", "gomod", "gowork", "gotmpl" },
@@ -180,7 +170,7 @@ local servers = {
   powershell_es = {},
   pylsp = {},
   omnisharp = {
-    cmd = { "OmniSharp" },
+    cmd = { "omnisharp", "--languageserver", "--hostPID", tostring(vim.fn.getpid()) },
     enable_roslyn_analyzers = true,
     organize_imports_on_format = true,
     enable_import_completion = true,
@@ -360,7 +350,6 @@ for server, config in pairs(servers) do
 
   config.on_attach = on_attach
   config.capabilities = capabilities
-  config.flags = lsp_flags
 
   -- This is a workaround for the omnisharp-roslyn issue with semantic tokens
   -- if server == "omnisharp" then
@@ -441,8 +430,8 @@ cmp.setup({
   }),
   sources = {
     { name = "path" },
-    { name = "nvim_lsp",  keyword_length = 1 },
-    { name = "nvim_lua",  keyword_length = 1 },
-    { name = "supermaven" },
+    { name = "nvim_lsp", keyword_length = 1 },
+    { name = "nvim_lua", keyword_length = 1 },
+    { name = "luasnip" }
   },
 })

@@ -1,0 +1,252 @@
+-- Install packer
+local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+local is_bootstrap = false
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  is_bootstrap = true
+  vim.fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
+  vim.cmd([[packadd packer.nvim]])
+end
+
+require("packer").startup(function(use)
+  -- Package manager
+  use("wbthomason/packer.nvim")
+
+  use { "ellisonleao/gruvbox.nvim" }
+
+  -- C#/.NET specific plugins
+  use({ "Issafalcon/lsp-overloads.nvim" })     -- Show method overloads
+  use({ "Hoffs/omnisharp-extended-lsp.nvim" }) -- Extended omnisharp features
+  use({
+    "iabdelkareem/csharp.nvim",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "Tastyep/structlog.nvim",
+    },
+  })
+  use({
+    "GustavEikaas/easy-dotnet.nvim",
+    requires = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+    config = function()
+      require("easy-dotnet").setup()
+    end
+  })
+
+  -- floating terminal
+  use({
+    "akinsho/toggleterm.nvim",
+    tag = "*",
+    config = function()
+      require("toggleterm").setup()
+    end,
+  })
+
+  use {
+    'nvim-flutter/flutter-tools.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'stevearc/dressing.nvim', -- optional for vim.ui.select
+    },
+    config = true
+  }
+
+  -- Java/Kotlin/Android development
+  use({ 'mfussenegger/nvim-jdtls' }) -- Enhanced Java LSP support for Android
+
+  -- Swift/iOS development
+  use({ 'keith/swift.vim' }) -- Swift syntax and indentation
+  use({
+    'wojciech-kulik/xcodebuild.nvim',
+    requires = {
+      'nvim-telescope/telescope.nvim',
+      'MunifTanjim/nui.nvim',
+    },
+    config = function()
+      require('xcodebuild').setup({
+        -- Configuration will be added if needed
+      })
+    end
+  })
+
+  -- Angular development
+  use({ 'joeveiga/ng.nvim' }) -- Angular CLI integration
+
+  -- Vue.js development
+  use({ 'posva/vim-vue' }) -- Vue syntax highlighting
+  use({ 'leafOfTree/vim-vue-plugin' }) -- Enhanced Vue support
+
+  -- TypeScript/JavaScript enhanced tools (for Angular/Vue)
+  use({
+    'pmizio/typescript-tools.nvim',
+    requires = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+    config = function()
+      require('typescript-tools').setup {}
+    end,
+  })
+
+  -- Go development
+  use({
+    'ray-x/go.nvim',
+    requires = {
+      'ray-x/guihua.lua', -- Go.nvim dependency
+      'neovim/nvim-lspconfig',
+      'nvim-treesitter/nvim-treesitter',
+    },
+    config = function()
+      require('go').setup()
+    end,
+    run = ':GoUpdateBinaries', -- if you need to install/update all binaries
+  })
+
+  -- Rust development
+  use({
+    'mrcjkb/rustaceanvim',
+    version = '^4', -- Recommended
+    ft = { 'rust' },
+  })
+  use({
+    'saecki/crates.nvim',
+    tag = 'stable',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      require('crates').setup()
+    end,
+  })
+
+  -- LSP Support
+  use({ "neovim/nvim-lspconfig" })
+  use({ "mfussenegger/nvim-dap" })
+  use({ "mfussenegger/nvim-lint" })
+  use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap", "nvim-neotest/neotest" } })
+  use({ "theHamsta/nvim-dap-virtual-text" })
+  use({
+    "nvim-neotest/neotest",
+    requires = {
+      "nvim-neotest/nvim-nio",
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-treesitter/nvim-treesitter",
+      "Issafalcon/neotest-dotnet",
+      "nvim-neotest/neotest-jest",
+      "marilari88/neotest-vitest",
+      "nvim-neotest/neotest-go",
+      "rouge8/neotest-rust",
+    },
+  })
+  use({ "williamboman/mason.nvim" })
+  use({ "williamboman/mason-lspconfig.nvim" })
+  use({ "mhartington/formatter.nvim" })
+  use("stevearc/conform.nvim")
+  use({ "lewis6991/hover.nvim" })
+
+  -- Autocompletion
+  use("hrsh7th/nvim-cmp")
+  use("hrsh7th/cmp-buffer")
+  use("hrsh7th/cmp-path")
+  use("saadparwaiz1/cmp_luasnip")
+  use("hrsh7th/cmp-nvim-lsp")
+  use("hrsh7th/cmp-nvim-lua")
+
+  -- Snippets
+  use("L3MON4D3/LuaSnip")
+  use("rafamadriz/friendly-snippets")
+
+  -- Useful status updates for LSP
+  use({ "j-hui/fidget.nvim" })
+
+  -- JSON and YAML schemas
+  use("b0o/schemastore.nvim")
+
+  -- Additional lua configuration makes nvim stuff amazing
+  use("folke/neodev.nvim")
+
+  local function tabnine_build_path()
+    -- Replace vim.uv with vim.loop if using NVIM 0.9.0 or below
+    if vim.uv.os_uname().sysname == "Windows_NT" then
+      return "pwsh.exe -file .\\dl_binaries.ps1"
+    else
+      return "./dl_binaries.sh"
+    end
+  end
+
+  use({ "codota/tabnine-nvim", run = tabnine_build_path() })
+
+  use("nvim-treesitter/playground")
+
+  -- Highlight, edit, and navigate code
+  use({
+    "nvim-treesitter/nvim-treesitter",
+    run = function()
+      pcall(require("nvim-treesitter.install").update({ with_sync = true }))
+    end,
+  })
+
+  -- Additional text objects via treesitter
+  use({
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    after = "nvim-treesitter",
+  })
+
+  -- Git related plugins
+  use("tpope/vim-fugitive")
+  use("tpope/vim-rhubarb")
+  use("lewis6991/gitsigns.nvim")
+
+  use("Mofiqul/vscode.nvim")
+  use("ishan9299/modus-theme-vim")
+  use("kyazdani42/nvim-web-devicons")
+  use("nvim-lualine/lualine.nvim") -- Fancier statusline
+  -- use({ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} }) -- Add indentation guides even on blank lines
+  use("numToStr/Comment.nvim")     -- "gc" to comment visual regions/lines
+  use("tpope/vim-sleuth")          -- Detect tabstop and shiftwidth automatically
+  use("mbbill/undotree")
+
+  -- File explorer
+  use({
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "kyazdani42/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+  })
+
+  -- Fuzzy Finder (files, lsp, etc)
+  use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
+  use("ThePrimeagen/harpoon")
+  use({ "nvim-telescope/telescope-project.nvim" })
+
+  -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
+  -- use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make", cond = vim.fn.executable("make") == 1 })
+
+  -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
+  local has_plugins, plugins = pcall(require, "custom.plugins")
+  if has_plugins then
+    plugins(use)
+  end
+
+  if is_bootstrap then
+    require("packer").sync()
+  end
+end)
+
+-- When we are bootstrapping a configuration, it doesn't
+-- make sense to execute the rest of the init.lua.
+--
+-- You'll need to restart nvim, and then it will work.
+if is_bootstrap then
+  print("==================================")
+  print("    Plugins are being installed")
+  print("    Wait until Packer completes,")
+  print("       then restart nvim")
+  print("==================================")
+  return
+end
+
+-- Automatically source and re-compile packer whenever you save this init.lua
+local packer_group = vim.api.nvim_create_augroup("Packer", { clear = true })
+vim.api.nvim_create_autocmd("BufWritePost", {
+  command = "source <afile> | PackerCompile",
+  group = packer_group,
+  pattern = vim.fn.expand("$MYVIMRC"),
+})

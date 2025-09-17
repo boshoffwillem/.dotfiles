@@ -2,21 +2,16 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- Compatibility fix for Neovim 0.11+ - vim.tbl_islist deprecated
--- This fixes the deprecation warning from unmaintained packer.nvim
-if not vim.tbl_islist then
-  vim.tbl_islist = vim.islist
-end
-
+require("boshoffwillem.options")
 require("boshoffwillem.plugins")
 require("boshoffwillem.appearance")
 require("boshoffwillem.comment")
 require("boshoffwillem.filetype")
 require("boshoffwillem.flutter")
 require("boshoffwillem.format")
-require("boshoffwillem.kotlin").setup()
-require("boshoffwillem.kotlin").setup_keymaps()
-require("boshoffwillem.kotlin").setup_autocommands()
+-- require("boshoffwillem.kotlin").setup()
+-- require("boshoffwillem.kotlin").setup_keymaps()
+-- require("boshoffwillem.kotlin").setup_autocommands()
 
 if vim.uv.os_uname().sysname == "Darwin" then
   require("boshoffwillem.swift").setup()
@@ -24,14 +19,14 @@ if vim.uv.os_uname().sysname == "Darwin" then
   require("boshoffwillem.swift").setup_autocommands()
 end
 
-require("boshoffwillem.angular").setup()
-require("boshoffwillem.angular").setup_keymaps()
-require("boshoffwillem.vue").setup()
-require("boshoffwillem.vue").setup_keymaps()
-require("boshoffwillem.go").setup()
-require("boshoffwillem.go").setup_keymaps()
-require("boshoffwillem.rust").setup()
-require("boshoffwillem.rust").setup_keymaps()
+-- require("boshoffwillem.angular").setup()
+-- require("boshoffwillem.angular").setup_keymaps()
+-- require("boshoffwillem.vue").setup()
+-- require("boshoffwillem.vue").setup_keymaps()
+-- require("boshoffwillem.go").setup()
+-- require("boshoffwillem.go").setup_keymaps()
+-- require("boshoffwillem.rust").setup()
+-- require("boshoffwillem.rust").setup_keymaps()
 require("boshoffwillem.info")
 -- require("boshoffwillem.indent_blank_line")
 require("boshoffwillem.keymaps")
@@ -39,14 +34,12 @@ require("boshoffwillem.neo-tree").setup()
 require("boshoffwillem.neo-tree").setup_keymaps()
 require("boshoffwillem.lint")
 require("boshoffwillem.lsp")
+require("boshoffwillem.dap")
 require("boshoffwillem.tree-sitter")
-require("boshoffwillem.options")
--- require("boshoffwillem.tabnine")
 require("boshoffwillem.telescope")
 require("boshoffwillem.toggle_term")
 require("boshoffwillem.undotree")
 require("boshoffwillem.version_control")
-require("boshoffwillem.dap")
 require("boshoffwillem.universal-keybinds").setup()
 -- require("boshoffwillem.csharp").setup()
 -- require("boshoffwillem.csharp").setup_keymaps()

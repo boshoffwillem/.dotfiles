@@ -1,126 +1,158 @@
--- Install packer
-local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-local is_bootstrap = false
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  is_bootstrap = true
-  vim.fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
-  vim.cmd([[packadd packer.nvim]])
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
 
-require("packer").startup(function(use)
-  -- Package manager
-  use("wbthomason/packer.nvim")
+vim.opt.rtp:prepend(lazypath)
 
-  use { "ellisonleao/gruvbox.nvim" }
+-- require("lazy").setup("plugins", {
+--   change_detection = { enabled = true, notify = false }
+-- })
+
+-- Setup lazy.nvim with all plugins
+require("lazy").setup({
+  -- Theme plugins
+  "ellisonleao/gruvbox.nvim",
+  "Mofiqul/vscode.nvim",
+  "ishan9299/modus-theme-vim",
 
   -- C#/.NET specific plugins
-  use({ "Issafalcon/lsp-overloads.nvim" })     -- Show method overloads
-  use({ "Hoffs/omnisharp-extended-lsp.nvim" }) -- Extended omnisharp features
-  use({
+  "Issafalcon/lsp-overloads.nvim",     -- Show method overloads
+  "Hoffs/omnisharp-extended-lsp.nvim", -- Extended omnisharp features
+  {
     "iabdelkareem/csharp.nvim",
-    requires = {
+    dependencies = {
       "nvim-lua/plenary.nvim",
       "Tastyep/structlog.nvim",
     },
-  })
-  use({
+  },
+  {
     "GustavEikaas/easy-dotnet.nvim",
-    requires = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
     config = function()
       require("easy-dotnet").setup()
-    end
-  })
+    end,
+  },
 
-  -- floating terminal
-  use({
+  -- Terminal
+  {
     "akinsho/toggleterm.nvim",
-    tag = "*",
+    version = "*",
     config = function()
       require("toggleterm").setup()
     end,
-  })
+  },
 
-  use {
-    'nvim-flutter/flutter-tools.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim',
-      'stevearc/dressing.nvim', -- optional for vim.ui.select
+  -- Flutter
+  {
+    "nvim-flutter/flutter-tools.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "stevearc/dressing.nvim", -- optional for vim.ui.select
     },
-    config = true
-  }
+    config = true,
+  },
 
   -- Java/Kotlin/Android development
-  use({ 'mfussenegger/nvim-jdtls' }) -- Enhanced Java LSP support for Android
+  "mfussenegger/nvim-jdtls", -- Enhanced Java LSP support for Android
 
   -- Swift/iOS development
-  use({ 'keith/swift.vim' }) -- Swift syntax and indentation
-  use({
-    'wojciech-kulik/xcodebuild.nvim',
-    requires = {
-      'nvim-telescope/telescope.nvim',
-      'MunifTanjim/nui.nvim',
+  "keith/swift.vim", -- Swift syntax and indentation
+  {
+    "wojciech-kulik/xcodebuild.nvim",
+    dependencies = {
+      "nvim-telescope/telescope.nvim",
+      "MunifTanjim/nui.nvim",
     },
     config = function()
-      require('xcodebuild').setup({
+      require("xcodebuild").setup({
         -- Configuration will be added if needed
       })
-    end
-  })
+    end,
+  },
 
   -- Angular development
-  use({ 'joeveiga/ng.nvim' }) -- Angular CLI integration
+  "joeveiga/ng.nvim", -- Angular CLI integration
 
   -- Vue.js development
-  use({ 'posva/vim-vue' }) -- Vue syntax highlighting
-  use({ 'leafOfTree/vim-vue-plugin' }) -- Enhanced Vue support
+  "posva/vim-vue",             -- Vue syntax highlighting
+  "leafOfTree/vim-vue-plugin", -- Enhanced Vue support
 
-  -- TypeScript/JavaScript enhanced tools (for Angular/Vue)
-  use({
-    'pmizio/typescript-tools.nvim',
-    requires = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
+  -- TypeScript/JavaScript enhanced tools
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
     config = function()
-      require('typescript-tools').setup {}
+      require("typescript-tools").setup({})
     end,
-  })
+  },
 
   -- Go development
-  use({
-    'ray-x/go.nvim',
-    requires = {
-      'ray-x/guihua.lua', -- Go.nvim dependency
-      'neovim/nvim-lspconfig',
-      'nvim-treesitter/nvim-treesitter',
+  {
+    "ray-x/go.nvim",
+    dependencies = {
+      "ray-x/guihua.lua", -- Go.nvim dependency
+      "neovim/nvim-lspconfig",
+      "nvim-treesitter/nvim-treesitter",
     },
     config = function()
-      require('go').setup()
+      require("go").setup()
     end,
-    run = ':GoUpdateBinaries', -- if you need to install/update all binaries
-  })
+    event = { "CmdlineEnter" },
+    ft = { "go", "gomod" },
+    build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
+  },
 
   -- Rust development
-  use({
-    'mrcjkb/rustaceanvim',
-    version = '^4', -- Recommended
-    ft = { 'rust' },
-  })
-  use({
-    'saecki/crates.nvim',
-    tag = 'stable',
-    requires = { 'nvim-lua/plenary.nvim' },
+  {
+    "mrcjkb/rustaceanvim",
+    version = "^4",
+    ft = { "rust" },
+  },
+  {
+    "saecki/crates.nvim",
+    tag = "stable",
+    dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
-      require('crates').setup()
+      require("crates").setup()
     end,
-  })
+  },
 
   -- LSP Support
-  use({ "neovim/nvim-lspconfig" })
-  use({ "mfussenegger/nvim-dap" })
-  use({ "mfussenegger/nvim-lint" })
-  use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap", "nvim-neotest/neotest" } })
-  use({ "theHamsta/nvim-dap-virtual-text" })
-  use({
+  {
+    "neovim/nvim-lspconfig",
+    -- Mason
+    dependencies = {
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "hrsh7th/nvim-cmp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
+      "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-nvim-lua",
+      "L3MON4D3/LuaSnip",
+    },
+  },
+  "mfussenegger/nvim-lint",
+  {
+    "mfussenegger/nvim-dap",
+    dependencies = { "rcarriga/nvim-dap-ui", "nvim-neotest/nvim-nio", "leoluz/nvim-dap-go", "theHamsta/nvim-dap-virtual-text" },
+  },
+
+  -- Testing
+  {
     "nvim-neotest/neotest",
-    requires = {
+    dependencies = {
       "nvim-neotest/nvim-nio",
       "nvim-lua/plenary.nvim",
       "antoinemadec/FixCursorHold.nvim",
@@ -131,122 +163,99 @@ require("packer").startup(function(use)
       "nvim-neotest/neotest-go",
       "rouge8/neotest-rust",
     },
-  })
-  use({ "williamboman/mason.nvim" })
-  use({ "williamboman/mason-lspconfig.nvim" })
-  use({ "mhartington/formatter.nvim" })
-  use("stevearc/conform.nvim")
-  use({ "lewis6991/hover.nvim" })
+  },
 
-  -- Autocompletion
-  use("hrsh7th/nvim-cmp")
-  use("hrsh7th/cmp-buffer")
-  use("hrsh7th/cmp-path")
-  use("saadparwaiz1/cmp_luasnip")
-  use("hrsh7th/cmp-nvim-lsp")
-  use("hrsh7th/cmp-nvim-lua")
+  -- Formatting
+  "mhartington/formatter.nvim",
+  "stevearc/conform.nvim",
+  "lewis6991/hover.nvim",
 
   -- Snippets
-  use("L3MON4D3/LuaSnip")
-  use("rafamadriz/friendly-snippets")
+  "rafamadriz/friendly-snippets",
 
   -- Useful status updates for LSP
-  use({ "j-hui/fidget.nvim" })
+  "j-hui/fidget.nvim",
 
   -- JSON and YAML schemas
-  use("b0o/schemastore.nvim")
+  "b0o/schemastore.nvim",
 
-  -- Additional lua configuration makes nvim stuff amazing
-  use("folke/neodev.nvim")
+  -- Additional lua configuration
+  "folke/neodev.nvim",
 
-  local function tabnine_build_path()
-    -- Replace vim.uv with vim.loop if using NVIM 0.9.0 or below
-    if vim.uv.os_uname().sysname == "Windows_NT" then
-      return "pwsh.exe -file .\\dl_binaries.ps1"
-    else
-      return "./dl_binaries.sh"
-    end
-  end
-
-  use({ "codota/tabnine-nvim", run = tabnine_build_path() })
-
-  use("nvim-treesitter/playground")
-
-  -- Highlight, edit, and navigate code
-  use({
+  -- Treesitter
+  "nvim-treesitter/playground",
+  {
     "nvim-treesitter/nvim-treesitter",
-    run = function()
-      pcall(require("nvim-treesitter.install").update({ with_sync = true }))
-    end,
-  })
-
-  -- Additional text objects via treesitter
-  use({
+    build = ":TSUpdate",
+  },
+  {
     "nvim-treesitter/nvim-treesitter-textobjects",
-    after = "nvim-treesitter",
-  })
+    dependencies = "nvim-treesitter/nvim-treesitter",
+  },
 
   -- Git related plugins
-  use("tpope/vim-fugitive")
-  use("tpope/vim-rhubarb")
-  use("lewis6991/gitsigns.nvim")
+  "tpope/vim-fugitive",
+  "tpope/vim-rhubarb",
+  "lewis6991/gitsigns.nvim",
 
-  use("Mofiqul/vscode.nvim")
-  use("ishan9299/modus-theme-vim")
-  use("kyazdani42/nvim-web-devicons")
-  use("nvim-lualine/lualine.nvim") -- Fancier statusline
-  -- use({ "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} }) -- Add indentation guides even on blank lines
-  use("numToStr/Comment.nvim")     -- "gc" to comment visual regions/lines
-  use("tpope/vim-sleuth")          -- Detect tabstop and shiftwidth automatically
-  use("mbbill/undotree")
+  -- UI plugins
+  "kyazdani42/nvim-web-devicons",
+  "nvim-lualine/lualine.nvim",
+  "numToStr/Comment.nvim",
+  "tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
+  "mbbill/undotree",
 
   -- File explorer
-  use({
+  {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v3.x",
-    requires = {
+    dependencies = {
       "nvim-lua/plenary.nvim",
       "kyazdani42/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
     },
-  })
+  },
 
   -- Fuzzy Finder (files, lsp, etc)
-  use({ "nvim-telescope/telescope.nvim", requires = { "nvim-lua/plenary.nvim" } })
-  use("ThePrimeagen/harpoon")
-  use({ "nvim-telescope/telescope-project.nvim" })
-
-  -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
-  -- use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make", cond = vim.fn.executable("make") == 1 })
-
-  -- Add custom plugins to packer from ~/.config/nvim/lua/custom/plugins.lua
-  local has_plugins, plugins = pcall(require, "custom.plugins")
-  if has_plugins then
-    plugins(use)
-  end
-
-  if is_bootstrap then
-    require("packer").sync()
-  end
-end)
-
--- When we are bootstrapping a configuration, it doesn't
--- make sense to execute the rest of the init.lua.
---
--- You'll need to restart nvim, and then it will work.
-if is_bootstrap then
-  print("==================================")
-  print("    Plugins are being installed")
-  print("    Wait until Packer completes,")
-  print("       then restart nvim")
-  print("==================================")
-  return
-end
-
--- Automatically source and re-compile packer whenever you save this init.lua
-local packer_group = vim.api.nvim_create_augroup("Packer", { clear = true })
-vim.api.nvim_create_autocmd("BufWritePost", {
-  command = "source <afile> | PackerCompile",
-  group = packer_group,
-  pattern = vim.fn.expand("$MYVIMRC"),
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+  },
+  "ThePrimeagen/harpoon",
+  "nvim-telescope/telescope-project.nvim",
+}, {
+  -- Lazy.nvim configuration options
+  defaults = {
+    lazy = false, -- Don't lazy-load by default to match Packer behavior
+  },
+  ui = {
+    border = "rounded",
+  },
+  checker = {
+    enabled = true, -- Automatically check for plugin updates
+    notify = false, -- Don't notify on startup
+  },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        "gzip",
+        "matchit",
+        "matchparen",
+        "netrwPlugin",
+        "tarPlugin",
+        "tohtml",
+        "tutor",
+        "zipPlugin",
+      },
+    },
+  },
 })
+
+-- Load custom plugins if they exist (maintaining compatibility)
+local has_custom, custom = pcall(require, "custom.plugins")
+if has_custom and type(custom) == "table" then
+  -- If custom.plugins returns a table of plugin specs, add them
+  require("lazy").setup(custom, {
+    root = vim.fn.stdpath("data") .. "/lazy",
+  })
+end
