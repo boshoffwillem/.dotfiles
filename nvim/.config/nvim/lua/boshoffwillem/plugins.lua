@@ -168,7 +168,7 @@ require("packer").startup(function(use)
     end
   end
 
-  use({ "codota/tabnine-nvim", build = tabnine_build_path() })
+  use({ "codota/tabnine-nvim", run = tabnine_build_path() })
 
   use("nvim-treesitter/playground")
 

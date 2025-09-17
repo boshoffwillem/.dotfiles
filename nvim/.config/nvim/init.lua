@@ -2,6 +2,12 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- Compatibility fix for Neovim 0.11+ - vim.tbl_islist deprecated
+-- This fixes the deprecation warning from unmaintained packer.nvim
+if not vim.tbl_islist then
+  vim.tbl_islist = vim.islist
+end
+
 require("boshoffwillem.plugins")
 require("boshoffwillem.appearance")
 require("boshoffwillem.comment")
@@ -11,9 +17,13 @@ require("boshoffwillem.format")
 require("boshoffwillem.kotlin").setup()
 require("boshoffwillem.kotlin").setup_keymaps()
 require("boshoffwillem.kotlin").setup_autocommands()
-require("boshoffwillem.swift").setup()
-require("boshoffwillem.swift").setup_keymaps()
-require("boshoffwillem.swift").setup_autocommands()
+
+if vim.uv.os_uname().sysname == "Darwin" then
+  require("boshoffwillem.swift").setup()
+  require("boshoffwillem.swift").setup_keymaps()
+  require("boshoffwillem.swift").setup_autocommands()
+end
+
 require("boshoffwillem.angular").setup()
 require("boshoffwillem.angular").setup_keymaps()
 require("boshoffwillem.vue").setup()
@@ -38,9 +48,9 @@ require("boshoffwillem.undotree")
 require("boshoffwillem.version_control")
 require("boshoffwillem.dap")
 require("boshoffwillem.universal-keybinds").setup()
-require("boshoffwillem.csharp").setup()
-require("boshoffwillem.csharp").setup_keymaps()
-require("boshoffwillem.csharp").setup_autocommands()
+-- require("boshoffwillem.csharp").setup()
+-- require("boshoffwillem.csharp").setup_keymaps()
+-- require("boshoffwillem.csharp").setup_autocommands()
 require("boshoffwillem.neotest").setup()
 require("boshoffwillem.neotest").setup_keymaps()
 require("boshoffwillem.dotnet-utils").setup_keymaps()

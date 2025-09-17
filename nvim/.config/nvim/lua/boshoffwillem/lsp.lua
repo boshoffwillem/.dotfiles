@@ -10,7 +10,7 @@ vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist)
 local on_attach = function(client, bufnr)
   -- Set up universal LSP keybindings first
   require("boshoffwillem.universal-keybinds").setup_lsp_keybinds(client, bufnr)
-  
+
   local nmap = function(keys, func, desc)
     if desc then
       desc = "LSP: " .. desc
@@ -33,7 +33,7 @@ local on_attach = function(client, bufnr)
         tokenTypes[i] = string.gsub(tmp, "-_", "")
       end
     end
-    
+
     -- C# specific keymaps
     nmap("<leader>cc", function()
       vim.lsp.buf.code_action({
@@ -43,7 +43,7 @@ local on_attach = function(client, bufnr)
         apply = true,
       })
     end, "Apply preferred code action")
-    
+
     nmap("<leader>cf", function()
       vim.lsp.buf.code_action({
         filter = function(action)
@@ -52,7 +52,7 @@ local on_attach = function(client, bufnr)
         apply = true,
       })
     end, "Fix all occurrences")
-    
+
     nmap("<leader>cg", function()
       vim.lsp.buf.code_action({
         filter = function(action)
@@ -60,7 +60,7 @@ local on_attach = function(client, bufnr)
         end,
       })
     end, "Generate code")
-    
+
     nmap("<leader>cr", function()
       vim.lsp.buf.code_action({
         filter = function(action)
@@ -180,7 +180,7 @@ local servers = {
   powershell_es = {},
   pylsp = {},
   omnisharp = {
-    cmd = { "omnisharp" },
+    cmd = { "OmniSharp" },
     enable_roslyn_analyzers = true,
     organize_imports_on_format = true,
     enable_import_completion = true,
@@ -296,7 +296,8 @@ local servers = {
         }
       }
     },
-    root_dir = require("lspconfig.util").root_pattern("settings.gradle", "settings.gradle.kts", "build.gradle", "build.gradle.kts", ".git"),
+    root_dir = require("lspconfig.util").root_pattern("settings.gradle", "settings.gradle.kts", "build.gradle",
+      "build.gradle.kts", ".git"),
     single_file_support = true,
     init_options = {
       storagePath = vim.fn.stdpath("data") .. "/kotlin"
@@ -311,12 +312,14 @@ local servers = {
       "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/sourcekit-lsp"
     },
     filetypes = { "swift", "objc", "objcpp" },
-    root_dir = require("lspconfig.util").root_pattern("Package.swift", ".git", "project.yml", ".xcodeproj", ".xcworkspace"),
+    root_dir = require("lspconfig.util").root_pattern("Package.swift", ".git", "project.yml", ".xcodeproj",
+      ".xcworkspace"),
     settings = {
       sourcekit = {
         serverArguments = {
           "-Xswiftc", "-sdk",
-          "-Xswiftc", "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk",
+          "-Xswiftc",
+          "/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk",
           "-Xswiftc", "-target",
           "-Xswiftc", "arm64-apple-ios-simulator",
         }
@@ -354,45 +357,45 @@ for server, config in pairs(servers) do
   if server == "rust_analyzer" then
     goto continue
   end
-  
+
   config.on_attach = on_attach
   config.capabilities = capabilities
   config.flags = lsp_flags
 
   -- This is a workaround for the omnisharp-roslyn issue with semantic tokens
-    -- if server == "omnisharp" then
-    --   config.capabilities.textDocument.semanticTokens.dynamicRegistration = false
-    --   config.capabilities.textDocument.semanticTokens.tokenModifiers = {
-    --     "static",
-    --     "readonly",
-    --     "deprecated",
-    --     "abstract",
-    --     "async",
-    --     "modification",
-    --   }
-    --   config.capabilities.textDocument.semanticTokens.tokenTypes = {
-    --     "comment",
-    --     "keyword",
-    --     "string",
-    --     "number",
-    --     "regexp",
-    --     "operator",
-    --     "namespace",
-    --     "type",
-    --     "struct",
-    --     "class",
-    --     "interface",
-    --     "enum",
-    --     "typeParameter",
-    --     "function",
-    --     "method",
-    --     "macro",
-    --     "property",
-    --   }
-    -- end
+  -- if server == "omnisharp" then
+  --   config.capabilities.textDocument.semanticTokens.dynamicRegistration = false
+  --   config.capabilities.textDocument.semanticTokens.tokenModifiers = {
+  --     "static",
+  --     "readonly",
+  --     "deprecated",
+  --     "abstract",
+  --     "async",
+  --     "modification",
+  --   }
+  --   config.capabilities.textDocument.semanticTokens.tokenTypes = {
+  --     "comment",
+  --     "keyword",
+  --     "string",
+  --     "number",
+  --     "regexp",
+  --     "operator",
+  --     "namespace",
+  --     "type",
+  --     "struct",
+  --     "class",
+  --     "interface",
+  --     "enum",
+  --     "typeParameter",
+  --     "function",
+  --     "method",
+  --     "macro",
+  --     "property",
+  --   }
+  -- end
 
   require("lspconfig")[server].setup(config)
-  
+
   ::continue::
 end
 
@@ -438,8 +441,8 @@ cmp.setup({
   }),
   sources = {
     { name = "path" },
-    { name = "nvim_lsp", keyword_length = 1 },
-    { name = "nvim_lua", keyword_length = 1 },
+    { name = "nvim_lsp",  keyword_length = 1 },
+    { name = "nvim_lua",  keyword_length = 1 },
     { name = "supermaven" },
   },
 })
