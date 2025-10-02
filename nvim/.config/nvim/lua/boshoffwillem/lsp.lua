@@ -146,15 +146,15 @@ local servers = {
     },
   },
   html = {},
-  vue_ls = {
-    -- Vue LSP (Volar/Vue Language Server)
-    filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "json" },
-    init_options = {
-      vue = {
-        hybridMode = false,
-      },
-    },
-  },
+  -- vue_ls = {
+  --   -- Vue LSP (Volar/Vue Language Server)
+  --   filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue", "json" },
+  --   init_options = {
+  --     vue = {
+  --       hybridMode = false,
+  --     },
+  --   },
+  -- },
   jsonls = {
     json = {
       schemas = require("schemastore").json.schemas(),
