@@ -31,6 +31,8 @@ require("nvim-treesitter.configs").setup({
     "zig",
   },
 
+  auto_install = false,
+
   highlight = { enable = true },
   indent = { enable = true },
   fold = { enable = true },

@@ -268,7 +268,8 @@ alias ktfmt="java -jar ~/ktfmt-0.54-jar-with-dependencies.jar"
 export PATH
 export ANDROID_HOME=$HOME/Library/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator
-export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+# export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/microsoft-17.jdk/Contents/Home
 # export JAVA_HOME=/usr/bin/java
 export PATH=$JAVA_HOME/bin:$PATH
 export PATH=$HOME/tools:$PATH
@@ -310,3 +311,8 @@ export PATH="$PATH:/home/boshoffwillem/.turso"
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 export PATH="/opt/homebrew/lib/ruby/gems/3.4.0/bin:$PATH"
 export PATH="/Users/boshoffwillem/.gem/ruby/3.4.0/bin:$PATH"
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/boshoffwillem/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
