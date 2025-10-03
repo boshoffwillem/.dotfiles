@@ -151,6 +151,9 @@
       "k" #'kill-buffer)
 
 (map! :leader
+      ":" #'execute-extended-command)
+
+(map! :leader
       "<SPC>" #'consult-buffer)
 
 ;; (unless (display-graphic-p)
