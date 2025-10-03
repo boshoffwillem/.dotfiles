@@ -14,6 +14,10 @@
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+;; Suppress native compilation warnings
+(setq native-comp-async-report-warnings-errors nil)
+(setq warning-minimum-level :emergency)
+
 ;; OmniSharp auto-installer
 (defun setup-omnisharp ()
   "Check if OmniSharp is installed, and install it if not."
