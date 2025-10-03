@@ -23,13 +23,6 @@ require("packer").startup(function(use)
       "Tastyep/structlog.nvim",
     },
   })
-  use({
-    "GustavEikaas/easy-dotnet.nvim",
-    requires = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
-    config = function()
-      require("easy-dotnet").setup()
-    end
-  })
 
   -- floating terminal
   use({

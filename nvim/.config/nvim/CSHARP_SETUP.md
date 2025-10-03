@@ -9,7 +9,6 @@ This document outlines the enhanced C# and .NET development setup for your Neovi
 - **roslyn.nvim** - Microsoft's new Roslyn LSP server (alternative to OmniSharp)
 - **lsp-overloads.nvim** - Shows method overloads in completion and signature help
 - **csharp.nvim** - Additional C# utilities and configurations
-- **easy-dotnet.nvim** - Easy .NET project management and utilities
 
 ### Testing & Debugging
 - **neotest-dotnet** - Already configured, now with enhanced settings for better test running

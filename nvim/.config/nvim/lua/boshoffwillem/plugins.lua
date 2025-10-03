@@ -26,7 +26,7 @@ require("lazy").setup({
   "ishan9299/modus-theme-vim",
 
   -- C#/.NET specific plugins
-  "Issafalcon/lsp-overloads.nvim",     -- Show method overloads
+  "Issafalcon/lsp-overloads.nvim", -- Show method overloads
   "Hoffs/omnisharp-extended-lsp.nvim", -- Extended omnisharp features
   {
     "iabdelkareem/csharp.nvim",
@@ -34,13 +34,6 @@ require("lazy").setup({
       "nvim-lua/plenary.nvim",
       "Tastyep/structlog.nvim",
     },
-  },
-  {
-    "GustavEikaas/easy-dotnet.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
-    config = function()
-      require("easy-dotnet").setup()
-    end,
   },
 
   -- Terminal
@@ -84,7 +77,7 @@ require("lazy").setup({
   "joeveiga/ng.nvim", -- Angular CLI integration
 
   -- Vue.js development
-  "posva/vim-vue",             -- Vue syntax highlighting
+  "posva/vim-vue", -- Vue syntax highlighting
   "leafOfTree/vim-vue-plugin", -- Enhanced Vue support
 
   -- TypeScript/JavaScript enhanced tools
@@ -146,7 +139,12 @@ require("lazy").setup({
   "mfussenegger/nvim-lint",
   {
     "mfussenegger/nvim-dap",
-    dependencies = { "rcarriga/nvim-dap-ui", "nvim-neotest/nvim-nio", "leoluz/nvim-dap-go", "theHamsta/nvim-dap-virtual-text" },
+    dependencies = {
+      "rcarriga/nvim-dap-ui",
+      "nvim-neotest/nvim-nio",
+      "leoluz/nvim-dap-go",
+      "theHamsta/nvim-dap-virtual-text",
+    },
   },
 
   -- Testing
