@@ -18,6 +18,15 @@
 (setq native-comp-async-report-warnings-errors nil)
 (setq warning-minimum-level :emergency)
 
+;; Disable audio feedback
+(setq ring-bell-function 'ignore)
+
+;; Hide UI elements
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+(setq visible-bell nil)
+
 ;; OmniSharp auto-installer
 (defun setup-omnisharp ()
   "Check if OmniSharp is installed, and install it if not."
@@ -133,16 +142,54 @@
 ;; LSP Mode - Core language server support
 (use-package lsp-mode
   :hook ((csharp-mode . lsp-deferred)
-         (lsp-mode . lsp-enable-which-key-integration))
+	 (lsp-mode . lsp-enable-which-key-integration))
   :commands (lsp lsp-deferred)
   :config
   (setq lsp-keymap-prefix "C-c l"
-        lsp-auto-guess-root t
-        lsp-log-io nil
-        lsp-restart 'auto-restart
-        lsp-enable-snippet t
-        lsp-prefer-flymake nil)
-  ;; Evil-friendly LSP keybindings
+	lsp-auto-guess-root t
+	lsp-log-io nil
+	lsp-restart 'auto-restart
+	lsp-enable-snippet t
+	lsp-prefer-flymake nil
+	;; File watching settings
+	lsp-enable-file-watchers nil
+	;; lsp-file-watch-threshold 5000  ; Increase from default 1000
+	;; lsp-file-watch-ignored-directories
+	;; '("[/\\\\]\\.git$"
+	;;   "[/\\\\]\\.github$"
+	;;   "[/\\\\]\\.circleci$"
+	;;   "[/\\\\]\\.hg$"
+	;;   "[/\\\\]\\.bzr$"
+	;;   "[/\\\\]_darcs$"
+	;;   "[/\\\\]\\.svn$"
+	;;   "[/\\\\]FOSSIL$"
+	;;   "[/\\\\]\\.idea$"
+	;;   "[/\\\\]\\.ensime_cache$"
+	;;   "[/\\\\]\\.eunit$"
+	;;   "[/\\\\]node_modules"
+	;;   "[/\\\\]\\.yarn$"
+	;;   "[/\\\\]\\.fslckout$"
+	;;   "[/\\\\]\\.tox$"
+	;;   "[/\\\\]dist$"
+	;;   "[/\\\\]dist-newstyle$"
+	;;   "[/\\\\]\\.stack-work$"
+	;;   "[/\\\\]\\.bloop$"
+	;;   "[/\\\\]\\.metals$"
+	;;   "[/\\\\]target$"
+	;;   "[/\\\\]\\.ccls-cache$"
+	;;   "[/\\\\]\\.vscode$"
+	;;   "[/\\\\]\\.venv$"
+	;;   "[/\\\\]\\.mypy_cache$"
+	;;   "[/\\\\]\\.pytest_cache$"
+	;;   "[/\\\\]pycache$"
+	;;   "[/\\\\]bazel-[^/\\\\]+$"
+	;;   "[/\\\\]\\.cask$"
+	;;   "[/\\\\]bin/Debug$"
+	;;   "[/\\\\]bin/Release$"
+	;;   "[/\\\\]obj$"
+	;;   "[/\\\\]packages$"
+	;;   "[/\\\\]\\.vs$")  ;; Evil-friendly LSP keybindings
+	)
   (evil-define-key 'normal lsp-mode-map
     (kbd "gd") 'lsp-find-definition
     (kbd "gr") 'lsp-find-references
@@ -251,39 +298,40 @@
   
   ;; Leader key mappings
   (my-leader-def
-    "f" '(:ignore t :which-key "files")
-    "ff" 'counsel-find-file
-    "fr" 'counsel-recentf
-    "fs" 'save-buffer
-    
-    "b" '(:ignore t :which-key "buffers")
-    "bb" 'counsel-switch-buffer
-    "bd" 'kill-this-buffer
-    "bn" 'next-buffer
-    "bp" 'previous-buffer
-    
-    "p" '(:ignore t :which-key "project")
-    "pf" 'projectile-find-file
-    "pp" 'projectile-switch-project
-    "ps" 'projectile-grep
-    
-    "g" '(:ignore t :which-key "git")
-    "gs" 'magit-status
-    "gb" 'magit-blame
-    
-    "l" '(:ignore t :which-key "lsp")
-    "la" 'lsp-execute-code-action
-    "lr" 'lsp-rename
-    "lf" 'lsp-format-buffer
-    
-    "w" '(:ignore t :which-key "window")
-    "wh" 'evil-window-left
-    "wj" 'evil-window-down
-    "wk" 'evil-window-up
-    "wl" 'evil-window-right
-    "ws" 'evil-window-split
-    "wv" 'evil-window-vsplit
-    "wd" 'evil-window-delete))
+   ":" 'counsel-M-x
+   "f" '(:ignore t :which-key "files")
+   "ff" 'counsel-find-file
+   "fr" 'counsel-recentf
+   "fs" 'save-buffer
+   
+   "b" '(:ignore t :which-key "buffers")
+   "bb" 'counsel-switch-buffer
+   "bd" 'kill-this-buffer
+   "bn" 'next-buffer
+   "bp" 'previous-buffer
+   
+   "p" '(:ignore t :which-key "project")
+   "pf" 'projectile-find-file
+   "pp" 'projectile-switch-project
+   "ps" 'projectile-grep
+   
+   "g" '(:ignore t :which-key "git")
+   "gs" 'magit-status
+   "gb" 'magit-blame
+   
+   "l" '(:ignore t :which-key "lsp")
+   "la" 'lsp-execute-code-action
+   "lr" 'lsp-rename
+   "lf" 'lsp-format-buffer
+   
+   "w" '(:ignore t :which-key "window")
+   "wh" 'evil-window-left
+   "wj" 'evil-window-down
+   "wk" 'evil-window-up
+   "wl" 'evil-window-right
+   "ws" 'evil-window-split
+   "wv" 'evil-window-vsplit
+   "wd" 'evil-window-delete))
 
 ;; Custom settings
 (custom-set-variables

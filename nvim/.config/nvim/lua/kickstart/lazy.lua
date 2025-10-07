@@ -255,6 +255,19 @@ require("lazy").setup({
     },
   },
   {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+  },
+  ft = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+  config = function()
+    require("typescript-tools").setup({
+      settings = {
+        separate_diagnostic_server = true,
+        publish_diagnostic_on = "insert_leave",
+      },
+    })
+  end,
+  {
     -- Main LSP Configuration
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -427,19 +440,40 @@ require("lazy").setup({
       --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
+
+      local lspconfig = require("lspconfig")
+
       local servers = {
         -- clangd = {},
-        -- gopls = {},
+        gopls = {},
         -- pyright = {},
-        -- rust_analyzer = {},
+        rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
-        --
+        ts_ls = {},
+        vue_ls = {
+          filetypes = { "vue" },
+          root_dir = lspconfig.util.root_pattern("package.json", "vue.config.js"),
+          settings = {
+            vetur = {
+              completion = {
+                autoImport = true,
+                tagCasing = "kebab",
+                useWorkspaceDependencies = true,
+              },
+              useWorkspaceDependencies = true,
+              validation = {
+                template = true,
+                style = true,
+                script = true,
+              },
+            },
+          },
+        },
 
         lua_ls = {
           -- cmd = { ... },
@@ -455,22 +489,43 @@ require("lazy").setup({
             },
           },
         },
-        omnisharp = {},
+        omnisharp = {
+          enable_roslyn_analyzers = true,
+          organize_imports_on_format = true,
+          enable_import_completion = true,
+          enable_ms_build_load_projects_on_demand = false,
+          settings = {
+            FormattingOptions = {
+              EnableEditorConfigSupport = true,
+              OrganizeImports = true,
+            },
+            RoslynExtensionsOptions = {
+              EnableAnalyzersSupport = true,
+              EnableImportCompletion = true,
+              EnableDecompilationSupport = true,
+              AnalyzeOpenDocumentsOnly = false,
+              InlayHintsOptions = {
+                EnableForParameters = true,
+                ForLiteralParameters = true,
+                ForIndexerParameters = true,
+                ForObjectCreationParameters = true,
+                ForOtherParameters = true,
+                SuppressForParametersThatDifferOnlyBySuffix = false,
+                SuppressForParametersThatMatchMethodIntent = false,
+                SuppressForParametersThatMatchArgumentName = false,
+                EnableForTypes = true,
+                ForImplicitVariableTypes = true,
+                ForLambdaParameterTypes = true,
+                ForImplicitObjectCreation = true,
+              },
+            },
+            MsBuild = {
+              LoadProjectsOnDemand = false,
+            },
+          },
+        },
       }
 
-      -- Ensure the servers and tools above are installed
-      --
-      -- To check the current status of installed tools and/or manually install
-      -- other tools, you can run
-      --    :Mason
-      --
-      -- You can press `g?` for help in this menu.
-      --
-      -- `mason` had to be setup earlier: to configure its options see the
-      -- `dependencies` table for `nvim-lspconfig` above.
-      --
-      -- You can add other tools here that you want Mason to install
-      -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         "stylua", -- Used to format Lua code
@@ -658,6 +713,29 @@ require("lazy").setup({
     "ellisonleao/gruvbox.nvim",
     priority = 1000,
     config = function()
+      require("gruvbox").setup({
+        terminal_colors = true, -- add neovim terminal colors
+        undercurl = true,
+        underline = true,
+        bold = true,
+        italic = {
+          strings = true,
+          emphasis = true,
+          comments = true,
+          operators = false,
+          folds = true,
+        },
+        strikethrough = true,
+        invert_selection = false,
+        invert_signs = false,
+        invert_tabline = false,
+        inverse = true, -- invert background for search, diffs, statuslines and errors
+        contrast = "", -- can be "hard", "soft" or empty string
+        palette_overrides = {},
+        overrides = {},
+        dim_inactive = false,
+        transparent_mode = true,
+      })
       vim.cmd.colorscheme("gruvbox")
     end,
   },
@@ -717,18 +795,24 @@ require("lazy").setup({
         "bash",
         "c",
         "c_sharp",
+        "css",
         "diff",
+        "go",
         "html",
+        "javascript",
         "lua",
         "luadoc",
         "markdown",
         "markdown_inline",
         "query",
+        "rust",
+        "typescript",
+        "vue",
         "vim",
         "vimdoc",
       },
       -- Autoinstall languages that are not installed
-      auto_install = true,
+      auto_install = false,
       highlight = {
         enable = true,
         -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
