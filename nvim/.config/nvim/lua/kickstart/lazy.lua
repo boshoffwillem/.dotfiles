@@ -88,7 +88,7 @@ require("lazy").setup({
         -- set icon mappings to true if you have a Nerd Font
         mappings = vim.g.have_nerd_font,
         -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
-        -- default which-key.nvim defined Nerd Font icons, otherwise define a string table
+        -- default which-key.nvim defined Nerd Font icons, otherwise define a string tablelaz
         keys = vim.g.have_nerd_font and {} or {
           Up = "<Up> ",
           Down = "<Down> ",
@@ -212,6 +212,7 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>sw", builtin.grep_string, { desc = "[S]earch current [W]ord" })
       vim.keymap.set("n", "<leader>sg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
       vim.keymap.set("n", "<leader>sd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
+      vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "[O]pen [D]iagnostic" })
       vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" })
       vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
@@ -474,6 +475,8 @@ require("lazy").setup({
             },
           },
         },
+
+        fsautocomplete = {},
 
         lua_ls = {
           -- cmd = { ... },
@@ -797,6 +800,7 @@ require("lazy").setup({
         "c_sharp",
         "css",
         "diff",
+        "fsharp",
         "go",
         "html",
         "javascript",
@@ -845,6 +849,7 @@ require("lazy").setup({
   -- require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require("kickstart.plugins.tabnine"), -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
