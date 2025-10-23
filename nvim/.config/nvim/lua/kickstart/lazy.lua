@@ -275,7 +275,35 @@ require("lazy").setup({
       -- Automatically install LSPs and related tools to stdpath for Neovim
       -- Mason must be loaded before its dependents so we need to set it up here.
       -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
-      { "mason-org/mason.nvim", opts = {} },
+      {
+        "mason-org/mason.nvim",
+        opts = {
+          registries = {
+            "github:mason-org/mason-registry",
+            "github:Crashdummyy/mason-registry",
+          },
+          ensure_installed = {
+            "lua-language-server",
+            "stylua",
+
+            "xmlformatter",
+
+            "csharpier",
+            "roslyn",
+            "rzls",
+
+            "typescript-language-server",
+            "eslint-lsp",
+
+            "json-lsp",
+
+            "rust-analyzer",
+
+            "html-lsp",
+            "css-lsp",
+          },
+        },
+      },
       "mason-org/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
 
@@ -492,47 +520,15 @@ require("lazy").setup({
             },
           },
         },
-        omnisharp = {
-          enable_roslyn_analyzers = true,
-          organize_imports_on_format = true,
-          enable_import_completion = true,
-          enable_ms_build_load_projects_on_demand = false,
-          settings = {
-            FormattingOptions = {
-              EnableEditorConfigSupport = true,
-              OrganizeImports = true,
-            },
-            RoslynExtensionsOptions = {
-              EnableAnalyzersSupport = true,
-              EnableImportCompletion = true,
-              EnableDecompilationSupport = true,
-              AnalyzeOpenDocumentsOnly = false,
-              InlayHintsOptions = {
-                EnableForParameters = true,
-                ForLiteralParameters = true,
-                ForIndexerParameters = true,
-                ForObjectCreationParameters = true,
-                ForOtherParameters = true,
-                SuppressForParametersThatDifferOnlyBySuffix = false,
-                SuppressForParametersThatMatchMethodIntent = false,
-                SuppressForParametersThatMatchArgumentName = false,
-                EnableForTypes = true,
-                ForImplicitVariableTypes = true,
-                ForLambdaParameterTypes = true,
-                ForImplicitObjectCreation = true,
-              },
-            },
-            MsBuild = {
-              LoadProjectsOnDemand = false,
-            },
-          },
-        },
+
+        roslyn = {},
       }
 
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         "stylua", -- Used to format Lua code
       })
+
       require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
       require("mason-lspconfig").setup({
@@ -547,6 +543,77 @@ require("lazy").setup({
             server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
             require("lspconfig")[server_name].setup(server)
           end,
+        },
+      })
+    end,
+  },
+  {
+    "seblyng/roslyn.nvim",
+    ---@module 'roslyn.config'
+    ---@type RoslynNvimConfig
+    ft = { "cs", "razor" },
+    opts = {
+      -- your configuration comes here; leave empty for default settings
+    },
+
+    -- ADD THIS:
+
+    dependencies = {
+      {
+        -- By loading as a dependencies, we ensure that we are available to set
+        -- the handlers for Roslyn.
+        "tris203/rzls.nvim",
+        config = true,
+      },
+    },
+    lazy = false,
+    config = function()
+      -- Use one of the methods in the Integration section to compose the command.
+      local mason_registry = require("mason-registry")
+
+      local rzls_path = vim.fn.expand("$MASON/packages/rzls/libexec")
+      local cmd = {
+        "roslyn",
+        "--stdio",
+        "--logLevel=Information",
+        "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
+        "--razorSourceGenerator=" .. vim.fs.joinpath(rzls_path, "Microsoft.CodeAnalysis.Razor.Compiler.dll"),
+        "--razorDesignTimePath=" .. vim.fs.joinpath(rzls_path, "Targets", "Microsoft.NET.Sdk.Razor.DesignTime.targets"),
+        "--extension",
+        vim.fs.joinpath(rzls_path, "RazorExtension", "Microsoft.VisualStudioCode.RazorExtension.dll"),
+      }
+
+      vim.lsp.config("roslyn", {
+        cmd = cmd,
+        handlers = require("rzls.roslyn_handlers"),
+        settings = {
+          ["csharp|inlay_hints"] = {
+            csharp_enable_inlay_hints_for_implicit_object_creation = true,
+            csharp_enable_inlay_hints_for_implicit_variable_types = true,
+            csharp_enable_inlay_hints_for_lambda_parameter_types = true,
+            csharp_enable_inlay_hints_for_types = true,
+            dotnet_enable_inlay_hints_for_indexer_parameters = true,
+            dotnet_enable_inlay_hints_for_literal_parameters = true,
+            dotnet_enable_inlay_hints_for_object_creation_parameters = true,
+            dotnet_enable_inlay_hints_for_other_parameters = true,
+            dotnet_enable_inlay_hints_for_parameters = true,
+            dotnet_suppress_inlay_hints_for_parameters_that_differ_only_by_suffix = true,
+            dotnet_suppress_inlay_hints_for_parameters_that_match_argument_name = true,
+            dotnet_suppress_inlay_hints_for_parameters_that_match_method_intent = true,
+          },
+          ["csharp|code_lens"] = {
+            dotnet_enable_references_code_lens = true,
+          },
+        },
+      })
+      vim.lsp.enable("roslyn")
+    end,
+    init = function()
+      -- We add the Razor file types before the plugin loads.
+      vim.filetype.add({
+        extension = {
+          razor = "razor",
+          cshtml = "razor",
         },
       })
     end,
@@ -790,8 +857,8 @@ require("lazy").setup({
   },
   { -- Highlight, edit, and navigate code
     "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    main = "nvim-treesitter.configs", -- Sets main module to use for opts
+    -- build = ":TSUpdate",
+    -- main = "nvim-treesitter.configs", -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
       ensure_installed = {
@@ -814,17 +881,18 @@ require("lazy").setup({
         "vue",
         "vim",
         "vimdoc",
+        "zig",
       },
       -- Autoinstall languages that are not installed
-      auto_install = false,
-      highlight = {
-        enable = true,
-        -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
-        --  If you are experiencing weird indenting issues, add the language to
-        --  the list of additional_vim_regex_highlighting and disabled languages for indent.
-        additional_vim_regex_highlighting = { "ruby" },
-      },
-      indent = { enable = true, disable = { "ruby" } },
+      -- auto_install = false,
+      -- highlight = {
+      --   enable = true,
+      --   -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
+      --   --  If you are experiencing weird indenting issues, add the language to
+      --   --  the list of additional_vim_regex_highlighting and disabled languages for indent.
+      --   additional_vim_regex_highlighting = { "ruby" },
+      -- },
+      -- indent = { enable = true, disable = { "ruby" } },
     },
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
@@ -843,13 +911,14 @@ require("lazy").setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
+  require("kickstart.plugins.debug"),
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
-  require("kickstart.plugins.tabnine"), -- adds gitsigns recommend keymaps
+  -- require("kickstart.plugins.tabnine"),
+  require("kickstart.plugins.copilot"),
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
