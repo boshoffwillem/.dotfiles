@@ -18,6 +18,7 @@ export PATH="$HOME/development/flutter/bin:$PATH"
 # export JAVA_HOME=/usr/bin/java
 export PATH=$JAVA_HOME/bin:$PATH
 export PATH=$HOME/tools:$PATH
+export PATH="$PATH:$HOME/.dotnet"
 export PATH=$HOME/tools/omnisharp:$PATH
 export DOTNET_ROOT=$HOME/.dotnet
 export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
