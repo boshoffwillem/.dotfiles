@@ -16,7 +16,9 @@ sudo apt install -y \
   wget \
   azure-cli \
   unzip \
-  htop
+  htop \
+  elixir \
+  erlang
 
 # Rust
 # =============================================================================

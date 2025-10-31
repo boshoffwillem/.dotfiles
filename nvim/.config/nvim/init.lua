@@ -9,5 +9,4 @@ require("neotest").setup({
 
 require("dap-scope-walker").setup({
   interval = 250,
-  -- ...
 })

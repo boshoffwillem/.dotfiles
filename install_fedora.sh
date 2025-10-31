@@ -17,7 +17,9 @@ sudo dnf install -y \
   libicu \
   azure-cli \
   unzip \
-  htop
+  htop \
+  elixir \
+  erlang
 
 # Rust
 # =============================================================================

@@ -298,11 +298,6 @@ if [ -d "$FNM_PATH" ]; then
   eval "`fnm env`"
 fi
 
-for conf in "$HOME/.config/zsh/"*.zsh; do
-  source "${conf}"
-done
-unset conf
-
 # Turso
 export PATH="$PATH:/home/boshoffwillem/.turso"
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
