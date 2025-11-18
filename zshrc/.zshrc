@@ -276,6 +276,7 @@ export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 export PATH=$HOME/development/flutter/bin:$PATH
 export GEM_HOME=$HOME/.gem
 export PATH=$GEM_HOME/bin:$PATH
+export PATH="$HOME/.mix/escripts:$PATH"
 
 eval "$(starship init zsh)"
 . "$HOME/.cargo/env"
