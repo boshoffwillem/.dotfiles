@@ -293,6 +293,8 @@ require("lazy").setup({
 
             "kotlin-lsp",
 
+            "terraform-ls",
+
             "csharpier",
             "roslyn",
             -- "rzls",
@@ -948,6 +950,7 @@ require("lazy").setup({
         "elixir",
         "fsharp",
         "go",
+        "hcl",
         "heex",
         "html",
         "javascript",
@@ -958,6 +961,7 @@ require("lazy").setup({
         "markdown_inline",
         "query",
         "rust",
+        "terraform",
         "typescript",
         "vue",
         "vim",
