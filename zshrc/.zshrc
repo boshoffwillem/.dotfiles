@@ -309,3 +309,6 @@ fpath=(/Users/boshoffwillem/.docker/completions $fpath)
 autoload -Uz compinit
 compinit
 # End of Docker CLI completions
+export PATH="/opt/homebrew/opt/postgresql@18/bin:$PATH"
+#export LDFLAGS="-L/opt/homebrew/opt/postgresql@18/lib"
+#export LDFLAGS="-L/opt/homebrew/opt/postgresql@18/lib"
