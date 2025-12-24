@@ -858,6 +858,33 @@ require("lazy").setup({
     end,
   },
   {
+    "xiantang/darcula-dark.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("darcula").setup({
+        override = function(c)
+          return {
+            background = "#333333",
+            dark = "#000000",
+          }
+        end,
+        opt = {
+          integrations = {
+            telescope = false,
+            snacks = true,
+            lualine = true,
+            lsp_semantics_token = true,
+            nvim_cmp = true,
+            dap_nvim = true,
+          },
+        },
+      })
+      vim.cmd.colorscheme("darcula-dark")
+    end,
+  },
+  {
     "ellisonleao/gruvbox.nvim",
     priority = 1000,
     config = function()
@@ -884,7 +911,7 @@ require("lazy").setup({
         dim_inactive = false,
         transparent_mode = true,
       })
-      vim.cmd.colorscheme("gruvbox")
+      -- vim.cmd.colorscheme("gruvbox")
     end,
   },
 
@@ -982,6 +1009,7 @@ require("lazy").setup({
   },
 
   require("kickstart.plugins.debug"),
+  require("kickstart.plugins.fugitive"),
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
   -- require 'kickstart.plugins.autopairs',
