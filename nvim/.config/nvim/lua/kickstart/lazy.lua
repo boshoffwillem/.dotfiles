@@ -484,7 +484,22 @@ require("lazy").setup({
         -- clangd = {},
         gopls = {},
         -- pyright = {},
-        rust_analyzer = {},
+        rust_analyzer = {
+          settings = {
+            cargo = {
+              features = "all",
+            },
+            procMacro = {
+              ignored = {
+                leptos_macro = {
+                  -- optional: --
+                  -- "component",
+                  "server",
+                },
+              },
+            },
+          },
+        },
         zls = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -891,7 +906,6 @@ require("lazy").setup({
         "rust",
         "terraform",
         "typescript",
-        "vue",
         "vim",
         "vimdoc",
         "zig",
