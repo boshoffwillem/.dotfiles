@@ -277,6 +277,7 @@ export PATH=$HOME/development/flutter/bin:$PATH
 export GEM_HOME=$HOME/.gem
 export PATH=$GEM_HOME/bin:$PATH
 export PATH="$HOME/.mix/escripts:$PATH"
+export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 eval "$(starship init zsh)"
 . "$HOME/.cargo/env"
@@ -312,3 +313,9 @@ compinit
 export PATH="/opt/homebrew/opt/postgresql@18/bin:$PATH"
 #export LDFLAGS="-L/opt/homebrew/opt/postgresql@18/lib"
 #export LDFLAGS="-L/opt/homebrew/opt/postgresql@18/lib"
+
+## [Completion]
+## Completion scripts setup. Remove the following line to uninstall
+[[ -f /Users/boshoffwillem/.dart-cli-completion/zsh-config.zsh ]] && . /Users/boshoffwillem/.dart-cli-completion/zsh-config.zsh || true
+## [/Completion]
+
