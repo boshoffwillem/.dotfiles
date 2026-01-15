@@ -646,7 +646,7 @@ require("lazy").setup({
         cs = { "csharpier_willem" },
         csproj = { "csharpier_willem" },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
+        python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
@@ -902,6 +902,7 @@ require("lazy").setup({
         "luadoc",
         "markdown",
         "markdown_inline",
+        "python",
         "query",
         "rust",
         "terraform",

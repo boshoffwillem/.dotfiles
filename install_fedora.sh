@@ -51,7 +51,5 @@ else
     echo "Skipping dotnet installation."
 fi
 
-sudo npm install -g @anthropic-ai/claude-code
-curl -sSfL https://get.tur.so/install.sh | bash
 mkdir ~/code
 mkdir ~/code/work

@@ -58,6 +58,23 @@ setopt hist_verify            # show command with history expansion to user befo
 
 # force zsh to show the complete history
 alias history="history 0"
+# alias gbd='git branch -D $(git branch | fzf)'
+unalias gbd 2>/dev/null
+gbd() {
+    local branch=$(git branch | sed 's/^[* ]*//' | fzf | tr -d '\n\r ')
+    if [ -n "$branch" ]; then
+        echo $branch
+        git branch -D "$branch"
+    else
+        echo "No branch selected"
+    fi
+}
+
+safe() {
+    trap 'kill $PID 2>/dev/null' EXIT INT TERM
+    "$@" & PID=$! 
+    wait $PID
+}
 
 # configure `time` format
 TIMEFMT=$'\nreal\t%E\nuser\t%U\nsys\t%S\ncpu\t%P'
