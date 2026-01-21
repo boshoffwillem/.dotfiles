@@ -1,0 +1,41 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "playwright": {
+      "type": "local",
+      "command": [
+        "docker",
+        "run",
+        "-i",
+        "--rm",
+        "mcp/playwright"
+      ],
+      "enabled": true,
+    },
+  },
+  "provider": {
+    "dmr": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Docker Model Runner",
+      "options": {
+        "baseURL": "http://localhost:12434/v1",
+      },
+      "models": {
+        "qwen-coder3": {
+          "name": "qwen-coder3"
+        }
+      }
+    },
+    "ollama-local": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "qwen-coder3": {
+          "name": "qwen-coder3"
+        }
+      }
+    }
+  }
+}
