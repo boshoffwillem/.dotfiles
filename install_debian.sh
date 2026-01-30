@@ -1,24 +1,27 @@
 #!/usr/bin/env sh
 
-sudo apt-get update -y
-sudo apt-get dist-upgrade -y
+sudo apt update -y
+sudo apt upgrade -y
 
 sudo apt install -y \
   git \
   stow \
-  neovim \
-  nodejs \
   ripgrep \
   tmux \
   fd-find \
   fzf \
   zsh \
   wget \
-  azure-cli \
   unzip \
   htop \
   elixir \
-  erlang
+  erlang \
+  make \
+  cmake \
+  curl \
+  golang-go
+
+curl -L https://aka.ms/InstallAzureCli | bash
 
 # Rust
 # =============================================================================

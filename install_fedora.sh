@@ -6,8 +6,6 @@ sudo dnf upgrade -y
 sudo dnf install -y \
   git \
   stow \
-  neovim \
-  nodejs \
   ripgrep \
   tmux \
   fd-find \
@@ -15,11 +13,16 @@ sudo dnf install -y \
   zsh \
   wget \
   libicu \
-  azure-cli \
   unzip \
   htop \
   elixir \
-  erlang
+  erlang \
+  make \
+  cmake \
+  curl \
+  golang-go
+
+curl -L https://aka.ms/InstallAzureCli | bash
 
 # Rust
 # =============================================================================
