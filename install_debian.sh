@@ -22,6 +22,7 @@ sudo apt install -y \
   golang-go
 
 curl -L https://aka.ms/InstallAzureCli | bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh)"
 
 # Rust
 # =============================================================================
