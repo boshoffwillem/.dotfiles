@@ -11,10 +11,10 @@ fi
 alias csharpier="dotnet csharpier"
 
 export PATH
-export ANDROID_HOME=$HOME/Android/Sdk
+export ANDROID_HOME=$HOME/Library/Android/Sdk
 export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator
-export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-export PATH="$HOME/development/flutter/bin:$PATH"
+# export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/microsoft-17.jdk/Contents/Home
 # export JAVA_HOME=/usr/bin/java
 export PATH=$JAVA_HOME/bin:$PATH
 export PATH=$HOME/tools:$PATH
@@ -22,9 +22,17 @@ export PATH="$PATH:$HOME/.dotnet"
 export PATH=$HOME/tools/omnisharp:$PATH
 export DOTNET_ROOT=$HOME/.dotnet
 export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
+export PATH=$HOME/development/flutter/bin:$PATH
+export GEM_HOME=$HOME/.gem
+export PATH=$GEM_HOME/bin:$PATH
+export PATH="$HOME/.mix/escripts:$PATH"
+export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 eval "$(starship init bash)"
 . "$HOME/.cargo/env"
 
 # Turso
 export PATH="$PATH:/home/boshoffwillem/.turso"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

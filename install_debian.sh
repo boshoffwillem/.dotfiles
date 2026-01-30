@@ -23,6 +23,7 @@ sudo apt install -y \
 
 curl -L https://aka.ms/InstallAzureCli | bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh)"
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
 
 # Rust
 # =============================================================================

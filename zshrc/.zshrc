@@ -336,3 +336,5 @@ export PATH="/opt/homebrew/opt/postgresql@18/bin:$PATH"
 [[ -f /Users/boshoffwillem/.dart-cli-completion/zsh-config.zsh ]] && . /Users/boshoffwillem/.dart-cli-completion/zsh-config.zsh || true
 ## [/Completion]
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

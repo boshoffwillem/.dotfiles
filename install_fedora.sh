@@ -23,6 +23,7 @@ sudo dnf install -y \
   golang-go
 
 curl -L https://aka.ms/InstallAzureCli | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
 
 # Rust
 # =============================================================================
