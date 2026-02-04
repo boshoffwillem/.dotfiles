@@ -24,6 +24,7 @@ sudo dnf install -y \
 
 curl -L https://aka.ms/InstallAzureCli | bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
+curl -fsSL https://bun.sh/install | bash
 
 # Rust
 # =============================================================================

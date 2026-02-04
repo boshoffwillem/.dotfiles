@@ -19,11 +19,15 @@ sudo apt install -y \
   make \
   cmake \
   curl \
-  golang-go
+  golang-go \
+  python3 \
+  python3-pip \
+  build-essential python3-dev python3-venv
 
 curl -L https://aka.ms/InstallAzureCli | bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh)"
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
+curl -fsSL https://bun.sh/install | bash
 
 # Rust
 # =============================================================================
