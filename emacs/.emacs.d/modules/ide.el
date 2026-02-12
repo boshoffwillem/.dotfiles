@@ -121,123 +121,113 @@
       (treesit-install-language-grammar (car grammar)))))
 
 ;; (os/setup-install-grammars)
-(add-to-list 'auto-mode-alist '("\\.c\\'" . c-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.c\\'" . c-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.cpp\\'" . c++-ts-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.css\\'" . css-ts-mode))
-(add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . dockerfile-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . dockerfile-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.html\\'" . html-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.js\\'" . typescript-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . tsx-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . tsx-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.kt\\'" . kotlin-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.sh\\'" . bash-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.js\\'" . typescript-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . tsx-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.jsx\\'" . tsx-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.kt\\'" . kotlin-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.py\\'" . python-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.sh\\'" . bash-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-ts-mode))
+;; (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-ts-mode))
+
+
+(use-package rustic
+  :ensure
+  :bind (:map rustic-mode-map
+              ("M-j" . lsp-ui-imenu)
+              ("M-?" . lsp-find-references)
+              ("C-c C-c l" . flycheck-list-errors)
+              ("C-c C-c a" . lsp-execute-code-action)
+              ("C-c C-c r" . lsp-rename)
+              ("C-c C-c q" . lsp-workspace-restart)
+              ("C-c C-c Q" . lsp-workspace-shutdown)
+              ("C-c C-c s" . lsp-rust-analyzer-status))
+  :config
+  ;; uncomment for less flashiness
+  ;; (setq lsp-eldoc-hook nil)
+  ;; (setq lsp-enable-symbol-highlighting nil)
+  ;; (setq lsp-signature-auto-activate nil)
+
+  ;; comment to disable rustfmt on save
+  (setq rustic-format-on-save t)
+  (add-hook 'rustic-mode-hook 'rk/rustic-mode-hook))
+
+(defun rk/rustic-mode-hook ()
+  ;; so that run C-c C-c C-r works without having to confirm, but don't try to
+  ;; save rust buffers that are not file visiting. Once
+  ;; https://github.com/brotzeit/rustic/issues/253 has been resolved this should
+  ;; no longer be necessary.
+  (when buffer-file-name
+    (setq-local buffer-save-without-query t))
+  (add-hook 'before-save-hook 'lsp-format-buffer nil t))
+
+(use-package direnv
+  :bind (("C-c d d" . direnv-mode)
+         ("C-c d a" . direnv-allow)))
 
 (use-package lsp-mode
-  :diminish "LSP"
-  :hook ((lsp-mode . lsp-diagnostics-mode)
-         (lsp-mode . lsp-enable-which-key-integration)
-         ((
-           csharp-mode
-           tsx-ts-mode
-           typescript-ts-mode
-           web-mode
-           ) . lsp-deferred))
+  :ensure
+  :commands lsp
   :custom
-  (lsp-keymap-prefix "C-c l")           ; Prefix for LSP actions
-  (lsp-completion-provider :none)       ; Using Corfu as the provider
-  (lsp-diagnostics-provider :flycheck)
-  (lsp-session-file (locate-user-emacs-file ".lsp-session"))
-  (lsp-log-io nil)                      ; IMPORTANT! Use only for debugging! Drastically affects performance
-  (lsp-keep-workspace-alive nil)        ; Close LSP server if all project buffers are closed
-  (lsp-idle-delay 0.5)                  ; Debounce timer for `after-change-function'
-  ;; core
-  (lsp-enable-xref t)                   ; Use xref to find references
-  (lsp-auto-configure t)                ; Used to decide between current active servers
-  (lsp-eldoc-enable-hover t)            ; Display signature information in the echo area
-  (lsp-enable-dap-auto-configure t)     ; Debug support
-  (lsp-enable-file-watchers nil)
-  (lsp-enable-folding nil)              ; I disable folding since I use origami
-  (lsp-enable-imenu t)
-  (lsp-enable-indentation nil)          ; I use prettier
-  (lsp-enable-links nil)                ; No need since we have `browse-url'
-  (lsp-enable-on-type-formatting nil)   ; Prettier handles this
-  (lsp-enable-suggest-server-download t) ; Useful prompt to download LSP providers
-  (lsp-enable-symbol-highlighting t)     ; Shows usages of symbol at point in the current buffer
-  (lsp-enable-text-document-color nil)   ; This is Treesitter's job
-
-  (lsp-ui-sideline-show-hover nil)      ; Sideline used only for diagnostics
-  (lsp-ui-sideline-diagnostic-max-lines 20) ; 20 lines since typescript errors can be quite big
-  ;; completion
-  (lsp-completion-enable t)
-  (lsp-completion-enable-additional-text-edit t) ; Ex: auto-insert an import for a completion candidate
-  (lsp-enable-snippet t)                         ; Important to provide full JSX completion
-  (lsp-completion-show-kind t)                   ; Optional
-  ;; headerline
-  (lsp-headerline-breadcrumb-enable t)  ; Optional, I like the breadcrumbs
-  (lsp-headerline-breadcrumb-enable-diagnostics nil) ; Don't make them red, too noisy
-  (lsp-headerline-breadcrumb-enable-symbol-numbers nil)
-  (lsp-headerline-breadcrumb-icons-enable nil)
-  ;; modeline
-  (lsp-modeline-code-actions-enable nil) ; Modeline should be relatively clean
-  (lsp-modeline-diagnostics-enable nil)  ; Already supported through `flycheck'
-  (lsp-modeline-workspace-status-enable nil) ; Modeline displays "LSP" when lsp-mode is enabled
-  (lsp-signature-doc-lines 1)                ; Don't raise the echo area. It's distracting
-  (lsp-ui-doc-use-childframe t)              ; Show docs for symbol at point
-  (lsp-eldoc-render-all nil)            ; This would be very useful if it would respect `lsp-signature-doc-lines', currently it's distracting
-  ;; lens
-  (lsp-lens-enable nil)                 ; Optional, I don't need it
-  ;; semantic
-  (lsp-semantic-tokens-enable nil)      ; Related to highlighting, and we defer to treesitter
-
-  (lsp-csharp-omnisharp-roslyn-binary-path "~/tools/omnisharp/latest/omnisharp/OmniSharp.exe")
-  (lsp-csharp-omnisharp-roslyn-download-url "https://github.com/omnisharp/omnisharp-roslyn/releases/latest/download/omnisharp-linux-x64.tar.gz")
-  (lsp-csharp-server-install-dir "~/tools/omnisharp")
-  )
+  ;; what to use when checking on-save. "check" is default, I prefer clippy
+  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  (lsp-eldoc-render-all t)
+  (lsp-idle-delay 0.6)
+  ;; enable / disable the hints as you prefer:
+  (lsp-inlay-hint-enable t)
+  ;; These are optional configurations. See https://emacs-lsp.github.io/lsp-mode/page/lsp-rust-analyzer/#lsp-rust-analyzer-display-chaining-hints for a full list
+  (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
+  (lsp-rust-analyzer-display-chaining-hints t)
+  (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
+  (lsp-rust-analyzer-display-closure-return-type-hints t)
+  (lsp-rust-analyzer-display-parameter-hints nil)
+  (lsp-rust-analyzer-display-reborrow-hints nil)
+  :config
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
 (use-package lsp-ui
-  :commands
-  (lsp-ui-doc-show
-   lsp-ui-doc-glance)
-  :after (lsp-mode evil)
-  :config (setq lsp-ui-doc-enable t
-                evil-lookup-func #'lsp-ui-doc-glance ; Makes K in evil-mode toggle the doc for symbol at point
-                lsp-ui-doc-show-with-cursor nil      ; Don't show doc when cursor is over symbol - too distracting
-                lsp-ui-doc-include-signature t       ; Show signature
-                lsp-ui-doc-position 'at-point))
+  :ensure
+  :commands lsp-ui-mode
+  :custom
+  (lsp-ui-peek-always-show t)
+  (lsp-ui-sideline-show-hover t)
+  (lsp-ui-doc-enable nil))
 
-(use-package lsp-treemacs
-  :after lsp-mode
-  :config
-  (lsp-treemacs-sync-mode 1)
-  )
+;; (use-package lsp-treemacs
+;;   :after lsp-mode
+;;   :config
+;;   (lsp-treemacs-sync-mode 1)
+;;   )
 
-(use-package consult-lsp
-  :after lsp-mode
-  :config
-  ;; find symbol in project.
-  ;; (define-key lsp-mode-map (kbd "C-c p t") 'consult-lsp-symbols)
-  ;; (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
-  )
+;; (use-package consult-lsp
+;;   :after lsp-mode
+;;   :config
+;;   ;; find symbol in project.
+;;   ;; (define-key lsp-mode-map (kbd "C-c p t") 'consult-lsp-symbols)
+;;   ;; (define-key lsp-mode-map [remap xref-find-apropos] #'consult-lsp-symbols)
+;;   )
 
-(use-package dap-mode
-  :after lsp-mode
-  ;; :commands (dap-debug dap-breakpoints-add)
-  :init
-  ;; (dap-mode 1)
-  ;; (dap-ui-mode 1)
-  (dap-auto-configure-mode)
-  ;; :custom
-  ;; (dap-netcore-install-dir "~/.config/emacs/.cache/")
-  )
+;; (use-package dap-mode
+;;   :after lsp-mode
+;;   ;; :commands (dap-debug dap-breakpoints-add)
+;;   :init
+;;   ;; (dap-mode 1)
+;;   ;; (dap-ui-mode 1)
+;;   (dap-auto-configure-mode)
+;;   ;; :custom
+;;   ;; (dap-netcore-install-dir "~/.config/emacs/.cache/")
+;;   )
 
 ;; (use-package posframe)
 
@@ -264,6 +254,55 @@
 ;;                                    :processId "${command:pickProcess}"
 ;;                                    :name "NetCoreDbg::Launch"
 ;;                                    :stopAtEntry f))
+
+(use-package company
+  :ensure
+  :custom
+  (company-idle-delay 0.5) ;; how long to wait until popup
+  ;; (company-begin-commands nil) ;; uncomment to disable popup
+  :bind
+  (:map company-mode-map
+	      ("<tab>". tab-indent-or-complete)
+	      ("TAB". tab-indent-or-complete))
+  (:map company-active-map
+	      ("C-n". company-select-next)
+	      ("C-p". company-select-previous)
+	      ("M-<". company-select-first)
+	      ("M->". company-select-last)))
+
+(use-package yasnippet
+  :ensure
+  :config
+  (yas-reload-all)
+  (add-hook 'prog-mode-hook 'yas-minor-mode)
+  (add-hook 'text-mode-hook 'yas-minor-mode))
+
+(defun company-yasnippet-or-completion ()
+  (interactive)
+  (or (do-yas-expand)
+      (company-complete-common)))
+
+(defun check-expansion ()
+  (save-excursion
+    (if (looking-at "\\_>") t
+      (backward-char 1)
+      (if (looking-at "\\.") t
+        (backward-char 1)
+        (if (looking-at "::") t nil)))))
+
+(defun do-yas-expand ()
+  (let ((yas/fallback-behavior 'return-nil))
+    (yas/expand)))
+
+(defun tab-indent-or-complete ()
+  (interactive)
+  (if (minibufferp)
+      (minibuffer-complete)
+    (if (or (not yas/minor-mode)
+            (null (do-yas-expand)))
+        (if (check-expansion)
+            (company-complete-common)
+          (indent-for-tab-command)))))
 
 (setq image-types '(svg png gif tiff jpeg xpm xbm pbm imagemagick))
 (provide 'ide)

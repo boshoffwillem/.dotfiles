@@ -61,3 +61,37 @@ fi
 
 mkdir ~/code
 mkdir ~/code/work
+
+# emacs
+# =============================================================================
+# sudo apt update -y
+# sudo apt upgrade -y
+# sudo apt-get install build-essential -y
+# sudo apt-get install libgtk-3-dev libtiff-dev libtiff5-dev libglib2.0-dev libgif-dev libjpeg-dev libpng-dev libxpm-dev libncurses-dev libtiff-dev -y
+# sudo apt-get install texinfo gnutls-dev imagemagick -y
+# sudo apt-get -y install libtree-sitter-dev libgtk-3-dev libgccjit-14-dev -y
+# sudo apt install git -y
+# sudo apt install sqlite3 -y
+# sudo apt install libgtk-3-dev libwebkit2gtk-4.0-dev -y
+# sudo apt install libc6-dev libjpeg62-dev libpng-dev xaw3dg-dev zlib1g-dev libice-dev libsm-dev libx11-dev libxext-dev -y
+# sudo apt install libxi-dev libxmu-dev libxmuu-dev libxrandr-dev libxt-dev libxtst-dev libxv-dev -y
+# sudo apt install libattr1-dev -y
+# sudo apt install autoconf -y
+# mkdir software
+# cd software
+# git clone git://git.sv.gnu.org/emacs -b emacs-30 --depth 1
+# ./autogen.sh
+# mkdir build
+# cd build
+# ./configure --with-native-compilation=aot\
+#             --with-tree-sitter\
+#             --with-gif\
+#             --with-png\
+#             --with-jpeg\
+#             --with-rsvg\
+#             --with-tiff\
+#             --with-imagemagick\
+#             --with-pgtk
+# make -j $(nproc)
+# sudo make install
+# =============================================================================

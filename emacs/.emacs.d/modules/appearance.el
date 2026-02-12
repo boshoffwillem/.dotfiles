@@ -21,8 +21,6 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 
-(use-package autothemer)
-
 (use-package color-theme-sanityinc-tomorrow)
 (load-theme 'sanityinc-tomorrow-night)
 
@@ -30,11 +28,14 @@
 
 (use-package afternoon-theme)
 
+(use-package autothemer :ensure t)
+
 (straight-use-package
  '(rose-pine-emacs
    :host github
    :repo "thongpv87/rose-pine-emacs"
    :branch "master"))
+
 ;; (load-theme 'rose-pine-moon t)
 
 ;; (use-package doom-modeline

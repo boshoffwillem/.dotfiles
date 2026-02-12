@@ -355,6 +355,7 @@ require("lazy").setup({
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
+          map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
           map("grd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
@@ -477,8 +478,6 @@ require("lazy").setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 
       local lspconfig = require("lspconfig")
-      local mason_root = require("mason.settings").current.install_root_dir
-      local rzls_path = vim.fn.expand(mason_root .. "/packages/roslyn/libexec/.razorExtension")
 
       local servers = {
         -- clangd = {},
@@ -525,42 +524,12 @@ require("lazy").setup({
             },
           },
         },
-
-        roslyn = {
-          cmd = {
-            "roslyn",
-            "--stdio",
-            "--logLevel=Information",
-            "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.get_log_path()),
-            "--razorSourceGenerator=" .. vim.fs.joinpath(rzls_path, "Microsoft.CodeAnalysis.Razor.Compiler.dll"),
-            "--razorDesignTimePath="
-              .. vim.fs.joinpath(rzls_path, "Targets", "Microsoft.NET.Sdk.Razor.DesignTime.targets"),
-            "--extension=" .. vim.fs.joinpath(rzls_path, "Microsoft.VisualStudioCode.RazorExtension.dll"),
-          },
-          settings = {
-            ["csharp|inlay_hints"] = {
-              csharp_enable_inlay_hints_for_implicit_object_creation = true,
-              csharp_enable_inlay_hints_for_implicit_variable_types = true,
-            },
-            ["csharp|code_lens"] = {
-              dotnet_enable_references_code_lens = true,
-              dotnet_enable_tests_code_lens = true,
-            },
-            ["csharp|background_analysis"] = {
-              dotnet_analyzer_diagnostics_scope = "openFiles",
-              dotnet_compiler_diagnostics_scope = "openFiles",
-            },
-            ["csharp|completion"] = {
-              dotnet_show_completion_items_from_unimported_namespaces = true,
-              dotnet_show_name_completion_suggestions = true,
-            },
-          },
-        },
       }
 
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         "stylua", -- Used to format Lua code
+        "roslyn", -- Roslyn is managed via roslyn.nvim + mason
       })
 
       require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
@@ -587,6 +556,36 @@ require("lazy").setup({
     ---@type RoslynNvimConfig
     ft = { "cs", "razor" },
     lazy = false,
+    dependencies = { "saghen/blink.cmp" },
+    config = function(_, opts)
+      require("roslyn").setup(opts)
+
+      if vim.lsp.config then
+        local capabilities = require("blink.cmp").get_lsp_capabilities()
+        local roslyn_config = vim.lsp.config["roslyn"] or {}
+        vim.lsp.config("roslyn", {
+          capabilities = vim.tbl_deep_extend("force", {}, roslyn_config.capabilities or {}, capabilities),
+          settings = vim.tbl_deep_extend("force", {}, roslyn_config.settings or {}, {
+            ["csharp|inlay_hints"] = {
+              csharp_enable_inlay_hints_for_implicit_object_creation = true,
+              csharp_enable_inlay_hints_for_implicit_variable_types = true,
+            },
+            ["csharp|code_lens"] = {
+              dotnet_enable_references_code_lens = true,
+              dotnet_enable_tests_code_lens = true,
+            },
+            ["csharp|background_analysis"] = {
+              dotnet_analyzer_diagnostics_scope = "openFiles",
+              dotnet_compiler_diagnostics_scope = "openFiles",
+            },
+            ["csharp|completion"] = {
+              dotnet_show_completion_items_from_unimported_namespaces = true,
+              dotnet_show_name_completion_suggestions = true,
+            },
+          }),
+        })
+      end
+    end,
     opts = {
       -- Whether or not to look for solution files in the child of the (root).
       -- Set this to true if you have some projects that are not a child of the
@@ -774,62 +773,77 @@ require("lazy").setup({
     end,
   },
   {
-    "xiantang/darcula-dark.nvim",
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-    },
+    "deparr/tairiki.nvim",
+    lazy = false,
+    priority = 1000, -- recommended if you use tairiki as your default theme
     config = function()
-      require("darcula").setup({
-        override = function(c)
-          return {
-            background = "#333333",
-            dark = "#000000",
-          }
-        end,
-        opt = {
-          integrations = {
-            telescope = false,
-            snacks = true,
-            lualine = true,
-            lsp_semantics_token = true,
-            nvim_cmp = true,
-            dap_nvim = true,
-          },
-        },
-      })
-      vim.cmd.colorscheme("darcula-dark")
+      vim.cmd.colorscheme("tairiki")
     end,
   },
-  {
-    "ellisonleao/gruvbox.nvim",
-    priority = 1000,
-    config = function()
-      require("gruvbox").setup({
-        terminal_colors = true, -- add neovim terminal colors
-        undercurl = true,
-        underline = true,
-        bold = true,
-        italic = {
-          strings = true,
-          emphasis = true,
-          comments = true,
-          operators = false,
-          folds = true,
-        },
-        strikethrough = true,
-        invert_selection = false,
-        invert_signs = false,
-        invert_tabline = false,
-        inverse = true, -- invert background for search, diffs, statuslines and errors
-        contrast = "", -- can be "hard", "soft" or empty string
-        palette_overrides = {},
-        overrides = {},
-        dim_inactive = false,
-        transparent_mode = true,
-      })
-      -- vim.cmd.colorscheme("gruvbox")
-    end,
-  },
+  -- {
+  --   "rose-pine/neovim",
+  --   name = "rose-pine",
+  --   config = function()
+  --     vim.cmd("colorscheme rose-pine")
+  --   end,
+  -- },
+  -- {
+  --   "xiantang/darcula-dark.nvim",
+  --   dependencies = {
+  --     "nvim-treesitter/nvim-treesitter",
+  --   },
+  --   config = function()
+  --     require("darcula").setup({
+  --       override = function(c)
+  --         return {
+  --           background = "#333333",
+  --           dark = "#000000",
+  --         }
+  --       end,
+  --       opt = {
+  --         integrations = {
+  --           telescope = false,
+  --           snacks = true,
+  --           lualine = true,
+  --           lsp_semantics_token = true,
+  --           nvim_cmp = true,
+  --           dap_nvim = true,
+  --         },
+  --       },
+  --     })
+  --     -- vim.cmd.colorscheme("darcula-dark")
+  --   end,
+  -- },
+  -- {
+  --   "ellisonleao/gruvbox.nvim",
+  --   priority = 1000,
+  --   config = function()
+  --     require("gruvbox").setup({
+  --       terminal_colors = true, -- add neovim terminal colors
+  --       undercurl = true,
+  --       underline = true,
+  --       bold = true,
+  --       italic = {
+  --         strings = true,
+  --         emphasis = true,
+  --         comments = true,
+  --         operators = false,
+  --         folds = true,
+  --       },
+  --       strikethrough = true,
+  --       invert_selection = false,
+  --       invert_signs = false,
+  --       invert_tabline = false,
+  --       inverse = true, -- invert background for search, diffs, statuslines and errors
+  --       contrast = "", -- can be "hard", "soft" or empty string
+  --       palette_overrides = {},
+  --       overrides = {},
+  --       dim_inactive = false,
+  --       transparent_mode = true,
+  --     })
+  --     -- vim.cmd.colorscheme("gruvbox")
+  --   end,
+  -- },
 
   -- Highlight todo, notes, etc in comments
   {
@@ -879,7 +893,7 @@ require("lazy").setup({
   { -- Highlight, edit, and navigate code
     "nvim-treesitter/nvim-treesitter",
     -- build = ":TSUpdate",
-    main = "nvim-treesitter.configs", -- Sets main module to use for opts
+    main = "nvim-treesitter", -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
       ensure_installed = {
