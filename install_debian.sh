@@ -85,15 +85,8 @@ mkdir ~/code/work
 # cd build
 # on mac
 # export LIBRARY_PATH="$LIBRARY_PATH:$(brew --prefix libgccjit)/lib/gcc/current"
-# ./configure --with-native-compilation=aot\
-#             --with-tree-sitter\
-#             --with-gif\
-#             --with-png\
-#             --with-jpeg\
-#             --with-rsvg\
-#             --with-tiff\
-#             --with-imagemagick\
-#             --with-pgtk
+# ./configure --with-native-compilation=yes\
+#             --with-tree-sitter
 # make -j $(nproc)
 # sudo make install
 # =============================================================================

@@ -17,8 +17,6 @@
 
 (setq gc-cons-threshold (* 100 1024 1024)
       read-process-output-max (* 1024 1024)
-      company-idle-delay 0.0
-      company-minimum-prefix-length 1
       create-lockfiles nil) ;; lock files will kill `npm start'
 
 ;; Enable Vertico.
@@ -195,8 +193,17 @@
 (use-package company
   :straight t
   :config
+  (setq company-idle-delay 0.0
+	company-minimum-prefix-length 1)
   (add-hook 'after-init-hook 'global-company-mode)
   )
+
+;; (use-package corfu
+;;   :straight t
+;;   :custom
+;;   (corfu-auto nil)         ; Manual completion trigger
+;;   (corfu-cycle t)          ; Cycle through candidates
+;;   (corfu-preselect 'first))
 
 (use-package flycheck
   :straight t
@@ -208,17 +215,7 @@
   :straight t
   )
 
-(use-package lsp-mode
-  :straight t
-  :config
-  (define-key evil-normal-state-map (kbd "gd") 'lsp-goto-type-definition)
-  (define-key evil-normal-state-map (kbd "gi") 'lsp-goto-implementation)
-  (define-key evil-normal-state-map (kbd "K") 'lsp-iforma)
-  )
-
-(use-package dap-mode
-  :straight t
-  )
+;;dotnet tool install --global csharp-ls
 
 (use-package web-mode
   :straight t
@@ -226,7 +223,7 @@
   :mode
   (("\\.phtml\\'" . web-mode)
    ("\\.php\\'" . web-mode)
-   ("\\.cshtml\\'" . web-mode)
+   ("\\.cshtml?\\'" . web-mode)
    ("\\.tpl\\'" . web-mode)
    ("\\.[agj]sp\\'" . web-mode)
    ("\\.as[cp]x\\'" . web-mode)
@@ -234,9 +231,30 @@
    ("\\.mustache\\'" . web-mode)
    ("\\.djhtml\\'" . web-mode)))
 
-(add-hook 'prog-mode-hook #'lsp)
+(require 'eglot)
 
-(with-eval-after-load 'lsp-mode
-  (require 'dap-chrome)
-  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
-  (yas-global-mode))
+;; Option A: If installed as a global tool
+(setq eglot-server-programs
+      '((csharp-mode . ("csharp-ls"))
+	(csharp-ts-mode . ("csharp-ls"))
+	))
+
+;; (use-package lsp-mode
+;;   :straight t
+;;   :config
+;;   (define-key evil-normal-state-map (kbd "gd") 'lsp-goto-type-definition)
+;;   (define-key evil-normal-state-map (kbd "gi") 'lsp-goto-implementation)
+;;   (define-key evil-normal-state-map (kbd "K") 'lsp-iforma)
+;;   ;; (lsp-csharp-omnisharp-enable-decompilation-support t)
+;;   )
+
+;; (use-package dap-mode
+;;   :straight t
+;;   )
+
+;; (add-hook 'prog-mode-hook #'lsp)
+
+;; (with-eval-after-load 'lsp-mode
+;;   (require 'dap-chrome)
+;;   (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
+;;   (yas-global-mode))
