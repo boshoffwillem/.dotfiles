@@ -1,60 +1,242 @@
-;;; init.el --- Main configuration for emacs -*- lexical-binding: t -*-
-;; Author: Willem Boshoff <boshoffwillem@protonmail.com>
-;; URL: https://github.com/boshoffwillem/.emacs.d
-
-;;; Commentary:
-;; This file is the main entry point for Emacs configuration.
-
-;;; Code:
-
-;; Profile emacs startup
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (message "Emacs loaded in %s."
-                     (emacs-init-time))))
-
-;; Add the modules folder to the load path
-(add-to-list 'load-path (expand-file-name "modules/" user-emacs-directory))
-
-(require 'defaults)
-
-(setq package-enable-at-startup nil)
 (defvar bootstrap-version)
 (let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
+       (expand-file-name
+        "straight/repos/straight.el/bootstrap.el"
+        (or (bound-and-true-p straight-base-dir)
+            user-emacs-directory)))
+      (bootstrap-version 7))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         "https://raw.githubusercontent.com/radian-software/straight.el/develop/install.el"
          'silent 'inhibit-cookies)
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 (straight-use-package 'use-package)
-(cl-dolist (mode '(emacs-lisp-mode lisp-interaction-mode))
-  (font-lock-add-keywords
-   mode
-   '(("(\\<\\(straight-use-package\\)\\>" 1 font-lock-keyword-face))))
-(setq straight-use-package-by-default 1)
 
-(use-package auto-package-update
+(setq gc-cons-threshold (* 100 1024 1024)
+      read-process-output-max (* 1024 1024)
+      company-idle-delay 0.0
+      company-minimum-prefix-length 1
+      create-lockfiles nil) ;; lock files will kill `npm start'
+
+;; Enable Vertico.
+(use-package vertico
+  :straight t
+  ;;:custom
+  ;; (vertico-scroll-margin 0) ;; Different scroll margin
+  ;; (vertico-count 20) ;; Show more candidates
+  ;; (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
+  ;; (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
+  :init
+  (vertico-mode))
+
+;; Persist history over Emacs restarts. Vertico sorts by history position.
+(use-package savehist
+  :init
+  (savehist-mode))
+
+;; Emacs minibuffer configurations.
+(use-package emacs
   :custom
-  (auto-package-update-interval 7)
-  (auto-package-update-delete-old-versions t)
-  (auto-package-update-prompt-before-update t)
-  (auto-package-update-show-preview t))
+  ;; Enable context menu. `vertico-multiform-mode' adds a menu in the minibuffer
+  ;; to switch display modes.
+  (context-menu-mode t)
+  ;; Support opening new minibuffers from inside existing minibuffers.
+  (enable-recursive-minibuffers t)
+  ;; Hide commands in M-x which do not work in the current mode.  Vertico
+  ;; commands are hidden in normal buffers. This setting is useful beyond
+  ;; Vertico.
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  ;; Do not allow the cursor in the minibuffer prompt
+  (minibuffer-prompt-properties
+   '(read-only t cursor-intangible t face minibuffer-prompt)))
 
-(setq read-process-output-max (* 10 1024 1024)) ;; 10mb
-(setq gc-cons-threshold 200000000)
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+  :straight t
+  :custom
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
+  ;; (orderless-component-separator #'orderless-escapable-split-on-space)
+  (completion-styles '(orderless basic substring))
+  (completion-category-overrides '((file (styles partial-completion))))
+  (completion-category-defaults nil) ;; Disable defaults, use our settings
+  (completion-pcm-leading-wildcard t)) ;; Emacs 31: partial-completion behaves like substring
 
-(require 'project-management)
-(require 'appearance)
-(require 'completion)
-(require 'completion-native)
-(require 'completion-inline)
-(require 'git)
-(require 'keybindings)
-(require 'ide)
-(require 'editing)
-(require 'evil-m)
+;; Enable rich annotations using the Marginalia package
+(use-package marginalia
+  :straight t
+  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+  ;; available in the *Completions* buffer, add it to the
+  ;; `completion-list-mode-map'.
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+
+  ;; The :init section is always executed.
+  :init
+
+  ;; Marginalia must be activated in the :init section of use-package such that
+  ;; the mode gets enabled right away. Note that this forces loading the
+  ;; package.
+  (marginalia-mode))
+
+(use-package doom-themes
+  :ensure t
+  :straight t
+  :custom
+  ;; Global settings (defaults)
+  (doom-themes-enable-bold t)   ; if nil, bold is universally disabled
+  (doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; for treemacs users
+  (doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  :config
+  (load-theme 'doom-gruvbox t)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Enable custom neotree theme (nerd-icons must be installed!)
+  (doom-themes-neotree-config)
+  ;; or for treemacs users
+  (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+
+(add-to-list 'default-frame-alist
+             '(font . "Ioskeley Mono-11"))
+
+(use-package nerd-icons
+  :straight (nerd-icons
+	     :type git
+	     :host github
+	     :repo "rainstormstudio/nerd-icons.el"
+	     :files (:defaults "data"))
+  :custom
+  ;; The Nerd Font you want to use in GUI
+  ;; "Symbols Nerd Font Mono" is the default and is recommended
+  ;; but you can use any other Nerd Font if you want
+  (nerd-icons-font-family "Ioskeley Mono")
+    )
+
+(which-key-mode)
+
+(use-package evil
+  :straight t
+  :init
+  (setq evil-want-integration t
+        evil-want-keybinding nil
+        evil-want-C-u-scroll t
+        evil-want-C-i-jump nil
+        evil-undo-system 'undo-redo)
+  :config
+  (evil-mode 1)
+  
+  ;; Remap movement keys: j k l ; instead of h j k l
+  ;; Normal state
+  (define-key evil-normal-state-map (kbd "j") 'evil-backward-char)
+  (define-key evil-normal-state-map (kbd "k") 'evil-next-line)
+  (define-key evil-normal-state-map (kbd "l") 'evil-previous-line)
+  (define-key evil-normal-state-map (kbd ";") 'evil-forward-char)
+  (define-key evil-normal-state-map (kbd "<SPC><SPC>") 'switch-to-buffer)
+  (define-key evil-normal-state-map (kbd "<SPC>bk") 'kill-buffer)
+  (define-key evil-normal-state-map (kbd "<SPC>sf") 'find-file)
+  (define-key evil-normal-state-map (kbd "<SPC>s.") 'recentf)
+  (define-key evil-normal-state-map (kbd "<SPC>pf") 'project-find-file)
+  (define-key evil-normal-state-map (kbd "<SPC>ps") 'project-search)
+  (define-key evil-normal-state-map (kbd "<SPC>pp") 'project-switch-project)
+  (define-key evil-normal-state-map (kbd "<SPC>pb") 'project-switch-to-buffer)
+  
+  ;; Visual state
+  (define-key evil-visual-state-map (kbd "j") 'evil-backward-char)
+  (define-key evil-visual-state-map (kbd "k") 'evil-next-line)
+  (define-key evil-visual-state-map (kbd "l") 'evil-previous-line)
+  (define-key evil-visual-state-map (kbd ";") 'evil-forward-char)
+  
+  ;; Motion state (used by operators)
+  (define-key evil-motion-state-map (kbd "j") 'evil-backward-char)
+  (define-key evil-motion-state-map (kbd "k") 'evil-next-line)
+  (define-key evil-motion-state-map (kbd "l") 'evil-previous-line)
+  (define-key evil-motion-state-map (kbd ";") 'evil-forward-char)
+  
+  ;; Remap the displaced keys to their original functions
+  (define-key evil-normal-state-map (kbd "h") 'evil-join)
+  (define-key evil-visual-state-map (kbd "h") 'evil-join)
+  
+  ;; Use Emacs state in some modes
+  (evil-set-initial-state 'messages-buffer-mode 'normal)
+  (evil-set-initial-state 'dashboard-mode 'normal))
+
+;; Evil Collection - Evil bindings for many modes
+(use-package evil-collection
+  :straight t
+  :after evil
+  :config
+  (evil-collection-init))
+
+;; Evil Commentary - Easy commenting (gc operator)
+(use-package evil-commentary
+  :straight t
+  :after evil
+  :config
+  (evil-commentary-mode))
+
+;; Evil Surround - Surround text objects (like vim-surround)
+(use-package evil-surround
+  :straight t
+  :after evil
+  :config
+  (global-evil-surround-mode 1))
+
+(use-package magit
+  :straight t
+  )
+
+(use-package company
+  :straight t
+  :config
+  (add-hook 'after-init-hook 'global-company-mode)
+  )
+
+(use-package flycheck
+  :straight t
+  :ensure t
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+
+(use-package yasnippet
+  :straight t
+  )
+
+(use-package lsp-mode
+  :straight t
+  :config
+  (define-key evil-normal-state-map (kbd "gd") 'lsp-goto-type-definition)
+  (define-key evil-normal-state-map (kbd "gi") 'lsp-goto-implementation)
+  (define-key evil-normal-state-map (kbd "K") 'lsp-iforma)
+  )
+
+(use-package dap-mode
+  :straight t
+  )
+
+(use-package web-mode
+  :straight t
+  :ensure t
+  :mode
+  (("\\.phtml\\'" . web-mode)
+   ("\\.php\\'" . web-mode)
+   ("\\.cshtml\\'" . web-mode)
+   ("\\.tpl\\'" . web-mode)
+   ("\\.[agj]sp\\'" . web-mode)
+   ("\\.as[cp]x\\'" . web-mode)
+   ("\\.erb\\'" . web-mode)
+   ("\\.mustache\\'" . web-mode)
+   ("\\.djhtml\\'" . web-mode)))
+
+(add-hook 'prog-mode-hook #'lsp)
+
+(with-eval-after-load 'lsp-mode
+  (require 'dap-chrome)
+  (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
+  (yas-global-mode))

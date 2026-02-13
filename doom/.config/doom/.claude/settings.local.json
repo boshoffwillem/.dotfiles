@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//usr/local/share/dotnet/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

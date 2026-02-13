@@ -83,6 +83,8 @@ mkdir ~/code/work
 # ./autogen.sh
 # mkdir build
 # cd build
+# on mac
+# export LIBRARY_PATH="$LIBRARY_PATH:$(brew --prefix libgccjit)/lib/gcc/current"
 # ./configure --with-native-compilation=aot\
 #             --with-tree-sitter\
 #             --with-gif\
