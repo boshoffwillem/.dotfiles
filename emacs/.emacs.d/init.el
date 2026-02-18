@@ -17,7 +17,34 @@
 
 (setq gc-cons-threshold (* 100 1024 1024)
       read-process-output-max (* 1024 1024)
-      create-lockfiles nil) ;; lock files will kill `npm start'
+      create-lockfiles nil
+      make-backup-files nil
+      )
+
+(defun dired-up-directory-same-buffer ()
+  "Go up in the same buffer."
+  (find-alternate-file ".."))
+(defun my-dired-mode-hook ()
+  (put 'dired-find-alternate-file 'disabled nil) ; Disables the warning.
+  (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file)
+  (define-key dired-mode-map (kbd "^") 'dired-up-directory-same-buffer))
+(add-hook 'dired-mode-hook #'my-dired-mode-hook)
+(setq dired-use-ls-dired nil)
+
+(use-package drag-stuff
+  :straight t
+  :bind
+  (("M-l" . drag-stuff-up)
+   ("M-k" . drag-stuff-down))
+  :config
+  (drag-stuff-global-mode 1))
+
+;; (setq large-file-warning-threshold nil)
+;; (global-auto-revert-mode t)
+;; (setq auto-revert-interval 2)
+;; (setq auto-revert-check-vc-info t)
+;; (setq global-auto-revert-non-file-buffers t)
+;; (setq auto-revert-verbose t)
 
 ;; Enable Vertico.
 (use-package vertico
@@ -231,21 +258,53 @@
    ("\\.mustache\\'" . web-mode)
    ("\\.djhtml\\'" . web-mode)))
 
-(require 'eglot)
+(add-to-list 'auto-mode-alist '("\\.csproj\\'" . nxml-mode))
 
-;; Option A: If installed as a global tool
+(require 'eglot)
 (setq eglot-server-programs
       '((csharp-mode . ("csharp-ls"))
 	(csharp-ts-mode . ("csharp-ls"))
 	))
+
+(add-hook 'prog-mode-hook 'eglot-ensure)
+
+(setq eglot-ignored-server-capabilities
+      '(
+        ;; :hoverProvider                    ; Documentation on hover
+        ;; :completionProvider               ; Code completion
+        ;; :signatureHelpProvider            ; Function signature help
+        ;; :definitionProvider               ; Go to definition
+        ;; :typeDefinitionProvider           ; Go to type definition
+        ;; :implementationProvider           ; Go to implementation
+        ;; :declarationProvider              ; Go to declaration
+        ;; :referencesProvider               ; Find references
+        ;; :documentHighlightProvider        ; Highlight symbols automatically
+        ;; :documentSymbolProvider           ; List symbols in buffer
+        ;; :workspaceSymbolProvider          ; List symbols in workspace
+        ;; :codeActionProvider               ; Execute code actions
+        ;; :codeLensProvider                 ; Code lens
+        ;; :documentFormattingProvider       ; Format buffer
+        ;; :documentRangeFormattingProvider  ; Format portion of buffer
+        ;; :documentOnTypeFormattingProvider ; On-type formatting
+        ;; :renameProvider                   ; Rename symbol
+        ;; :documentLinkProvider             ; Highlight links in document
+        ;; :colorProvider                    ; Decorate color references
+        ;; :foldingRangeProvider             ; Fold regions of buffer
+        ;; :executeCommandProvider           ; Execute custom commands
+        ;; :inlayHintProvider                ; Inlay hints
+        ))
 
 ;; (use-package lsp-mode
 ;;   :straight t
 ;;   :config
 ;;   (define-key evil-normal-state-map (kbd "gd") 'lsp-goto-type-definition)
 ;;   (define-key evil-normal-state-map (kbd "gi") 'lsp-goto-implementation)
-;;   (define-key evil-normal-state-map (kbd "K") 'lsp-iforma)
-;;   ;; (lsp-csharp-omnisharp-enable-decompilation-support t)
+;;   :hook
+;;   (
+;;    (csharp-mode . lsp)
+;;    (csharp-ts-mode .lsp)
+;;    (web-mode .lsp)
+;;    )
 ;;   )
 
 ;; (use-package dap-mode

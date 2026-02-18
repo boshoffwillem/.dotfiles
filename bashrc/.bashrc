@@ -21,6 +21,7 @@ export PATH=$HOME/tools:$PATH
 export PATH="$PATH:$HOME/.dotnet"
 export PATH=$HOME/tools/omnisharp:$PATH
 export DOTNET_ROOT=$HOME/.dotnet
+export DOTNET_ROOT_ARM64=$HOME/.dotnet
 export PATH=$PATH:$DOTNET_ROOT:$DOTNET_ROOT/tools
 export PATH=$HOME/development/flutter/bin:$PATH
 export GEM_HOME=$HOME/.gem

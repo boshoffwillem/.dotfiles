@@ -86,7 +86,6 @@
 ;; (set-default-coding-systems 'utf-8)
 ;; (set-language-environment 'utf-8)
 ;; (set-selection-coding-system 'utf-8)
-;; (setq large-file-warning-threshold 100000000) ;; change to ~100 MB
 ;; (setq org-src-preserve-indentation t)
 ;;
 ;; (setq make-backup-files nil
