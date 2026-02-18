@@ -242,8 +242,6 @@
   :straight t
   )
 
-;;dotnet tool install --global csharp-ls
-
 (use-package web-mode
   :straight t
   :ensure t
@@ -260,10 +258,46 @@
 
 (add-to-list 'auto-mode-alist '("\\.csproj\\'" . nxml-mode))
 
-(require 'eglot)
+(use-package python-black
+  :straight t
+  :ensure t
+  :demand t
+  :after python
+  :hook ((python-mode . python-black-on-save-mode)))
+
+(use-package pyvenv
+  :straight t
+  :ensure t
+  :config
+  (pyvenv-mode t)
+
+  ;; Set correct Python interpreter
+  (setq pyvenv-post-activate-hooks
+        (list (lambda ()
+                (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python3")))))
+  (setq pyvenv-post-deactivate-hooks
+        (list (lambda ()
+                (setq python-shell-interpreter "python3")))))
+
+
+;;dotnet tool install --global csharp-ls
+;;npm install -g pyright
+;; sudo apt install python3-pylsp python3-pylsp-isort python3-pylsp-black -y
+(use-package eglot
+  :config
+  (define-key evil-normal-state-map (kbd "K") 'eldoc)
+  (define-key evil-normal-state-map (kbd "ga") 'eglot-code-actions)
+  (define-key evil-normal-state-map (kbd "gn") 'eglot-rename)
+  )
+
 (setq eglot-server-programs
       '((csharp-mode . ("csharp-ls"))
 	(csharp-ts-mode . ("csharp-ls"))
+	(python-mode . ("pyright-langserver" "--stdio" "-v" "./.venv"))
+	;; (python-mode
+	;;  . ,(eglot-alternatives '(("pyright-langserver" "--stdio")
+	;; 			  "jedi-language-server"
+	;; 			  "pylsp")))
 	))
 
 (add-hook 'prog-mode-hook 'eglot-ensure)
