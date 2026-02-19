@@ -20,6 +20,7 @@
       create-lockfiles nil
       make-backup-files nil
       )
+(tool-bar-mode -1)
 
 (defun dired-up-directory-same-buffer ()
   "Go up in the same buffer."
@@ -213,8 +214,23 @@
   :config
   (global-evil-surround-mode 1))
 
+(use-package projectile
+  :straight t
+  :config
+  (projectile-mode +1)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  )
+
+(use-package deadgrep
+  :straight t
+  :config
+  (global-set-key (kbd "C-c psd") #'deadgrep)
+  )
+
 (use-package magit
   :straight t
+  :config
+  (global-set-key (kbd "C-c g") #'magit-status)
   )
 
 (use-package company
