@@ -1,0 +1,8 @@
+# Set the mod key to the Windows key
+set $mod Mod4
+ 
+# Define keybindings to open terminals
+bindsym $mod+Return exec i3-sensible-terminal
+ 
+# Define keybindings to exit i3
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
