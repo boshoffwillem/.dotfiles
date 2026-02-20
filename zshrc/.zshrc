@@ -344,3 +344,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
 export PATH="$PATH:/opt/mssql-tools18/bin"
+
+installs_dir=$HOME/.elixir-install/installs
+export PATH=$installs_dir/otp/28.1/bin:$PATH
+export PATH=$installs_dir/elixir/1.19.5-otp-28/bin:$PATH
+
+eval "$(/home/willem-boshoff/.local/bin/mise activate zsh)" # added by https://mise.run/zsh

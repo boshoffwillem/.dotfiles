@@ -772,14 +772,14 @@ require("lazy").setup({
       -- vim.cmd.colorscheme("tokyonight-night")
     end,
   },
-  {
-    "deparr/tairiki.nvim",
-    lazy = false,
-    priority = 1000, -- recommended if you use tairiki as your default theme
-    config = function()
-      vim.cmd.colorscheme("tairiki")
-    end,
-  },
+  -- {
+  --   "deparr/tairiki.nvim",
+  --   lazy = false,
+  --   priority = 1000, -- recommended if you use tairiki as your default theme
+  --   config = function()
+  --     vim.cmd.colorscheme("tairiki")
+  --   end,
+  -- },
   -- {
   --   "rose-pine/neovim",
   --   name = "rose-pine",
@@ -814,36 +814,36 @@ require("lazy").setup({
   --     -- vim.cmd.colorscheme("darcula-dark")
   --   end,
   -- },
-  -- {
-  --   "ellisonleao/gruvbox.nvim",
-  --   priority = 1000,
-  --   config = function()
-  --     require("gruvbox").setup({
-  --       terminal_colors = true, -- add neovim terminal colors
-  --       undercurl = true,
-  --       underline = true,
-  --       bold = true,
-  --       italic = {
-  --         strings = true,
-  --         emphasis = true,
-  --         comments = true,
-  --         operators = false,
-  --         folds = true,
-  --       },
-  --       strikethrough = true,
-  --       invert_selection = false,
-  --       invert_signs = false,
-  --       invert_tabline = false,
-  --       inverse = true, -- invert background for search, diffs, statuslines and errors
-  --       contrast = "", -- can be "hard", "soft" or empty string
-  --       palette_overrides = {},
-  --       overrides = {},
-  --       dim_inactive = false,
-  --       transparent_mode = true,
-  --     })
-  --     -- vim.cmd.colorscheme("gruvbox")
-  --   end,
-  -- },
+  {
+    "ellisonleao/gruvbox.nvim",
+    priority = 1000,
+    config = function()
+      require("gruvbox").setup({
+        terminal_colors = true, -- add neovim terminal colors
+        undercurl = true,
+        underline = true,
+        bold = true,
+        italic = {
+          strings = true,
+          emphasis = true,
+          comments = true,
+          operators = false,
+          folds = true,
+        },
+        strikethrough = true,
+        invert_selection = false,
+        invert_signs = false,
+        invert_tabline = false,
+        inverse = true, -- invert background for search, diffs, statuslines and errors
+        contrast = "", -- can be "hard", "soft" or empty string
+        palette_overrides = {},
+        overrides = {},
+        dim_inactive = false,
+        transparent_mode = true,
+      })
+      vim.cmd.colorscheme("gruvbox")
+    end,
+  },
 
   -- Highlight todo, notes, etc in comments
   {

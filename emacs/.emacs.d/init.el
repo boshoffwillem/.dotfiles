@@ -130,7 +130,7 @@
   (doom-themes-org-config))
 
 (add-to-list 'default-frame-alist
-             '(font . "Ioskeley Mono-11"))
+             '(font . "Ioskeley Mono-10"))
 
 (use-package nerd-icons
   :straight (nerd-icons
@@ -274,6 +274,10 @@
 
 (add-to-list 'auto-mode-alist '("\\.csproj\\'" . nxml-mode))
 
+(use-package elixir-mode
+  :straight t
+  :ensure t)
+
 (use-package python-black
   :straight t
   :ensure t
@@ -295,6 +299,14 @@
         (list (lambda ()
                 (setq python-shell-interpreter "python3")))))
 
+;; (setq auto-mode-alist
+;;       (append
+;;        '(
+;;          ("\\.ex\\'" . elixir-ts-mode)
+;;          ("\\.heex\\'" . elixir-ts-mode)
+;;          )
+;;        auto-mode-alist))
+
 
 ;;dotnet tool install --global csharp-ls
 ;;npm install -g pyright
@@ -304,19 +316,20 @@
   (define-key evil-normal-state-map (kbd "K") 'eldoc)
   (define-key evil-normal-state-map (kbd "ga") 'eglot-code-actions)
   (define-key evil-normal-state-map (kbd "gn") 'eglot-rename)
+  (add-hook 'prog-mode-hook 'eglot-ensure)
+  (add-hook 'elixir-mode-hook 'eglot-ensure)
+
+  (setq eglot-server-programs
+	'((csharp-mode . ("csharp-ls"))
+	  (csharp-ts-mode . ("csharp-ls"))
+	  (python-mode . ("pyright-langserver" "--stdio" "-v" "./.venv"))
+	  (elixir-mode "~/elixir-ls/language_server.sh")
+	  ;; (python-mode
+	  ;;  . ,(eglot-alternatives '(("pyright-langserver" "--stdio")
+	  ;; 			  "jedi-language-server"
+	  ;; 			  "pylsp")))
+	  ))
   )
-
-(setq eglot-server-programs
-      '((csharp-mode . ("csharp-ls"))
-	(csharp-ts-mode . ("csharp-ls"))
-	(python-mode . ("pyright-langserver" "--stdio" "-v" "./.venv"))
-	;; (python-mode
-	;;  . ,(eglot-alternatives '(("pyright-langserver" "--stdio")
-	;; 			  "jedi-language-server"
-	;; 			  "pylsp")))
-	))
-
-(add-hook 'prog-mode-hook 'eglot-ensure)
 
 (setq eglot-ignored-server-capabilities
       '(

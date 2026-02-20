@@ -19,10 +19,13 @@ sudo apt install -y \
   make \
   cmake \
   curl \
+  libtree-sitter-dev \
+  tree-sitter-cli \
   golang-go \
   python3 \
   python3-pip \
-  build-essential python3-dev python3-venv
+  build-essential python3-dev python3-venv \
+  i3 rofi
 
 curl -L https://aka.ms/InstallAzureCli | bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh)"

@@ -51,3 +51,8 @@ esac
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$PATH:/opt/mssql-tools18/bin"
+installs_dir=$HOME/.elixir-install/installs
+export PATH=$installs_dir/otp/28.1/bin:$PATH
+export PATH=$installs_dir/elixir/1.19.5-otp-28/bin:$PATH
+
+eval "$(/home/willem-boshoff/.local/bin/mise activate bash)" # added by https://mise.run/bash
