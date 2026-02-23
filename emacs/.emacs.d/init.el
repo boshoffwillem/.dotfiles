@@ -311,25 +311,25 @@
 ;;dotnet tool install --global csharp-ls
 ;;npm install -g pyright
 ;; sudo apt install python3-pylsp python3-pylsp-isort python3-pylsp-black -y
-(use-package eglot
-  :config
-  (define-key evil-normal-state-map (kbd "K") 'eldoc)
-  (define-key evil-normal-state-map (kbd "ga") 'eglot-code-actions)
-  (define-key evil-normal-state-map (kbd "gn") 'eglot-rename)
-  (add-hook 'prog-mode-hook 'eglot-ensure)
-  (add-hook 'elixir-mode-hook 'eglot-ensure)
+;; (use-package eglot
+;;   :config
+;;   (define-key evil-normal-state-map (kbd "K") 'eldoc)
+;;   (define-key evil-normal-state-map (kbd "ga") 'eglot-code-actions)
+;;   (define-key evil-normal-state-map (kbd "gn") 'eglot-rename)
+;;   (add-hook 'prog-mode-hook 'eglot-ensure)
+;;   (add-hook 'elixir-mode-hook 'eglot-ensure)
 
-  (setq eglot-server-programs
-	'((csharp-mode . ("csharp-ls"))
-	  (csharp-ts-mode . ("csharp-ls"))
-	  (python-mode . ("pyright-langserver" "--stdio" "-v" "./.venv"))
-	  (elixir-mode "~/elixir-ls/language_server.sh")
-	  ;; (python-mode
-	  ;;  . ,(eglot-alternatives '(("pyright-langserver" "--stdio")
-	  ;; 			  "jedi-language-server"
-	  ;; 			  "pylsp")))
-	  ))
-  )
+;;   (setq eglot-server-programs
+;; 	'((csharp-mode . ("csharp-ls"))
+;; 	  (csharp-ts-mode . ("csharp-ls"))
+;; 	  (python-mode . ("pyright-langserver" "--stdio" "-v" "./.venv"))
+;; 	  (elixir-mode "~/elixir-ls/language_server.sh")
+;; 	  ;; (python-mode
+;; 	  ;;  . ,(eglot-alternatives '(("pyright-langserver" "--stdio")
+;; 	  ;; 			  "jedi-language-server"
+;; 	  ;; 			  "pylsp")))
+;; 	  ))
+;;   )
 
 (setq eglot-ignored-server-capabilities
       '(
@@ -357,18 +357,19 @@
         ;; :inlayHintProvider                ; Inlay hints
         ))
 
-;; (use-package lsp-mode
-;;   :straight t
-;;   :config
-;;   (define-key evil-normal-state-map (kbd "gd") 'lsp-goto-type-definition)
-;;   (define-key evil-normal-state-map (kbd "gi") 'lsp-goto-implementation)
-;;   :hook
-;;   (
-;;    (csharp-mode . lsp)
-;;    (csharp-ts-mode .lsp)
-;;    (web-mode .lsp)
-;;    )
-;;   )
+(use-package lsp-mode
+  :straight t
+  :config
+  (define-key evil-normal-state-map (kbd "gd") 'lsp-goto-type-definition)
+  (define-key evil-normal-state-map (kbd "gi") 'lsp-goto-implementation)
+  :hook
+  (
+   (csharp-mode . lsp)
+   (csharp-ts-mode .lsp)
+   (web-mode .lsp)
+   (elixir-mode . lsp)
+   )
+  )
 
 ;; (use-package dap-mode
 ;;   :straight t
