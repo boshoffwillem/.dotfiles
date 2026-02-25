@@ -315,7 +315,6 @@
 ;;          )
 ;;        auto-mode-alist))
 
-
 ;;dotnet tool install --global csharp-ls
 ;;npm install -g pyright
 ;; sudo apt install python3-pylsp python3-pylsp-isort python3-pylsp-black -y
