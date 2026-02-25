@@ -55,6 +55,7 @@ return {
 
     local servers = {
       pyright = {},
+      ts_ls = {},
     }
 
     for name, server in pairs(servers) do
