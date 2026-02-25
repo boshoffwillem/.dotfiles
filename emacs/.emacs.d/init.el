@@ -299,6 +299,14 @@
         (list (lambda ()
                 (setq python-shell-interpreter "python3")))))
 
+(setq treesit-language-source-alist
+      '(
+        (python . ("https://github.com/tree-sitter/tree-sitter-python" "v0.25.0" nil nil nil))
+	)
+      )
+
+(mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
+
 ;; (setq auto-mode-alist
 ;;       (append
 ;;        '(
