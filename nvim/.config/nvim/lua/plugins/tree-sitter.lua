@@ -8,6 +8,7 @@ return {
       "bash",
       "c",
       "c_sharp",
+      "dart",
       "diff",
       "elixir",
       "heex",

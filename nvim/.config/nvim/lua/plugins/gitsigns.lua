@@ -9,4 +9,5 @@ return {
       changedelete = { text = "~" },
     },
   },
+  { "tpope/vim-fugitive" },
 }
