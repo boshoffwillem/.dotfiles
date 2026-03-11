@@ -7,6 +7,7 @@ return {
     local filetypes = {
       "bash",
       "c",
+      "css",
       "c_sharp",
       "dart",
       "diff",
@@ -21,6 +22,7 @@ return {
       "markdown_inline",
       "python",
       "query",
+      "scss",
       "typescript",
       "vim",
       "vimdoc",

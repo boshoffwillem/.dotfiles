@@ -61,6 +61,7 @@ return {
     local capabilities = require("blink.cmp").get_lsp_capabilities()
 
     local servers = {
+      css_lsp = {},
       pyright = {},
       ts_ls = {},
       roslyn = {
