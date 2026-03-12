@@ -23,6 +23,8 @@ sudo dnf install -y \
   curl \
   golang-go
 
+sudo dnf install -y clang cmake ninja-build pkg-config gtk3-devel xz-devel mesa-utils
+
 curl -L https://aka.ms/InstallAzureCli | bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
 curl -fsSL https://bun.sh/install | bash

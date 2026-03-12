@@ -56,3 +56,6 @@ export PATH=$installs_dir/otp/28.1/bin:$PATH
 export PATH=$installs_dir/elixir/1.19.5-otp-28/bin:$PATH
 
 eval "$(/home/willem-boshoff/.local/bin/mise activate bash)" # added by https://mise.run/bash
+
+export CC=/usr/bin/gcc
+export CXX=/usr/bin/g++

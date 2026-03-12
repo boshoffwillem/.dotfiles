@@ -350,3 +350,5 @@ export PATH=$installs_dir/otp/28.1/bin:$PATH
 export PATH=$installs_dir/elixir/1.19.5-otp-28/bin:$PATH
 
 eval "$(/home/willem-boshoff/.local/bin/mise activate zsh)" # added by https://mise.run/zsh
+export CC=/usr/bin/gcc
+export CXX=/usr/bin/g++

@@ -28,6 +28,10 @@ sudo apt install -y \
   build-essential python3-dev python3-venv \
   i3 rofi
 
+sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev libstdc++-12-dev liblzma-dev
+sudo apt install -y libstdc++-12-dev libstdc++-13-dev libstdc++-14-dev
+sudo apt install -y libwebkit2gtk-4.1-dev libsecret-1-dev llvm lld
+
 curl -L https://aka.ms/InstallAzureCli | bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh)"
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
