@@ -19,6 +19,7 @@ sudo apt install -y \
   make \
   cmake \
   curl \
+  xclip \
   libtree-sitter-dev \
   tree-sitter-cli \
   golang-go \

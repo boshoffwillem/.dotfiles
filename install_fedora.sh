@@ -16,6 +16,7 @@ sudo dnf install -y \
   unzip \
   htop \
   elixir \
+  xclip \
   erlang \
   make \
   cmake \
