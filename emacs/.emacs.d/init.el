@@ -41,11 +41,11 @@
   (drag-stuff-global-mode 1))
 
 ;; (setq large-file-warning-threshold nil)
-;; (global-auto-revert-mode t)
-;; (setq auto-revert-interval 2)
-;; (setq auto-revert-check-vc-info t)
-;; (setq global-auto-revert-non-file-buffers t)
-;; (setq auto-revert-verbose t)
+(global-auto-revert-mode t)
+(setq auto-revert-interval 2)
+(setq auto-revert-check-vc-info t)
+(setq global-auto-revert-non-file-buffers t)
+(setq auto-revert-verbose t)
 
 ;; Enable Vertico.
 (use-package vertico
@@ -118,7 +118,7 @@
   ;; for treemacs users
   (doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
   :config
-  (load-theme 'doom-gruvbox t)
+  (load-theme 'doom-tokyo-night t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -172,6 +172,7 @@
   (define-key evil-normal-state-map (kbd "<SPC>ps") 'project-search)
   (define-key evil-normal-state-map (kbd "<SPC>pp") 'project-switch-project)
   (define-key evil-normal-state-map (kbd "<SPC>pb") 'project-switch-to-buffer)
+  (define-key evil-normal-state-map (kbd "K") 'eldoc)
   
   ;; Visual state
   (define-key evil-visual-state-map (kbd "j") 'evil-backward-char)
@@ -252,7 +253,9 @@
   :straight t
   :ensure t
   :config
-  (add-hook 'after-init-hook #'global-flycheck-mode))
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  (define-key evil-normal-state-map (kbd "<SPC>e") 'flycheck-explain-error-at-point)
+  )
 
 (use-package yasnippet
   :straight t
@@ -265,6 +268,7 @@
   (("\\.phtml\\'" . web-mode)
    ("\\.php\\'" . web-mode)
    ("\\.cshtml?\\'" . web-mode)
+   ("\\.html?\\'" . web-mode)
    ("\\.tpl\\'" . web-mode)
    ("\\.[agj]sp\\'" . web-mode)
    ("\\.as[cp]x\\'" . web-mode)
@@ -273,6 +277,9 @@
    ("\\.djhtml\\'" . web-mode)))
 
 (add-to-list 'auto-mode-alist '("\\.csproj\\'" . nxml-mode))
+
+(use-package feature-mode
+  :straight t)
 
 (use-package elixir-mode
   :straight t
@@ -297,90 +304,32 @@
                 (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python3")))))
   (setq pyvenv-post-deactivate-hooks
         (list (lambda ()
-                (setq python-shell-interpreter "python3")))))
-
-(setq treesit-language-source-alist
-      '(
-        (python . ("https://github.com/tree-sitter/tree-sitter-python" "v0.25.0" nil nil nil))
-	)
-      )
-
-(mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
-
-;; (setq auto-mode-alist
-;;       (append
-;;        '(
-;;          ("\\.ex\\'" . elixir-ts-mode)
-;;          ("\\.heex\\'" . elixir-ts-mode)
-;;          )
-;;        auto-mode-alist))
+                (setq python-shell-interpreter "python3"))))
+  )
 
 ;;dotnet tool install --global csharp-ls
 ;;npm install -g pyright
 ;; sudo apt install python3-pylsp python3-pylsp-isort python3-pylsp-black -y
-;; (use-package eglot
-;;   :config
-;;   (define-key evil-normal-state-map (kbd "K") 'eldoc)
-;;   (define-key evil-normal-state-map (kbd "ga") 'eglot-code-actions)
-;;   (define-key evil-normal-state-map (kbd "gn") 'eglot-rename)
-;;   (add-hook 'prog-mode-hook 'eglot-ensure)
-;;   (add-hook 'elixir-mode-hook 'eglot-ensure)
-
-;;   (setq eglot-server-programs
-;; 	'((csharp-mode . ("csharp-ls"))
-;; 	  (csharp-ts-mode . ("csharp-ls"))
-;; 	  (python-mode . ("pyright-langserver" "--stdio" "-v" "./.venv"))
-;; 	  (elixir-mode "~/elixir-ls/language_server.sh")
-;; 	  ;; (python-mode
-;; 	  ;;  . ,(eglot-alternatives '(("pyright-langserver" "--stdio")
-;; 	  ;; 			  "jedi-language-server"
-;; 	  ;; 			  "pylsp")))
-;; 	  ))
-;;   )
-
-(setq eglot-ignored-server-capabilities
-      '(
-        ;; :hoverProvider                    ; Documentation on hover
-        ;; :completionProvider               ; Code completion
-        ;; :signatureHelpProvider            ; Function signature help
-        ;; :definitionProvider               ; Go to definition
-        ;; :typeDefinitionProvider           ; Go to type definition
-        ;; :implementationProvider           ; Go to implementation
-        ;; :declarationProvider              ; Go to declaration
-        ;; :referencesProvider               ; Find references
-        ;; :documentHighlightProvider        ; Highlight symbols automatically
-        ;; :documentSymbolProvider           ; List symbols in buffer
-        ;; :workspaceSymbolProvider          ; List symbols in workspace
-        ;; :codeActionProvider               ; Execute code actions
-        ;; :codeLensProvider                 ; Code lens
-        ;; :documentFormattingProvider       ; Format buffer
-        ;; :documentRangeFormattingProvider  ; Format portion of buffer
-        ;; :documentOnTypeFormattingProvider ; On-type formatting
-        ;; :renameProvider                   ; Rename symbol
-        ;; :documentLinkProvider             ; Highlight links in document
-        ;; :colorProvider                    ; Decorate color references
-        ;; :foldingRangeProvider             ; Fold regions of buffer
-        ;; :executeCommandProvider           ; Execute custom commands
-        ;; :inlayHintProvider                ; Inlay hints
-        ))
 
 (use-package lsp-mode
   :straight t
   :config
   (define-key evil-normal-state-map (kbd "gd") 'lsp-goto-type-definition)
   (define-key evil-normal-state-map (kbd "gi") 'lsp-goto-implementation)
+  (setq lsp-cucumber-features ["**/Features/**/*/.feature"])
+  (setq lsp-cucumber-glue ["**/Steps/**/*/.cs"])
   :hook
   (
    (csharp-mode . lsp)
-   (csharp-ts-mode .lsp)
-   (web-mode .lsp)
+   (feature-mode . lsp)
+   (web-mode . lsp)
    (elixir-mode . lsp)
    )
   )
 
-;; (use-package dap-mode
-;;   :straight t
-;;   )
+(use-package dap-mode
+  :straight t
+  )
 
 ;; (add-hook 'prog-mode-hook #'lsp)
 

@@ -68,6 +68,7 @@ return {
           less = { validate = true },
         },
       },
+      cucumber_language_server = {},
       html = {},
       pyright = {},
       ts_ls = {},
