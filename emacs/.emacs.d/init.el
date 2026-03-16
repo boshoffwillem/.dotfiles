@@ -275,6 +275,7 @@
    ("\\.php\\'" . web-mode)
    ("\\.cshtml?\\'" . web-mode)
    ("\\.html?\\'" . web-mode)
+   ("\\.vue?\\'" . web-mode)
    ("\\.tpl\\'" . web-mode)
    ("\\.[agj]sp\\'" . web-mode)
    ("\\.as[cp]x\\'" . web-mode)
@@ -313,7 +314,11 @@
                 (setq python-shell-interpreter "python3"))))
   )
 
+(use-package typescript-mode
+  :straight t)
+
 ;;dotnet tool install --global csharp-ls
+;; npm install -g vue-language-server
 ;;npm install -g pyright
 ;; sudo apt install python3-pylsp python3-pylsp-isort python3-pylsp-black -y
 
@@ -330,6 +335,7 @@
    (feature-mode . lsp)
    (web-mode . lsp)
    (elixir-mode . lsp)
+   (typescript-mode . lsp)
    )
   )
 
