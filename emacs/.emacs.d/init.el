@@ -317,6 +317,10 @@
 (use-package typescript-mode
   :straight t)
 
+(use-package yaml-mode
+  :straight t
+  )
+
 ;;dotnet tool install --global csharp-ls
 ;; npm install -g vue-language-server
 ;;npm install -g pyright
@@ -336,6 +340,7 @@
    (web-mode . lsp)
    (elixir-mode . lsp)
    (typescript-mode . lsp)
+   (yaml-mode . lsp)
    )
   )
 
