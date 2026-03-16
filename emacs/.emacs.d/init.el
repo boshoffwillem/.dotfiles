@@ -40,12 +40,18 @@
   :config
   (drag-stuff-global-mode 1))
 
+(use-package xclip
+  :straight t
+  :config
+  (xclip-mode 1))
+
 ;; (setq large-file-warning-threshold nil)
 (global-auto-revert-mode t)
 (setq auto-revert-interval 2)
 (setq auto-revert-check-vc-info t)
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-verbose t)
+(global-display-line-numbers-mode 1)
 
 ;; Enable Vertico.
 (use-package vertico
@@ -86,7 +92,7 @@
   ;; Configure a custom style dispatcher (see the Consult wiki)
   ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
   ;; (orderless-component-separator #'orderless-escapable-split-on-space)
-  (completion-styles '(orderless basic substring))
+  (completion-styles '(orderless basic substring flex))
   (completion-category-overrides '((file (styles partial-completion))))
   (completion-category-defaults nil) ;; Disable defaults, use our settings
   (completion-pcm-leading-wildcard t)) ;; Emacs 31: partial-completion behaves like substring
