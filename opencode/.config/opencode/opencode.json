@@ -4,14 +4,11 @@
     "playwright": {
       "type": "local",
       "command": [
-        "docker",
-        "run",
-        "-i",
-        "--rm",
-        "mcp/playwright"
+        "npx",
+        "@playwright/mcp@latest"
       ],
-      "enabled": true,
-    },
+      "enabled": true
+    }
   },
   "provider": {
     "dmr": {

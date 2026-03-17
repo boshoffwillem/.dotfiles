@@ -281,7 +281,12 @@
    ("\\.as[cp]x\\'" . web-mode)
    ("\\.erb\\'" . web-mode)
    ("\\.mustache\\'" . web-mode)
-   ("\\.djhtml\\'" . web-mode)))
+   ("\\.djhtml\\'" . web-mode))
+  :config
+  (setq web-mode-engines-alist
+	'(("c_sharp" . "\\.cshtml?\\'"))
+	)
+  )
 
 (add-to-list 'auto-mode-alist '("\\.csproj\\'" . nxml-mode))
 
