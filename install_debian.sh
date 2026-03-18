@@ -18,6 +18,7 @@ sudo apt install -y \
   erlang \
   make \
   cmake \
+  libtool \
   curl \
   xclip \
   libtree-sitter-dev \
