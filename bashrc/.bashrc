@@ -59,3 +59,4 @@ eval "$(/home/willem-boshoff/.local/bin/mise activate bash)" # added by https://
 
 export CC=/usr/bin/gcc
 export CXX=/usr/bin/g++
+export TERM=xterm-256color

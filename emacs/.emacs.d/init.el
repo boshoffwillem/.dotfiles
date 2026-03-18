@@ -122,7 +122,7 @@
   (doom-themes-enable-bold t)   ; if nil, bold is universally disabled
   (doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;; for treemacs users
-  (doom-themes-treemacs-theme "doom-atom") ; use "doom-colors" for less minimal icon theme
+  (doom-themes-treemacs-theme "doom-tokyo-night") ; use "doom-colors" for less minimal icon theme
   :config
   (load-theme 'doom-tokyo-night t)
 
@@ -221,6 +221,22 @@
   :config
   (global-evil-surround-mode 1))
 
+(use-package xterm-color
+  :straight t)
+
+(use-package eshell
+  :hook
+  (eshell-before-prompt . (lambda ()
+			    (setq xterm-color-preserve-properties t)))
+  :config
+  (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
+  (setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
+  (setenv "TERM" "xterm-256color")
+  )
+
+(use-package vterm
+  :straight t)
+
 (use-package projectile
   :straight t
   :config
@@ -290,6 +306,22 @@
 
 (add-to-list 'auto-mode-alist '("\\.csproj\\'" . nxml-mode))
 
+(use-package dart-mode
+  :straight t
+  :hook (dart-mode . flutter-test-mode))
+
+(use-package lsp-dart
+  :straight t
+  )
+
+(use-package flutter
+  :straight t
+  :after dart-mode
+  :bind (:map dart-mode-map
+              ("C-M-x" . #'flutter-run-or-hot-reload))
+  :custom
+  (flutter-sdk-path "~/development/flutter/"))
+
 (use-package feature-mode
   :straight t)
 
@@ -341,6 +373,7 @@
   :hook
   (
    (csharp-mode . lsp)
+   (dart-mode . lsp)
    (feature-mode . lsp)
    (web-mode . lsp)
    (elixir-mode . lsp)
@@ -348,6 +381,9 @@
    (yaml-mode . lsp)
    )
   )
+
+(use-package lsp-treemacs
+  :straight t)
 
 (use-package dap-mode
   :straight t
