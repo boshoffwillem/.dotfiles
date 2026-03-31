@@ -295,6 +295,9 @@
 
 (add-to-list 'auto-mode-alist '("\\.csproj\\'" . nxml-mode))
 
+(use-package fsharp-mode
+  :straight t)
+
 (use-package dart-mode
   :straight t
   :hook (dart-mode . flutter-test-mode))
@@ -359,11 +362,13 @@
   (define-key evil-normal-state-map (kbd "gi") 'lsp-goto-implementation)
   (setq lsp-cucumber-features ["**/Features/**/*/.feature"])
   (setq lsp-cucumber-glue ["**/Steps/**/*/.cs"])
+  (setq lsp-csharp-omnisharp-enable-decompilation-support t)
   :hook
   (
    (csharp-mode . lsp)
    (dart-mode . lsp)
    (feature-mode . lsp)
+   (fsharp-mode . lsp)
    (web-mode . lsp)
    (elixir-mode . lsp)
    (typescript-mode . lsp)
