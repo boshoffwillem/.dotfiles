@@ -264,13 +264,6 @@
   (add-hook 'after-init-hook 'global-company-mode)
   )
 
-;; (use-package corfu
-;;   :straight t
-;;   :custom
-;;   (corfu-auto nil)         ; Manual completion trigger
-;;   (corfu-cycle t)          ; Cycle through candidates
-;;   (corfu-preselect 'first))
-
 (use-package flycheck
   :straight t
   :ensure t
@@ -298,10 +291,6 @@
    ("\\.erb\\'" . web-mode)
    ("\\.mustache\\'" . web-mode)
    ("\\.djhtml\\'" . web-mode))
-  :config
-  (setq web-mode-engines-alist
-	'(("c_sharp" . "\\.cshtml?\\'"))
-	)
   )
 
 (add-to-list 'auto-mode-alist '("\\.csproj\\'" . nxml-mode))
@@ -388,6 +377,14 @@
 (use-package dap-mode
   :straight t
   )
+
+;; (use-package eglot
+;;   :config
+;;   (add-to-list 'eglot-server-programs
+;;                '(csharp-mode . ("~/.dotnet/tools/csharp-ls")
+;; 			     )
+;; 	       )
+;;   )
 
 ;; (add-hook 'prog-mode-hook #'lsp)
 

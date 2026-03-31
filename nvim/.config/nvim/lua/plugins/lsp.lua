@@ -68,7 +68,22 @@ return {
           less = { validate = true },
         },
       },
+      copilot = {},
+      -- copilot = {
+      --   cmd = { "copilot-language-server", "--stdio" },
+      --   init_options = {
+      --     editorInfo = {
+      --       name = "NeoVim",
+      --       version = toString(vim.version),
+      --     },
+      --     editorPluginInfo = {
+      --       name = "NeoVim",
+      --       version = toString(vim.version),
+      --     },
+      --   },
+      -- },
       cucumber_language_server = {},
+      elixirls = {},
       html = {},
       pyright = {},
       ts_ls = {},
@@ -141,5 +156,11 @@ return {
       },
     })
     vim.lsp.enable("lua_ls")
+    vim.lsp.inline_completion.enable()
+    vim.keymap.set("i", "<C-.>", function()
+      if not vim.lsp.inline_completion.get() then
+        return "<C-.>"
+      end
+    end, { expr = true, desc = "Accept the current inline completion" })
   end,
 }

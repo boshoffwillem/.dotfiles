@@ -51,15 +51,4 @@ return {
       silent = false,
     },
   },
-  {
-    "jlcrochet/vim-razor",
-    config = function()
-      vim.filetype.add({
-        pattern = {
-          [".*\\.cshtml"] = "html.cshtml.razor",
-          -- [".*\\.razor"] = "html.cshtml.razor",
-        },
-      })
-    end,
-  },
 }
