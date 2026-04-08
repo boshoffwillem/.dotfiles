@@ -276,6 +276,33 @@
   :straight t
   )
 
+(setq treesit-language-source-alist
+      '((python "https://github.com/tree-sitter/tree-sitter-python")
+        (json "https://github.com/tree-sitter/tree-sitter-json")
+        (css "https://github.com/tree-sitter/tree-sitter-css")
+        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+        (yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml")
+        (elixir "https://github.com/elixir-lang/tree-sitter-elixir")
+        (heex "https://github.com/phoenixframework/tree-sitter-heex")
+        (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")))
+
+;; Prefer tree-sitter modes by default
+(dolist (pair '((python-mode . python-ts-mode)
+                (json-mode . json-ts-mode)
+                (css-mode . css-ts-mode)
+                (js-mode . js-ts-mode)
+                (typescript-mode . typescript-ts-mode)
+                (yaml-mode . yaml-ts-mode)
+                (elixir-mode . elixir-ts-mode)
+                (heex-mode . heex-ts-mode)
+                (csharp-mode . csharp-ts-mode)))
+  (add-to-list 'major-mode-remap-alist pair))
+
+;; For Elixir/HEEx (not built into Emacs)
+(use-package heex-ts-mode :straight t)
+(use-package elixir-ts-mode :straight t)
+
 (use-package web-mode
   :straight t
   :ensure t
@@ -317,38 +344,38 @@
 (use-package feature-mode
   :straight t)
 
-(use-package elixir-mode
-  :straight t
-  :ensure t)
+;; (use-package elixir-mode
+;;   :straight t
+;;   :ensure t)
 
-(use-package python-black
-  :straight t
-  :ensure t
-  :demand t
-  :after python
-  :hook ((python-mode . python-black-on-save-mode)))
+;; (use-package python-black
+;;   :straight t
+;;   :ensure t
+;;   :demand t
+;;   :after python
+;;   :hook ((python-mode . python-black-on-save-mode)))
 
-(use-package pyvenv
-  :straight t
-  :ensure t
-  :config
-  (pyvenv-mode t)
+;; (use-package pyvenv
+;;   :straight t
+;;   :ensure t
+;;   :config
+;;   (pyvenv-mode t)
 
   ;; Set correct Python interpreter
-  (setq pyvenv-post-activate-hooks
-        (list (lambda ()
-                (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python3")))))
-  (setq pyvenv-post-deactivate-hooks
-        (list (lambda ()
-                (setq python-shell-interpreter "python3"))))
-  )
+  ;; (setq pyvenv-post-activate-hooks
+  ;;       (list (lambda ()
+  ;;               (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python3")))))
+  ;; (setq pyvenv-post-deactivate-hooks
+  ;;       (list (lambda ()
+  ;;               (setq python-shell-interpreter "python3"))))
+  ;; )
 
-(use-package typescript-mode
-  :straight t)
+;; (use-package typescript-mode
+;;   :straight t)
 
-(use-package yaml-mode
-  :straight t
-  )
+;; (use-package yaml-mode
+;;   :straight t
+;;   )
 
 ;;dotnet tool install --global csharp-ls
 ;; npm install -g vue-language-server
@@ -365,12 +392,12 @@
   (setq lsp-csharp-omnisharp-enable-decompilation-support t)
   :hook
   (
-   (csharp-mode . lsp)
+   ;; (csharp-mode . lsp)
    (dart-mode . lsp)
    (feature-mode . lsp)
-   (fsharp-mode . lsp)
-   (web-mode . lsp)
-   (elixir-mode . lsp)
+   ;; (fsharp-mode . lsp)
+   ;; (web-mode . lsp)
+   ;; (elixir-mode . lsp)
    (typescript-mode . lsp)
    (yaml-mode . lsp)
    )
@@ -382,18 +409,3 @@
 (use-package dap-mode
   :straight t
   )
-
-;; (use-package eglot
-;;   :config
-;;   (add-to-list 'eglot-server-programs
-;;                '(csharp-mode . ("~/.dotnet/tools/csharp-ls")
-;; 			     )
-;; 	       )
-;;   )
-
-;; (add-hook 'prog-mode-hook #'lsp)
-
-;; (with-eval-after-load 'lsp-mode
-;;   (require 'dap-chrome)
-;;   (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
-;;   (yas-global-mode))
