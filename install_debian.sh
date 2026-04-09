@@ -22,16 +22,28 @@ sudo apt install -y \
   curl \
   xclip \
   libtree-sitter-dev \
-  tree-sitter-cli \
   golang-go \
   python3 \
   python3-pip \
-  build-essential python3-dev python3-venv \
-  i3 rofi
+  build-essential python3-dev python3-venv
 
-sudo apt-get install -y clang cmake ninja-build pkg-config libgtk-3-dev libstdc++-12-dev liblzma-dev
+sudo apt-get install libtiff-dev libtiff5-dev libglib2.0-dev libgif-dev libjpeg-dev libpng-dev libxpm-dev libncurses-dev libtiff-dev -y
+sudo apt-get install texinfo imagemagick -y
+sudo apt-get -y install libtree-sitter-dev libgccjit-14-dev -y
+sudo apt install sqlite3 -y
+sudo apt install libgtk-3-dev libwebkit2gtk-4.0-dev libwebkit2gtk-4.1-dev -y
+sudo apt install libc6-dev libjpeg62-dev libpng-dev xaw3dg-dev zlib1g-dev libice-dev libsm-dev libx11-dev libxext-dev -y
+sudo apt install libxi-dev libxmu-dev libxmuu-dev libxrandr-dev libxt-dev libxtst-dev libxv-dev -y
+sudo apt install libattr1-dev -y
+
+sudo apt install libxml2 librsvg2-dev libgnutls28-dev libsqlite3-dev -y 
+
+sudo apt install texlive-latex-base texlive-latex-recommended texlive-latex-recommended-doc texlive-science texlive-science-doc -y
+sudo apt install texlive-fonts-recommended texlive-fonts-recommended-doc texlive-luatex texlive-xetex -y
+
+sudo apt-get install -y clang cmake ninja-build pkg-config liblzma-dev
 sudo apt install -y libstdc++-12-dev libstdc++-13-dev libstdc++-14-dev
-sudo apt install -y libwebkit2gtk-4.1-dev libsecret-1-dev llvm lld
+sudo apt install -y libsecret-1-dev llvm lld
 
 curl -L https://aka.ms/InstallAzureCli | bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh)"
@@ -73,29 +85,19 @@ mkdir ~/code/work
 
 # emacs
 # =============================================================================
-# sudo apt update -y
-# sudo apt upgrade -y
-# sudo apt-get install build-essential -y
-# sudo apt-get install libgtk-3-dev libtiff-dev libtiff5-dev libglib2.0-dev libgif-dev libjpeg-dev libpng-dev libxpm-dev libncurses-dev libtiff-dev -y
-# sudo apt-get install texinfo gnutls-dev imagemagick -y
-# sudo apt-get -y install libtree-sitter-dev libgtk-3-dev libgccjit-14-dev -y
-# sudo apt install git -y
-# sudo apt install sqlite3 -y
-# sudo apt install libgtk-3-dev libwebkit2gtk-4.0-dev -y
-# sudo apt install libc6-dev libjpeg62-dev libpng-dev xaw3dg-dev zlib1g-dev libice-dev libsm-dev libx11-dev libxext-dev -y
-# sudo apt install libxi-dev libxmu-dev libxmuu-dev libxrandr-dev libxt-dev libxtst-dev libxv-dev -y
-# sudo apt install libattr1-dev -y
-# sudo apt install autoconf -y
 # mkdir software
 # cd software
 # git clone git://git.sv.gnu.org/emacs -b emacs-30 --depth 1
 # ./autogen.sh
-# mkdir build
-# cd build
-# on mac
-# export LIBRARY_PATH="$LIBRARY_PATH:$(brew --prefix libgccjit)/lib/gcc/current"
-# ./configure --with-native-compilation=yes\
-#             --with-tree-sitter
+# ./configure \
+#     --with-pgtk \
+#     --with-native-compilation=aot \
+#     --with-xml2 \
+#     --with-gnutls \
+#     --with-tree-sitter \
+#     --with-rsvg \
+#     --with-sqlite3 \
+#     CC=gcc-14
 # make -j $(nproc)
 # sudo make install
 # =============================================================================

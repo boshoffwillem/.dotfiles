@@ -121,11 +121,11 @@ return {
       },
     }
 
-    for name, server in pairs(servers) do
-      server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-      vim.lsp.config(name, server)
-      vim.lsp.enable(name)
-    end
+    -- for name, server in pairs(servers) do
+    --   server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+    --   vim.lsp.config(name, server)
+    --   vim.lsp.enable(name)
+    -- end
 
     -- Special Lua Config, as recommended by neovim help docs
     vim.lsp.config("lua_ls", {
