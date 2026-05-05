@@ -285,6 +285,10 @@ export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/plat
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/microsoft-17.jdk/Contents/Home
 # export JAVA_HOME=/usr/bin/java
 export PATH=$JAVA_HOME/bin:$PATH
+
+# export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+# export NDK_HOME="$ANDROID_HOME/ndk/25.2.9519653"
+
 export PATH=$HOME/tools:$PATH
 export PATH="$PATH:$HOME/.dotnet"
 export PATH=$HOME/tools/omnisharp:$PATH
@@ -353,3 +357,5 @@ eval "$(/home/willem-boshoff/.local/bin/mise activate zsh)" # added by https://m
 export CC=/usr/bin/gcc
 export CXX=/usr/bin/g++
 export TERM=xterm-256color
+
+. "$HOME/.turso/env"

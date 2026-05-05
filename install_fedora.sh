@@ -9,6 +9,7 @@ sudo dnf install -y \
   ripgrep \
   tmux \
   fd-find \
+  git-delta \
   fzf \
   zsh \
   wget \
