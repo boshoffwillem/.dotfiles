@@ -35,7 +35,32 @@ return {
     priority = 1000,
     opts = {},
     config = function()
-      vim.cmd([[colorscheme tokyonight]])
+      -- vim.cmd([[colorscheme tokyonight]])
+    end,
+  },
+  {
+    "rebelot/kanagawa.nvim",
+    config = function()
+      -- vim.cmd("colorscheme kanagawa-wave")
+      -- vim.cmd("colorscheme kanagawa-dragon")
+      -- vim.cmd("colorscheme kanagawa-lotus")
+    end,
+  },
+  {
+    "sainnhe/everforest",
+    config = function()
+      -- vim.g.everforest_background = "hard" -- soft, medium, hard
+      -- vim.cmd("colorscheme everforest")
+      -- vim.cmd("colorscheme everforest-medium")
+      -- vim.cmd("colorscheme everforest-soft")
+    end,
+  },
+  {
+    "AlexvZyl/nordic.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("nordic").load()
     end,
   },
 }
