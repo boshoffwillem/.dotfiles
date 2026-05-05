@@ -12,6 +12,7 @@ return {
       "dart",
       "diff",
       "elixir",
+      "fsharp",
       "heex",
       "html",
       "javascript",
