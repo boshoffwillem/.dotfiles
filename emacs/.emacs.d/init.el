@@ -122,9 +122,9 @@
   (doom-themes-enable-bold t)   ; if nil, bold is universally disabled
   (doom-themes-enable-italic t) ; if nil, italics is universally disabled
   ;; for treemacs users
-  (doom-themes-treemacs-theme "doom-tokyo-night") ; use "doom-colors" for less minimal icon theme
+  ;; (doom-themes-treemacs-theme "doom-tokyo-night") ; use "doom-colors" for less minimal icon theme
   :config
-  (load-theme 'doom-tokyo-night t)
+  ;; (load-theme 'doom-tokyo-night t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -137,6 +137,11 @@
 
 (add-to-list 'default-frame-alist
              '(font . "Ioskeley Mono-10"))
+
+(use-package kanagawa-themes
+  :straight t
+  :config
+  (load-theme 'kanagawa-dragon t))
 
 (use-package nerd-icons
   :straight (nerd-icons
@@ -178,6 +183,7 @@
   (define-key evil-normal-state-map (kbd "<SPC>ps") 'project-search)
   (define-key evil-normal-state-map (kbd "<SPC>pp") 'project-switch-project)
   (define-key evil-normal-state-map (kbd "<SPC>pb") 'project-switch-to-buffer)
+  (define-key evil-normal-state-map (kbd "<SPC>:") 'execute-extended-command)
   (define-key evil-normal-state-map (kbd "K") 'eldoc)
   
   ;; Visual state
@@ -234,15 +240,14 @@
   (setenv "TERM" "xterm-256color")
   )
 
-(use-package vterm
-  :straight t)
+;; (use-package projectile
+;;   :straight t
+;;   :config
+;;   (projectile-mode +1)
+;;   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+;;   )
 
-(use-package projectile
-  :straight t
-  :config
-  (projectile-mode +1)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  )
+(global-set-key (kbd "C-c psd") #'project-switch-project)
 
 (use-package deadgrep
   :straight t
@@ -276,33 +281,6 @@
   :straight t
   )
 
-(setq treesit-language-source-alist
-      '((python "https://github.com/tree-sitter/tree-sitter-python")
-        (json "https://github.com/tree-sitter/tree-sitter-json")
-        (css "https://github.com/tree-sitter/tree-sitter-css")
-        (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-        (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-        (yaml "https://github.com/tree-sitter-grammars/tree-sitter-yaml")
-        (elixir "https://github.com/elixir-lang/tree-sitter-elixir")
-        (heex "https://github.com/phoenixframework/tree-sitter-heex")
-        (c-sharp "https://github.com/tree-sitter/tree-sitter-c-sharp")))
-
-;; Prefer tree-sitter modes by default
-(dolist (pair '((python-mode . python-ts-mode)
-                (json-mode . json-ts-mode)
-                (css-mode . css-ts-mode)
-                (js-mode . js-ts-mode)
-                (typescript-mode . typescript-ts-mode)
-                (yaml-mode . yaml-ts-mode)
-                (elixir-mode . elixir-ts-mode)
-                (heex-mode . heex-ts-mode)
-                (csharp-mode . csharp-ts-mode)))
-  (add-to-list 'major-mode-remap-alist pair))
-
-;; For Elixir/HEEx (not built into Emacs)
-(use-package heex-ts-mode :straight t)
-(use-package elixir-ts-mode :straight t)
-
 (use-package web-mode
   :straight t
   :ensure t
@@ -325,13 +303,13 @@
 (use-package fsharp-mode
   :straight t)
 
-(use-package dart-mode
-  :straight t
-  :hook (dart-mode . flutter-test-mode))
+;; (use-package dart-mode
+;;   :straight t
+;;   :hook (dart-mode . flutter-test-mode))
 
-(use-package lsp-dart
-  :straight t
-  )
+;; (use-package lsp-dart
+;;   :straight t
+;;   )
 
 (use-package flutter
   :straight t
@@ -370,6 +348,9 @@
   ;;               (setq python-shell-interpreter "python3"))))
   ;; )
 
+(use-package rustic
+  :straight t)
+
 ;; (use-package typescript-mode
 ;;   :straight t)
 
@@ -377,35 +358,40 @@
 ;;   :straight t
 ;;   )
 
+(use-package apheleia
+  :straight t
+  :config
+  (apheleia-global-mode +1))
+
 ;;dotnet tool install --global csharp-ls
 ;; npm install -g vue-language-server
 ;;npm install -g pyright
 ;; sudo apt install python3-pylsp python3-pylsp-isort python3-pylsp-black -y
 
-(use-package lsp-mode
-  :straight t
-  :config
-  (define-key evil-normal-state-map (kbd "gd") 'lsp-goto-type-definition)
-  (define-key evil-normal-state-map (kbd "gi") 'lsp-goto-implementation)
-  (setq lsp-cucumber-features ["**/Features/**/*/.feature"])
-  (setq lsp-cucumber-glue ["**/Steps/**/*/.cs"])
-  (setq lsp-csharp-omnisharp-enable-decompilation-support t)
-  :hook
-  (
-   ;; (csharp-mode . lsp)
-   (dart-mode . lsp)
-   (feature-mode . lsp)
-   ;; (fsharp-mode . lsp)
-   ;; (web-mode . lsp)
-   ;; (elixir-mode . lsp)
-   (typescript-mode . lsp)
-   (yaml-mode . lsp)
-   )
-  )
+;; (use-package lsp-mode
+;;   :straight t
+;;   :config
+;;   (define-key evil-normal-state-map (kbd "gd") 'lsp-goto-type-definition)
+;;   (define-key evil-normal-state-map (kbd "gi") 'lsp-goto-implementation)
+;;   ;; (setq lsp-cucumber-features ["**/Features/**/*/.feature"])
+;;   ;; (setq lsp-cucumber-glue ["**/Steps/**/*/.cs"])
+;;   ;; (setq lsp-csharp-omnisharp-enable-decompilation-support t)
+;;   ;; :hook
+;;   ;; (
+;;    ;; (csharp-mode . lsp)
+;;    ;; (dart-mode . lsp)
+;;    ;; (feature-mode . lsp)
+;;    ;; (fsharp-mode . lsp)
+;;    ;; (web-mode . lsp)
+;;    ;; (elixir-mode . lsp)
+;;    ;; (typescript-mode . lsp)
+;;    ;; (yaml-mode . lsp)
+;;    ;; )
+;;   )
 
-(use-package lsp-treemacs
-  :straight t)
+;; (use-package lsp-treemacs
+;;   :straight t)
 
-(use-package dap-mode
-  :straight t
-  )
+;; (use-package dap-mode
+;;   :straight t
+;;   )

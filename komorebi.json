@@ -36,6 +36,22 @@
         {
           "name": "Teams",
           "layout": "VerticalStack"
+        },
+        {
+          "name": "6",
+          "layout": "VerticalStack"
+        },
+        {
+          "name": "7",
+          "layout": "VerticalStack"
+        },
+        {
+          "name": "8",
+          "layout": "VerticalStack"
+        },
+        {
+          "name": "9",
+          "layout": "VerticalStack"
         }
       ]
     }

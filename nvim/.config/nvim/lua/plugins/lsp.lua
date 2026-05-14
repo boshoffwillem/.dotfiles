@@ -3,7 +3,7 @@ return {
   dependencies = {
     { "mason-org/mason.nvim", opts = {} },
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    { "j-hui/fidget.nvim", opts = {} },
+    { "j-hui/fidget.nvim",    opts = {} },
     "saghen/blink.cmp",
   },
   config = function()
@@ -119,13 +119,14 @@ return {
           },
         },
       },
+      rust_analyzer = {}
     }
 
-    -- for name, server in pairs(servers) do
-    --   server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-    --   vim.lsp.config(name, server)
-    --   vim.lsp.enable(name)
-    -- end
+    for name, server in pairs(servers) do
+      server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+      vim.lsp.config(name, server)
+      vim.lsp.enable(name)
+    end
 
     -- Special Lua Config, as recommended by neovim help docs
     vim.lsp.config("lua_ls", {
@@ -133,8 +134,8 @@ return {
         if client.workspace_folders then
           local path = client.workspace_folders[1].name
           if
-            path ~= vim.fn.stdpath("config")
-            and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
+              path ~= vim.fn.stdpath("config")
+              and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
           then
             return
           end
@@ -155,8 +156,10 @@ return {
         Lua = {},
       },
     })
+
     vim.lsp.enable("lua_ls")
     vim.lsp.inline_completion.enable()
+
     vim.keymap.set("i", "<C-.>", function()
       if not vim.lsp.inline_completion.get() then
         return "<C-.>"
