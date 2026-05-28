@@ -101,7 +101,7 @@ require("lazy").setup({
       { "nvim-telescope/telescope-ui-select.nvim" },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
+      { "nvim-tree/nvim-web-devicons",            enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -231,7 +231,6 @@ require("lazy").setup({
             "kotlin-lsp",
             "terraform-ls",
             "csharpier",
-            "roslyn",
             "typescript-language-server",
             "eslint-lsp",
             "json-lsp",
@@ -285,8 +284,8 @@ require("lazy").setup({
           -- When you move your cursor, the highlights will be cleared (the second autocommand).
           local client = vim.lsp.get_client_by_id(event.data.client_id)
           if
-            client
-            and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf)
+              client
+              and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf)
           then
             local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
             vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -414,7 +413,6 @@ require("lazy").setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         "stylua", -- Used to format Lua code
-        "roslyn", -- Roslyn is managed via roslyn.nvim + mason
       })
 
       require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
@@ -435,58 +433,6 @@ require("lazy").setup({
       })
     end,
   },
-  {
-    "seblyng/roslyn.nvim",
-    ---@module 'roslyn.config'
-    ---@type RoslynNvimConfig
-    ft = { "cs", "razor" },
-    lazy = false,
-    dependencies = { "saghen/blink.cmp" },
-    config = function(_, opts)
-      require("roslyn").setup(opts)
-
-      if vim.lsp.config then
-        local capabilities = require("blink.cmp").get_lsp_capabilities()
-        local roslyn_config = vim.lsp.config["roslyn"] or {}
-        vim.lsp.config("roslyn", {
-          capabilities = vim.tbl_deep_extend("force", {}, roslyn_config.capabilities or {}, capabilities),
-          settings = vim.tbl_deep_extend("force", {}, roslyn_config.settings or {}, {
-            ["csharp|inlay_hints"] = {
-              csharp_enable_inlay_hints_for_implicit_object_creation = true,
-              csharp_enable_inlay_hints_for_implicit_variable_types = true,
-            },
-            ["csharp|code_lens"] = {
-              dotnet_enable_references_code_lens = true,
-              dotnet_enable_tests_code_lens = true,
-            },
-            ["csharp|background_analysis"] = {
-              dotnet_analyzer_diagnostics_scope = "openFiles",
-              dotnet_compiler_diagnostics_scope = "openFiles",
-            },
-            ["csharp|completion"] = {
-              dotnet_show_completion_items_from_unimported_namespaces = true,
-              dotnet_show_name_completion_suggestions = true,
-            },
-          }),
-        })
-      end
-    end,
-    opts = {
-      -- Whether or not to look for solution files in the child of the (root).
-      -- Set this to true if you have some projects that are not a child of the
-      -- directory with the solution file
-      broad_search = false,
-
-      -- Whether or not to lock the solution target after the first attach.
-      -- This will always attach to the target in `vim.g.roslyn_nvim_selected_solution`.
-      -- NOTE: You can use `:Roslyn target` to change the target
-      lock_target = false,
-
-      -- If the plugin should silence notifications about initialization
-      silent = false,
-    },
-  },
-
   { -- Autoformat
     "stevearc/conform.nvim",
     event = { "BufWritePre" },
@@ -720,7 +666,7 @@ require("lazy").setup({
         invert_signs = false,
         invert_tabline = false,
         inverse = true, -- invert background for search, diffs, statuslines and errors
-        contrast = "", -- can be "hard", "soft" or empty string
+        contrast = "",  -- can be "hard", "soft" or empty string
         palette_overrides = {},
         overrides = {},
         dim_inactive = false,
