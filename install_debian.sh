@@ -19,6 +19,7 @@ sudo apt install -y \
   make \
   cmake \
   libtool \
+  libtool-bin \
   curl \
   xclip \
   libtree-sitter-dev \
@@ -31,7 +32,7 @@ sudo apt-get install libtiff-dev libtiff5-dev libglib2.0-dev libgif-dev libjpeg-
 sudo apt-get install texinfo imagemagick -y
 sudo apt-get -y install libtree-sitter-dev libgccjit-14-dev -y
 sudo apt install sqlite3 -y
-sudo apt install libgtk-3-dev libwebkit2gtk-4.0-dev libwebkit2gtk-4.1-dev -y
+sudo apt install libgtk-3-dev -y
 sudo apt install libc6-dev libjpeg62-dev libpng-dev xaw3dg-dev zlib1g-dev libice-dev libsm-dev libx11-dev libxext-dev -y
 sudo apt install libxi-dev libxmu-dev libxmuu-dev libxrandr-dev libxt-dev libxtst-dev libxv-dev -y
 sudo apt install libattr1-dev -y
@@ -82,6 +83,13 @@ fi
 
 mkdir ~/code
 mkdir ~/code/work
+
+# nvim
+# =============================================================================
+# git clone https://github.com/neovim/neovim.git
+# make CMAKE_BUILD_TYPE=RelWithDebInfo
+# sudo make install
+# =============================================================================
 
 # emacs
 # =============================================================================

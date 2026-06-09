@@ -357,5 +357,5 @@ eval "$(/home/willem-boshoff/.local/bin/mise activate zsh)" # added by https://m
 export CC=/usr/bin/gcc
 export CXX=/usr/bin/g++
 export TERM=xterm-256color
-
 . "$HOME/.turso/env"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
