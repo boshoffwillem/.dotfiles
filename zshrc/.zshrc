@@ -359,3 +359,5 @@ export CXX=/usr/bin/g++
 export TERM=xterm-256color
 . "$HOME/.turso/env"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Added by Antigravity CLI installer
+export PATH="/Users/boshoffwillem/.local/bin:$PATH"
