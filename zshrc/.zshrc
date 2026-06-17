@@ -361,3 +361,6 @@ export TERM=xterm-256color
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 # Added by Antigravity CLI installer
 export PATH="/Users/boshoffwillem/.local/bin:$PATH"
+
+# Added by Antigravity IDE
+export PATH="/Users/boshoffwillem/.antigravity-ide/antigravity-ide/bin:$PATH"
