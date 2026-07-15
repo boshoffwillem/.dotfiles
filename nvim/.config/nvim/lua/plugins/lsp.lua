@@ -3,7 +3,7 @@ return {
   dependencies = {
     { "mason-org/mason.nvim", opts = {} },
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    { "j-hui/fidget.nvim",    opts = {} },
+    { "j-hui/fidget.nvim", opts = {} },
     "saghen/blink.cmp",
   },
   config = function()
@@ -87,7 +87,7 @@ return {
       html = {},
       pyright = {},
       ts_ls = {},
-      -- dotnet tool install -g roslyn-language-server --prerelease 
+      -- dotnet tool install -g roslyn-language-server --prerelease
       roslyn_ls = {
         filetypes = { "razor", "cs" },
         settings = {
@@ -121,7 +121,8 @@ return {
           },
         },
       },
-      rust_analyzer = {}
+      rust_analyzer = {},
+      zls = {},
     }
 
     for name, server in pairs(servers) do
@@ -136,8 +137,8 @@ return {
         if client.workspace_folders then
           local path = client.workspace_folders[1].name
           if
-              path ~= vim.fn.stdpath("config")
-              and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
+            path ~= vim.fn.stdpath("config")
+            and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
           then
             return
           end

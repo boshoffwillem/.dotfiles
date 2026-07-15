@@ -1,8 +1,9 @@
 return {
   -- cargo install --locked tree-sitter-cli
   "nvim-treesitter/nvim-treesitter",
+  branch = "master",
   lazy = false,
-  build = "TSUpdate",
+  build = ":TSUpdate",
   config = function()
     local filetypes = {
       "bash",
