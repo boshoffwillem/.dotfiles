@@ -3,7 +3,7 @@ return {
   dependencies = {
     { "mason-org/mason.nvim", opts = {} },
     "WhoIsSethDaniel/mason-tool-installer.nvim",
-    { "j-hui/fidget.nvim",    opts = {} },
+    { "j-hui/fidget.nvim", opts = {} },
     "saghen/blink.cmp",
   },
   config = function()
@@ -26,7 +26,9 @@ return {
           vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
             buffer = event.buf,
             group = highlight_augroup,
-            callback = vim.lsp.codelens.refresh,
+            callback = function()
+              vim.lsp.codelens.enable(true)
+            end,
           })
 
           vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -138,8 +140,8 @@ return {
         if client.workspace_folders then
           local path = client.workspace_folders[1].name
           if
-              path ~= vim.fn.stdpath("config")
-              and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
+            path ~= vim.fn.stdpath("config")
+            and (vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc"))
           then
             return
           end
