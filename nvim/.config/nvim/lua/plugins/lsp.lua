@@ -88,7 +88,7 @@ return {
       elixirls = {},
       html = {},
       pyright = {},
-      ts_ls = {},
+      tsgo = {},
       -- dotnet tool install -g roslyn-language-server --prerelease
       roslyn_ls = {
         cmd = { "roslyn-language-server", "--stdio", "--autoLoadProjects" },
