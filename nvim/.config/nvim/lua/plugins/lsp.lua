@@ -70,23 +70,11 @@ return {
           less = { validate = true },
         },
       },
-      copilot = {},
-      -- copilot = {
-      --   cmd = { "copilot-language-server", "--stdio" },
-      --   init_options = {
-      --     editorInfo = {
-      --       name = "NeoVim",
-      --       version = toString(vim.version),
-      --     },
-      --     editorPluginInfo = {
-      --       name = "NeoVim",
-      --       version = toString(vim.version),
-      --     },
-      --   },
-      -- },
       cucumber_language_server = {},
       elixirls = {},
       html = {},
+      julials = {},
+      mojo = {},
       pyright = {},
       tsgo = {},
       -- dotnet tool install -g roslyn-language-server --prerelease
@@ -125,6 +113,8 @@ return {
         },
       },
       rust_analyzer = {},
+      r_language_server = {},
+      yamlls = {},
       zls = {},
     }
 
