@@ -1,15 +1,14 @@
 return {
-  -- cargo install --locked tree-sitter-cli
   "nvim-treesitter/nvim-treesitter",
-  branch = "master",
   lazy = false,
   build = ":TSUpdate",
   config = function()
-    local filetypes = {
+    local parsers = {
       "bash",
       "c",
       "css",
       "c_sharp",
+      "comment",
       "dart",
       "diff",
       "elixir",
@@ -26,21 +25,26 @@ return {
       "python",
       "query",
       "r",
+      "regex",
       "scss",
       "typescript",
       "vim",
       "vimdoc",
     }
 
-    require("nvim-treesitter.configs").setup({
-      ensure_installed = filetypes,
-      highlight = { enable = true },
-      -- indent = { enable = true },
-    })
+    require("nvim-treesitter").setup({})
+    require("nvim-treesitter").install(parsers)
 
     vim.api.nvim_create_autocmd("FileType", {
-      pattern = filetypes,
-      callback = function()
+      callback = function(args)
+        local lang = vim.treesitter.language.get_lang(args.match)
+        if not lang then
+          return
+        end
+        if not vim.treesitter.language.add(lang) then
+          return
+        end
+
         vim.treesitter.start()
         vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
         vim.wo[0][0].foldmethod = "expr"
