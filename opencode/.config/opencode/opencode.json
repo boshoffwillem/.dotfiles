@@ -11,6 +11,14 @@
       "type": "remote",
       "url": "https://mcp.figma.com/mcp",
       "enabled": true
+    },
+    "sf-aspnetcore-mcp": {
+      "type": "local",
+      "command": ["dnx", "Syncfusion.AspNetCore.MCP", "--yes"],
+      "enabled": true,
+      "environment": {
+        "Syncfusion_API_Key_Path": "/Users/boshoffwillem/.syncfusion/api-key.txt"
+      }
     }
   }
 }
