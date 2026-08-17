@@ -67,6 +67,7 @@ return {
     local capabilities = require("blink.cmp").get_lsp_capabilities()
 
     local servers = {
+      buf_ls = {},
       cssls = {
         settings = {
           css = { validate = true },
