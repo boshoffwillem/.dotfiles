@@ -25,6 +25,11 @@
       "command": ["dart", "mcp-server"],
       "enabled": true,
       "environment": {}
+    },
+    "ado": {
+      "type": "local",
+      "command": ["npx", "-y", "@azure-devops/mcp", "psicle", "--authentication", "azcli"],
+      "enabled": true
     }
   }
 }
