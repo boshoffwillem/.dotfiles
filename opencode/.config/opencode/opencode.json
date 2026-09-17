@@ -4,7 +4,10 @@
   "mcp": {
     "playwright": {
       "type": "local",
-      "command": ["npx", "@playwright/mcp@latest"],
+      "command": [
+        "npx",
+        "@playwright/mcp@latest"
+      ],
       "enabled": true
     },
     "figma": {
@@ -12,17 +15,12 @@
       "url": "https://mcp.figma.com/mcp",
       "enabled": true
     },
-    "sf-aspnetcore-mcp": {
-      "type": "local",
-      "command": ["dnx", "Syncfusion.AspNetCore.MCP", "--yes"],
-      "enabled": true,
-      "environment": {
-        "Syncfusion_API_Key_Path": "/Users/boshoffwillem/.syncfusion/api-key.txt"
-      }
-    },
     "dart-mcp-server": {
       "type": "local",
-      "command": ["dart", "mcp-server"],
+      "command": [
+        "dart",
+        "mcp-server"
+      ],
       "enabled": true,
       "environment": {}
     },
@@ -34,6 +32,16 @@
     "productboard": {
       "type": "remote",
       "url": "https://mcp.productboard.com",
+      "enabled": true
+    },
+    "Neon": {
+      "type": "remote",
+      "url": "https://mcp.neon.tech/mcp",
+      "enabled": true
+    },
+    "vercel": {
+      "type": "remote",
+      "url": "https://mcp.vercel.com",
       "enabled": true
     }
   }
