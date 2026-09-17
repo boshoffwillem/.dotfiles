@@ -30,6 +30,11 @@
       "type": "local",
       "command": ["npx", "-y", "@azure-devops/mcp", "psicle", "--authentication", "azcli"],
       "enabled": true
+    },
+    "productboard": {
+      "type": "remote",
+      "url": "https://mcp.productboard.com",
+      "enabled": true
     }
   }
 }

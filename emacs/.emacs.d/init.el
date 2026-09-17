@@ -1,3 +1,5 @@
+;;; init.el --- Personal Emacs configuration  -*- lexical-binding: t; -*-
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name
@@ -40,10 +42,15 @@
   :config
   (drag-stuff-global-mode 1))
 
+;; xclip bridges the kill-ring to the system clipboard for terminal Emacs.
+;; Windows Emacs already talks to the native clipboard, and xclip's autodetection
+;; falls back to a helper program that isn't installed there, so skip it.
 (use-package xclip
   :straight t
+  :if (not (memq system-type '(windows-nt ms-dos)))
   :config
-  (xclip-mode 1))
+  (when (executable-find xclip-program)
+    (xclip-mode 1)))
 
 ;; (setq large-file-warning-threshold nil)
 (global-auto-revert-mode t)
@@ -207,9 +214,36 @@
   (evil-set-initial-state 'dashboard-mode 'normal))
 
 ;; Evil Collection - Evil bindings for many modes
+;; Evil Collection binds j/k in its own mode maps, and those take precedence
+;; over `evil-normal-state-map', so the jkl; remap above never reaches dired or
+;; magit.  Reapply it per mode once Evil Collection has finished its setup.
+(defun my/evil-collection-jkl-remap (mode &rest _rest)
+  "Apply the jkl; movement scheme to MODE after Evil Collection sets it up."
+  (pcase mode
+    ;; ";" is left alone in dired: Evil Collection uses it as the epa-dired
+    ;; prefix (";e" encrypt, ";d" decrypt, ";s" sign, ";v" verify).
+    ('dired
+     (evil-collection-define-key 'normal 'dired-mode-map
+       "j" 'evil-backward-char
+       "k" 'dired-next-line
+       "l" 'dired-previous-line))
+    ;; Taking "l" for movement displaces magit's log popup, so shift it -- and
+    ;; the `magit-log-refresh' it lands on -- one key along.
+    ('magit
+     (dolist (state '(normal visual))
+       (evil-collection-define-key state 'magit-mode-map
+         "j" 'evil-backward-char
+         "k" 'evil-next-line
+         "l" 'evil-previous-line
+         ";" 'evil-forward-char
+         "L" 'magit-log
+         "\C-l" 'magit-log-refresh)))))
+
 (use-package evil-collection
   :straight t
   :after evil
+  :init
+  (add-hook 'evil-collection-setup-hook #'my/evil-collection-jkl-remap)
   :config
   (evil-collection-init))
 
@@ -322,9 +356,9 @@
 (use-package feature-mode
   :straight t)
 
-;; (use-package elixir-mode
-;;   :straight t
-;;   :ensure t)
+(use-package elixir-mode
+  :straight t
+  :ensure t)
 
 ;; (use-package python-black
 ;;   :straight t
@@ -351,12 +385,12 @@
 (use-package rustic
   :straight t)
 
-;; (use-package typescript-mode
-;;   :straight t)
+(use-package typescript-mode
+  :straight t)
 
-;; (use-package yaml-mode
-;;   :straight t
-;;   )
+(use-package yaml-mode
+  :straight t
+  )
 
 (use-package apheleia
   :straight t
@@ -395,3 +429,5 @@
 ;; (use-package dap-mode
 ;;   :straight t
 ;;   )
+
+;;; init.el ends here
