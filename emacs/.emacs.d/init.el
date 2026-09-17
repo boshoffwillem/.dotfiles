@@ -52,6 +52,30 @@
   (when (executable-find xclip-program)
     (xclip-mode 1)))
 
+;; Git for Windows ships GNU `diff'/`patch'/etc. under usr/bin, a sibling of
+;; the Git install root -- but only cmd/mingw64/bin tend to be on the PATH
+;; Emacs inherits, not usr/bin. So anything that shells out to `diff' (e.g.
+;; apheleia's patch-based formatting) fails with "Searching for program:
+;; ... diff" even though git itself works fine. Walk up from wherever
+;; git.exe actually resolved from (cmd/ is 1 level under the Git root,
+;; mingw64/bin/ is 2) rather than assuming a fixed depth. Append (not
+;; prepend) to `exec-path' so this only fills in tools missing elsewhere,
+;; rather than shadowing anything already found earlier on the path (e.g.
+;; Windows' own find.exe).
+(when (eq system-type 'windows-nt)
+  (when-let* ((git (executable-find "git")))
+    (let ((dir (file-name-directory git))
+          (git-usr-bin nil)
+          (depth 0))
+      (while (and dir (not git-usr-bin) (< depth 4))
+        (let ((candidate (expand-file-name "usr/bin" dir)))
+          (if (file-directory-p candidate)
+              (setq git-usr-bin candidate)
+            (setq dir (file-name-directory (directory-file-name dir))
+                  depth (1+ depth)))))
+      (when git-usr-bin
+        (add-to-list 'exec-path git-usr-bin t)))))
+
 ;; (setq large-file-warning-threshold nil)
 (global-auto-revert-mode t)
 (setq auto-revert-interval 2)
@@ -187,7 +211,7 @@
   (define-key evil-normal-state-map (kbd "<SPC>sf") 'find-file)
   (define-key evil-normal-state-map (kbd "<SPC>s.") 'recentf)
   (define-key evil-normal-state-map (kbd "<SPC>pf") 'project-find-file)
-  (define-key evil-normal-state-map (kbd "<SPC>ps") 'project-search)
+  (define-key evil-normal-state-map (kbd "<SPC>ps") 'project-find-regexp)
   (define-key evil-normal-state-map (kbd "<SPC>pp") 'project-switch-project)
   (define-key evil-normal-state-map (kbd "<SPC>pb") 'project-switch-to-buffer)
   (define-key evil-normal-state-map (kbd "<SPC>:") 'execute-extended-command)
@@ -289,6 +313,19 @@
   (global-set-key (kbd "C-c psd") #'deadgrep)
   )
 
+;; Always show deadgrep and project-find-regexp (xref) results in a bottom
+;; horizontal window, rather than wherever `display-buffer' would otherwise
+;; put them (e.g. a vertical split next to the current window).
+(add-to-list 'display-buffer-alist
+             '((or (major-mode . deadgrep-mode)
+                   (major-mode . xref--xref-buffer-mode))
+               (display-buffer-reuse-window
+                display-buffer-in-side-window)
+               (side . bottom)
+               (slot . 0)
+               (window-height . 0.35)
+               (dedicated . t)))
+
 (use-package magit
   :straight t
   :config
@@ -311,31 +348,13 @@
   (define-key evil-normal-state-map (kbd "<SPC>e") 'flycheck-explain-error-at-point)
   )
 
-(use-package yasnippet
-  :straight t
-  )
+(load (locate-user-emacs-file "frontend"))
+(load (locate-user-emacs-file "vue"))
+(load (locate-user-emacs-file "react"))
+(load (locate-user-emacs-file "csharp"))
 
-(use-package web-mode
-  :straight t
-  :ensure t
-  :mode
-  (("\\.phtml\\'" . web-mode)
-   ("\\.php\\'" . web-mode)
-   ("\\.cshtml?\\'" . web-mode)
-   ("\\.html?\\'" . web-mode)
-   ("\\.vue?\\'" . web-mode)
-   ("\\.tpl\\'" . web-mode)
-   ("\\.[agj]sp\\'" . web-mode)
-   ("\\.as[cp]x\\'" . web-mode)
-   ("\\.erb\\'" . web-mode)
-   ("\\.mustache\\'" . web-mode)
-   ("\\.djhtml\\'" . web-mode))
-  )
-
-(add-to-list 'auto-mode-alist '("\\.csproj\\'" . nxml-mode))
-
-(use-package fsharp-mode
-  :straight t)
+;; (use-package fsharp-mode
+;;   :straight t)
 
 ;; (use-package dart-mode
 ;;   :straight t
@@ -345,20 +364,23 @@
 ;;   :straight t
 ;;   )
 
-(use-package flutter
-  :straight t
-  :after dart-mode
-  :bind (:map dart-mode-map
-              ("C-M-x" . #'flutter-run-or-hot-reload))
-  :custom
-  (flutter-sdk-path "~/development/flutter/"))
+;; (use-package flutter
+;;   :straight t
+;;   :after dart-mode
+;;   :bind (:map dart-mode-map
+;;               ("C-M-x" . #'flutter-run-or-hot-reload))
+;;   :custom
+;;   (flutter-sdk-path "~/development/flutter/"))
 
-(use-package feature-mode
-  :straight t)
+;; (use-package feature-mode
+;;   :straight t)
 
-(use-package elixir-mode
-  :straight t
-  :ensure t)
+;; (use-package elixir-mode
+;;   :straight t
+;;   :ensure t)
+
+;;npm install -g pyright
+;; sudo apt install python3-pylsp python3-pylsp-isort python3-pylsp-black -y
 
 ;; (use-package python-black
 ;;   :straight t
@@ -382,46 +404,17 @@
   ;;               (setq python-shell-interpreter "python3"))))
   ;; )
 
-(use-package rustic
-  :straight t)
+;; (use-package rustic
+;;   :straight t)
 
-(use-package typescript-mode
-  :straight t)
-
-(use-package yaml-mode
-  :straight t
-  )
+;; (use-package yaml-mode
+;;   :straight t
+;;   )
 
 (use-package apheleia
   :straight t
   :config
   (apheleia-global-mode +1))
-
-;;dotnet tool install --global csharp-ls
-;; npm install -g vue-language-server
-;;npm install -g pyright
-;; sudo apt install python3-pylsp python3-pylsp-isort python3-pylsp-black -y
-
-;; (use-package lsp-mode
-;;   :straight t
-;;   :config
-;;   (define-key evil-normal-state-map (kbd "gd") 'lsp-goto-type-definition)
-;;   (define-key evil-normal-state-map (kbd "gi") 'lsp-goto-implementation)
-;;   ;; (setq lsp-cucumber-features ["**/Features/**/*/.feature"])
-;;   ;; (setq lsp-cucumber-glue ["**/Steps/**/*/.cs"])
-;;   ;; (setq lsp-csharp-omnisharp-enable-decompilation-support t)
-;;   ;; :hook
-;;   ;; (
-;;    ;; (csharp-mode . lsp)
-;;    ;; (dart-mode . lsp)
-;;    ;; (feature-mode . lsp)
-;;    ;; (fsharp-mode . lsp)
-;;    ;; (web-mode . lsp)
-;;    ;; (elixir-mode . lsp)
-;;    ;; (typescript-mode . lsp)
-;;    ;; (yaml-mode . lsp)
-;;    ;; )
-;;   )
 
 ;; (use-package lsp-treemacs
 ;;   :straight t)
