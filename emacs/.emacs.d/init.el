@@ -17,12 +17,10 @@
   (load bootstrap-file nil 'nomessage))
 (straight-use-package 'use-package)
 
-(setq gc-cons-threshold (* 100 1024 1024)
-      read-process-output-max (* 1024 1024)
+(setq read-process-output-max (* 1024 1024)
       create-lockfiles nil
       make-backup-files nil
       )
-(tool-bar-mode -1)
 
 (defun dired-up-directory-same-buffer ()
   "Go up in the same buffer."
@@ -166,9 +164,6 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 
-(add-to-list 'default-frame-alist
-             '(font . "Ioskeley Mono-10"))
-
 (use-package kanagawa-themes
   :straight t
   :config
@@ -181,11 +176,29 @@
 	     :repo "rainstormstudio/nerd-icons.el"
 	     :files (:defaults "data"))
   :custom
-  ;; The Nerd Font you want to use in GUI
-  ;; "Symbols Nerd Font Mono" is the default and is recommended
-  ;; but you can use any other Nerd Font if you want
-  (nerd-icons-font-family "Ioskeley Mono")
+  ;; "Ioskeley Mono" (our editor font) isn't Nerd-Font-patched, so icon
+  ;; glyphs render as tofu in it. "Symbols Nerd Font Mono" is the glyph
+  ;; font `nerd-icons-install-fonts' installs and is already present.
+  (nerd-icons-font-family "Symbols Nerd Font Mono")
     )
+
+;; Dired file icons.
+(use-package nerd-icons-dired
+  :straight t
+  :hook (dired-mode . nerd-icons-dired-mode))
+
+;; Completion-candidate icons (find-file, switch-buffer, etc. via Vertico +
+;; Marginalia annotations). `marginalia-mode' is already turned on by the
+;; time this loads, so `:hook' on it would never fire -- load eagerly and
+;; enable directly instead, and add the hook only to keep it in sync with
+;; any future marginalia-mode toggling.
+(use-package nerd-icons-completion
+  :straight t
+  :after marginalia
+  :demand t
+  :config
+  (nerd-icons-completion-mode)
+  (add-hook 'marginalia-mode-hook #'nerd-icons-completion-marginalia-setup))
 
 (which-key-mode)
 
@@ -332,6 +345,50 @@
   (global-set-key (kbd "C-c g") #'magit-status)
   )
 
+;; `treemacs-position' defaults to `left', so no extra config needed for the
+;; window side.
+(use-package treemacs
+  :straight t
+  :init
+  (global-set-key (kbd "C-c t") #'my/treemacs-toggle-current-project)
+  :config
+  (defun my/treemacs-toggle-current-project ()
+    "Toggle treemacs, always showing just the current buffer's project
+\(git repo root, as found by `project.el') instead of a manually
+maintained workspace of projects."
+    (interactive)
+    (if (eq (treemacs-current-visibility) 'visible)
+        (delete-window (treemacs-get-local-window))
+      (treemacs-add-and-display-current-project-exclusively))))
+
+;; Evil integration for treemacs -- gives treemacs buffers their own evil
+;; state (`treemacs-mode' starts in it) with its own keymap, so the jkl;
+;; remap from `evil-normal-state-map' above doesn't reach it; reapply the
+;; same j/k/l/; rotation (back/down/up/forward) here.
+(use-package treemacs-evil
+  :straight t
+  :after (treemacs evil)
+  :config
+  ;; `;' should only ever expand a directory, never collapse one, so make
+  ;; RET-action a no-op on already-open dir/root nodes instead of the
+  ;; default toggle (closed dir/root nodes still expand via toggle).
+  (treemacs-define-RET-action 'dir-node-open #'ignore)
+  (treemacs-define-RET-action 'root-node-open #'ignore)
+  (evil-define-key 'treemacs treemacs-mode-map
+    (kbd "j") #'treemacs-COLLAPSE-action
+    (kbd "k") #'treemacs-next-line
+    (kbd "l") #'treemacs-previous-line
+    (kbd ";") #'treemacs-RET-action))
+
+;; Nerd Font file/directory icons in the treemacs sidebar.
+;; (`doom-themes-treemacs-config' above is a no-op stub in the currently
+;; installed doom-themes version, so it doesn't conflict with this.)
+(use-package treemacs-nerd-icons
+  :straight t
+  :after treemacs
+  :config
+  (treemacs-nerd-icons-config))
+
 (use-package company
   :straight t
   :config
@@ -343,6 +400,10 @@
 (use-package flycheck
   :straight t
   :ensure t
+  :custom
+  ;; *scratch* starts in `lisp-interaction-mode', which has no checker --
+  ;; skip it so startup doesn't complain "no syntax checker ... can run here".
+  (flycheck-global-modes '(not lisp-interaction-mode))
   :config
   (add-hook 'after-init-hook #'global-flycheck-mode)
   (define-key evil-normal-state-map (kbd "<SPC>e") 'flycheck-explain-error-at-point)
