@@ -45,7 +45,7 @@
 ;; matching .NET convention -- unlike Vue/React, there's no shared house
 ;; style to apply here, so indentation is left untouched.
 
-(add-hook 'csharp-mode-hook #'lsp-deferred)
-(add-hook 'csharp-ts-mode-hook #'lsp-deferred)
+;; (add-hook 'csharp-mode-hook #'lsp-deferred)
+;; (add-hook 'csharp-ts-mode-hook #'lsp-deferred)
 
 ;;; csharp.el ends here

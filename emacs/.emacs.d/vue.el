@@ -50,7 +50,9 @@ started the same way, scoped to .vue, so unrelated web-mode buffers (.php,
                 web-mode-style-padding 0
                 web-mode-enable-auto-quoting nil
                 web-mode-enable-current-element-highlight t)
-    (lsp-deferred)))
+    ;; (lsp-deferred)
+    )
+  )
 
 (add-hook 'web-mode-hook #'my/vue-web-mode-setup)
 

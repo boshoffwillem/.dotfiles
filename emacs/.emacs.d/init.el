@@ -17,9 +17,15 @@
   (load bootstrap-file nil 'nomessage))
 (straight-use-package 'use-package)
 
+;; No clutter next to edited files: `make-backup-files' covers foo~,
+;; `create-lockfiles' covers .#foo, and `auto-save-default' covers #foo#.
+;; `auto-save-list-file-prefix' nil also stops the auto-save-list/ session
+;; files under ~/.emacs.d.
 (setq read-process-output-max (* 1024 1024)
       create-lockfiles nil
       make-backup-files nil
+      auto-save-default nil
+      auto-save-list-file-prefix nil
       )
 
 (defun dired-up-directory-same-buffer ()
@@ -73,6 +79,22 @@
                   depth (1+ depth)))))
       (when git-usr-bin
         (add-to-list 'exec-path git-usr-bin t)))))
+
+;; Emacs.app launched from the Dock/Finder inherits launchd's minimal PATH,
+;; not the shell's, so anything only added to PATH in ~/.zshrc (flutter/dart,
+;; cargo's rust-analyzer, /opt/homebrew/bin's kotlin-lsp, ...) is invisible
+;; to it -- lsp-mode then finds no usable server and reports whichever
+;; add-on client is left instead (e.g. "Command \"semgrep lsp\" is not
+;; present on the path" when opening a .dart file). Copy PATH over from an
+;; interactive login zsh; "-i" is needed since flutter's PATH entry lives in
+;; ~/.zshrc, which a login-only shell doesn't read.
+(use-package exec-path-from-shell
+  :straight t
+  :if (memq window-system '(mac ns))
+  :custom
+  (exec-path-from-shell-arguments '("-l" "-i"))
+  :config
+  (exec-path-from-shell-initialize))
 
 ;; (setq large-file-warning-threshold nil)
 (global-auto-revert-mode t)
@@ -413,25 +435,15 @@ maintained workspace of projects."
 (load (locate-user-emacs-file "vue"))
 (load (locate-user-emacs-file "react"))
 (load (locate-user-emacs-file "csharp"))
+(load (locate-user-emacs-file "kotlin"))
+(load (locate-user-emacs-file "swift"))
+(load (locate-user-emacs-file "dart"))
+(load (locate-user-emacs-file "rust"))
+(load (locate-user-emacs-file "zig"))
+(load (locate-user-emacs-file "yaml"))
 
 ;; (use-package fsharp-mode
 ;;   :straight t)
-
-;; (use-package dart-mode
-;;   :straight t
-;;   :hook (dart-mode . flutter-test-mode))
-
-;; (use-package lsp-dart
-;;   :straight t
-;;   )
-
-;; (use-package flutter
-;;   :straight t
-;;   :after dart-mode
-;;   :bind (:map dart-mode-map
-;;               ("C-M-x" . #'flutter-run-or-hot-reload))
-;;   :custom
-;;   (flutter-sdk-path "~/development/flutter/"))
 
 ;; (use-package feature-mode
 ;;   :straight t)
@@ -464,13 +476,6 @@ maintained workspace of projects."
   ;;       (list (lambda ()
   ;;               (setq python-shell-interpreter "python3"))))
   ;; )
-
-;; (use-package rustic
-;;   :straight t)
-
-;; (use-package yaml-mode
-;;   :straight t
-;;   )
 
 (use-package apheleia
   :straight t
