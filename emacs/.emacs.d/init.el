@@ -155,7 +155,7 @@
   ;; available in the *Completions* buffer, add it to the
   ;; `completion-list-mode-map'.
   :bind (:map minibuffer-local-map
-         ("M-A" . marginalia-cycle))
+              ("M-A" . marginalia-cycle))
 
   ;; The :init section is always executed.
   :init
@@ -202,7 +202,7 @@
   ;; glyphs render as tofu in it. "Symbols Nerd Font Mono" is the glyph
   ;; font `nerd-icons-install-fonts' installs and is already present.
   (nerd-icons-font-family "Symbols Nerd Font Mono")
-    )
+  )
 
 ;; Dired file icons.
 (use-package nerd-icons-dired
@@ -469,19 +469,25 @@ maintained workspace of projects."
 ;;   :config
 ;;   (pyvenv-mode t)
 
-  ;; Set correct Python interpreter
-  ;; (setq pyvenv-post-activate-hooks
-  ;;       (list (lambda ()
-  ;;               (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python3")))))
-  ;; (setq pyvenv-post-deactivate-hooks
-  ;;       (list (lambda ()
-  ;;               (setq python-shell-interpreter "python3"))))
-  ;; )
+;; Set correct Python interpreter
+;; (setq pyvenv-post-activate-hooks
+;;       (list (lambda ()
+;;               (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python3")))))
+;; (setq pyvenv-post-deactivate-hooks
+;;       (list (lambda ()
+;;               (setq python-shell-interpreter "python3"))))
+;; )
 
 (use-package apheleia
   :straight t
   :config
   (apheleia-global-mode +1))
+
+(use-package ace-window
+  :straight t
+  :config
+  (global-set-key (kbd "C-c o") 'ace-window)
+  )
 
 ;; (use-package lsp-treemacs
 ;;   :straight t)
