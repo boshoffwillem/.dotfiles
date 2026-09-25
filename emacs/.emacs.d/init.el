@@ -441,6 +441,7 @@ maintained workspace of projects."
 (load (locate-user-emacs-file "rust"))
 (load (locate-user-emacs-file "zig"))
 (load (locate-user-emacs-file "yaml"))
+(load (locate-user-emacs-file "markdown"))
 
 ;; (use-package fsharp-mode
 ;;   :straight t)
