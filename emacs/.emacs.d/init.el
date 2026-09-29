@@ -231,6 +231,8 @@
         evil-want-keybinding nil
         evil-want-C-u-scroll t
         evil-want-C-i-jump nil
+	evil-want-Y-yank-to-eol t
+	evil-move-beyond-eol t
         evil-undo-system 'undo-redo)
   :config
   (evil-mode 1)
@@ -307,6 +309,7 @@
   (evil-collection-init))
 
 ;; Evil Commentary - Easy commenting (gc operator)
+
 (use-package evil-commentary
   :straight t
   :after evil
@@ -365,7 +368,21 @@
   :straight t
   :config
   (global-set-key (kbd "C-c g") #'magit-status)
+  ;; RET on file/hunk default replace magit buffer with file. Open other
+  ;; window instead, keep magit buffer alive.
+  (define-key magit-file-section-map (kbd "RET") #'magit-diff-visit-file-other-window)
+  (define-key magit-hunk-section-map (kbd "RET") #'magit-diff-visit-file-other-window)
   )
+
+(use-package diff-hl
+  :straight t
+  :hook ((after-init . global-diff-hl-mode)
+         (magit-post-refresh . diff-hl-magit-post-refresh))
+  :config
+  ;; Fringe bitmaps don't render in terminal Emacs, so fall back to margin
+  ;; text indicators ("+"/"-"/"~") there.
+  (unless (display-graphic-p)
+    (diff-hl-margin-mode 1)))
 
 ;; `treemacs-position' defaults to `left', so no extra config needed for the
 ;; window side.
