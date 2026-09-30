@@ -104,6 +104,90 @@
 (setq auto-revert-verbose t)
 (global-display-line-numbers-mode 1)
 
+;; Indent with spaces everywhere.  `indent-tabs-mode' is buffer-local, so
+;; `setq-default' is what actually changes the default for new buffers.
+;; Modes that genuinely require literal tabs (makefile-mode, go-mode, ...)
+;; set it back to t themselves, which is what we want.
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+
+;; Make whitespace visible.  `newline-mark' is left out on purpose -- the
+;; pilcrow at every end of line is noisy; drop `spaces'/`space-mark' too if
+;; the middle dot on every space becomes distracting.
+(use-package whitespace
+  :custom
+  (whitespace-style '(face tabs spaces trailing tab-mark space-mark))
+  (whitespace-display-mappings
+   '((space-mark ?\s [?·] [?.])
+     (tab-mark ?\t [?» ?\t] [?\\ ?\t])))
+  :config
+  ;; Nothing to highlight in these, and whitespace-mode in the minibuffer or
+  ;; magit's buffers is just visual noise.
+  (setq whitespace-global-modes '(not magit-mode magit-status-mode dired-mode))
+  (global-whitespace-mode 1))
+
+;; Code folding.  `hideshow' is built in and folds by balanced
+;; braces/parens/indentation, which covers every language mode this config
+;; loads.  Evil already routes za/zo/zc/zm/zr/zM/zR to it through
+;; `evil-fold-list', so no keybindings are needed here.
+(use-package hideshow
+  :hook (prog-mode . hs-minor-mode)
+  :custom
+  ;; `zM' (hs-hide-all) folding every comment block as well makes files hard
+  ;; to skim; fold code blocks only.
+  (hs-hide-comments-when-hiding-all nil)
+  :config
+  ;; Replace the bare "..." on a folded block with a line count.
+  (setq hs-set-up-overlay
+        (lambda (ov)
+          (when (eq 'code (overlay-get ov 'hs))
+            (overlay-put ov 'display
+                         (propertize
+                          (format " ... %d lines "
+                                  (count-lines (overlay-start ov)
+                                               (overlay-end ov)))
+                          'face 'shadow))))))
+
+;; Tree-sitter-aware folding on top of hideshow: it folds real syntax nodes
+;; (JSX elements, match arms, yaml blocks, ...) instead of guessing from
+;; braces, and covers modes hideshow handles badly.  It only activates in
+;; buffers that have a tree-sitter parser, so `hs-minor-mode' above stays the
+;; fallback for everything else (kotlin-mode, swift-mode, elisp, ...).
+(use-package treesit-fold
+  :straight (treesit-fold :type git :host github
+                          :repo "emacs-tree-sitter/treesit-fold")
+  :after evil
+  :custom
+  ;; Line count on the folded region, matching the hideshow overlay above.
+  (treesit-fold-line-count-show t)
+  (treesit-fold-line-count-format " ... %d lines ")
+  ;; Put the first line of a folded node's docstring/comment in the
+  ;; placeholder, so a folded function still says what it does.
+  (treesit-fold-summary-show t)
+  (treesit-fold-summary-max-length 60)
+  (treesit-fold-summary-format " %s ")
+  ;; diff-hl already owns the left fringe (see its config above), so the fold
+  ;; indicators go on the right to avoid the two overwriting each other.
+  (treesit-fold-indicators-fringe 'right-fringe)
+  :config
+  ;; Evil's z-key fold commands dispatch through `evil-fold-list', which only
+  ;; knows hideshow/outline/origami.  Push treesit-fold onto the front so it
+  ;; wins in buffers where both it and `hs-minor-mode' are on.
+  (add-to-list 'evil-fold-list
+               '((treesit-fold-mode)
+                 :open-all  treesit-fold-open-all
+                 :close-all treesit-fold-close-all
+                 :toggle    treesit-fold-toggle
+                 :open      treesit-fold-open
+                 :open-rec  treesit-fold-open-recursively
+                 :close     treesit-fold-close))
+  (global-treesit-fold-mode 1)
+  ;; Fringe markers on every foldable line.  Terminal Emacs has no fringes,
+  ;; so the indicators would be invisible there -- same reason diff-hl falls
+  ;; back to margin text above.
+  (when (display-graphic-p)
+    (global-treesit-fold-indicators-mode 1)))
+
 ;; Enable Vertico.
 (use-package vertico
   :straight t
