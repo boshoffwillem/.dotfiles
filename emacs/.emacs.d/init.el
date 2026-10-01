@@ -277,10 +277,10 @@
 
 (use-package nerd-icons
   :straight (nerd-icons
-	     :type git
-	     :host github
-	     :repo "rainstormstudio/nerd-icons.el"
-	     :files (:defaults "data"))
+             :type git
+             :host github
+             :repo "rainstormstudio/nerd-icons.el"
+             :files (:defaults "data"))
   :custom
   ;; "Ioskeley Mono" (our editor font) isn't Nerd-Font-patched, so icon
   ;; glyphs render as tofu in it. "Symbols Nerd Font Mono" is the glyph
@@ -315,12 +315,12 @@
         evil-want-keybinding nil
         evil-want-C-u-scroll t
         evil-want-C-i-jump nil
-	evil-want-Y-yank-to-eol t
-	evil-move-beyond-eol t
+        evil-want-Y-yank-to-eol t
+        evil-move-beyond-eol t
         evil-undo-system 'undo-redo)
   :config
   (evil-mode 1)
-  
+
   ;; Remap movement keys: j k l ; instead of h j k l
   ;; Normal state
   (define-key evil-normal-state-map (kbd "j") 'evil-backward-char)
@@ -337,7 +337,7 @@
   (define-key evil-normal-state-map (kbd "<SPC>pb") 'project-switch-to-buffer)
   (define-key evil-normal-state-map (kbd "<SPC>:") 'execute-extended-command)
   (define-key evil-normal-state-map (kbd "K") 'eldoc)
-  
+
   ;; Visual state
   (define-key evil-visual-state-map (kbd "j") 'evil-backward-char)
   (define-key evil-visual-state-map (kbd "k") 'evil-next-line)
@@ -413,7 +413,7 @@
 (use-package eshell
   :hook
   (eshell-before-prompt . (lambda ()
-			    (setq xterm-color-preserve-properties t)))
+                            (setq xterm-color-preserve-properties t)))
   :config
   (add-to-list 'eshell-preoutput-filter-functions 'xterm-color-filter)
   (setq eshell-output-filter-functions (remove 'eshell-handle-ansi-color eshell-output-filter-functions))
@@ -516,7 +516,7 @@ maintained workspace of projects."
   :straight t
   :config
   (setq company-idle-delay 0.0
-	company-minimum-prefix-length 1)
+        company-minimum-prefix-length 1)
   (add-hook 'after-init-hook 'global-company-mode)
   )
 
@@ -543,16 +543,8 @@ maintained workspace of projects."
 (load (locate-user-emacs-file "zig"))
 (load (locate-user-emacs-file "yaml"))
 (load (locate-user-emacs-file "markdown"))
-
-;; (use-package fsharp-mode
-;;   :straight t)
-
-;; (use-package feature-mode
-;;   :straight t)
-
-;; (use-package elixir-mode
-;;   :straight t
-;;   :ensure t)
+(load (locate-user-emacs-file "mermaid"))
+(load (locate-user-emacs-file "gherkin"))
 
 ;;npm install -g pyright
 ;; sudo apt install python3-pylsp python3-pylsp-isort python3-pylsp-black -y
