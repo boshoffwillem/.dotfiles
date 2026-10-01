@@ -17,6 +17,7 @@
   "lazydev.nvim": { "branch": "main", "commit": "ff2cbcba459b637ec3fd165a2be59b7bbaeedf0d" },
   "mason-tool-installer.nvim": { "branch": "main", "commit": "443f1ef8b5e6bf47045cb2217b6f748a223cf7dc" },
   "mason.nvim": { "branch": "main", "commit": "2a6940af80375532e5e9e7c1f2fc6319a1b7a69d" },
+  "mermaid.nvim": { "branch": "main", "commit": "4da12693b3b4d63b67d07bafe8340b4abc265c70" },
   "neotest": { "branch": "master", "commit": "4e2cd42c4252ee9d2435571d9adcdbc1d47931fe" },
   "neotest-vstest": { "branch": "main", "commit": "8588c3c988c7ed49879dddf937b42681cfa7ce30" },
   "nordic.nvim": { "branch": "main", "commit": "9fb62116b891184049c50ca6ffb0d3bc100a1a6e" },
