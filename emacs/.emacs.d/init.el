@@ -124,7 +124,8 @@
   ;; Nothing to highlight in these, and whitespace-mode in the minibuffer or
   ;; magit's buffers is just visual noise.
   (setq whitespace-global-modes '(not magit-mode magit-status-mode dired-mode))
-  (global-whitespace-mode 1))
+  ;; (global-whitespace-mode 1)
+  )
 
 ;; Code folding.  `hideshow' is built in and folds by balanced
 ;; braces/parens/indentation, which covers every language mode this config
@@ -545,6 +546,7 @@ maintained workspace of projects."
 (load (locate-user-emacs-file "markdown"))
 (load (locate-user-emacs-file "mermaid"))
 (load (locate-user-emacs-file "gherkin"))
+(load (locate-user-emacs-file "proto"))
 
 ;;npm install -g pyright
 ;; sudo apt install python3-pylsp python3-pylsp-isort python3-pylsp-black -y
