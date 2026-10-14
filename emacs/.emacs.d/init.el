@@ -433,7 +433,7 @@
 (use-package deadgrep
   :straight t
   :config
-  (global-set-key (kbd "C-c psd") #'deadgrep)
+  (global-set-key (kbd "C-c /") #'deadgrep)
   )
 
 ;; Always show deadgrep and project-find-regexp (xref) results in a bottom
