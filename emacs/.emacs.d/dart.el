@@ -15,12 +15,12 @@
 
 (use-package dart-mode
   :straight t
-  ;; :hook (dart-mode . lsp-deferred)
+  :hook (dart-mode . lsp-deferred)
   )
 
-;; (use-package lsp-dart
-;;   :straight t
-;;   :after lsp-mode)
+(use-package lsp-dart
+  :straight t
+  :after lsp-mode)
 
 (use-package flutter
   :straight t

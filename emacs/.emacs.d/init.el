@@ -542,6 +542,7 @@ maintained workspace of projects."
 (load (locate-user-emacs-file "dart"))
 (load (locate-user-emacs-file "rust"))
 (load (locate-user-emacs-file "zig"))
+(load (locate-user-emacs-file "go"))
 (load (locate-user-emacs-file "yaml"))
 (load (locate-user-emacs-file "markdown"))
 (load (locate-user-emacs-file "mermaid"))
